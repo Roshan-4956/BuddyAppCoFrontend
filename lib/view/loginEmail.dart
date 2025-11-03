@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 final emailErrorProvider = StateProvider<String?>((ref) => null);
 final pswdErrorProvider = StateProvider<String?>((ref) => null);
 
 class loginEmail extends ConsumerStatefulWidget {
-  loginEmail({super.key});
+  const loginEmail({super.key});
 
   @override
   ConsumerState<loginEmail> createState() => _loginEmail();
@@ -69,6 +67,7 @@ class _loginEmail extends ConsumerState<loginEmail> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final errorText = ref.watch(emailErrorProvider);
     final pswdErrorText = ref.watch(pswdErrorProvider);

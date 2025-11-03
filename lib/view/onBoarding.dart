@@ -27,7 +27,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     "assets/onboarding/step_1.png",
     "assets/onboarding/step_2.png",
     "assets/onboarding/step_3.png",
-    "assets/onboarding/step_4.png"
+    "assets/onboarding/step_4.png",
   ];
 
   final List<String> stepTitles = [
@@ -74,8 +74,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
     if (picked != null) {
       _dobController.text =
-      "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
-      setState((){}); // to update on optional UI if needed
+          "${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}";
+      setState(() {}); // to update on optional UI if needed
     }
   }
 
@@ -93,152 +93,188 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         children: [
           Positioned.fill(
             child: FittedBox(
-              child: Image.asset(stepColors[step], scale: 4,),
               fit: BoxFit.fitWidth,
+              child: Image.asset(stepColors[step], scale: 4),
             ),
           ),
-          if(step!=0)
+          if (step != 0)
             Positioned(
-                top: 70,
-                left: 20,
-                child: GestureDetector(
-                  child: Image.asset("assets/backArrowWhite.png", scale: 4,),
-                  onTap: () => onBackPressed(),
-                )
+              top: 70,
+              left: 20,
+              child: GestureDetector(
+                child: Image.asset("assets/backArrowWhite.png", scale: 4),
+                onTap: () => onBackPressed(),
+              ),
             ),
 
-
-
           Positioned(
-              top: MediaQuery.of(context).size.height/7,
-              left: 30,
-              right: 30,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(stepTitles[step], style: TextStyle(fontFamily: "Rethink Sans", fontSize: 36, fontVariations: [
-                      FontVariation('wght', 1000), // Set weight to 1000 if supported
-                    ], color: Color(0xFF1E1E1E) )
+            top: MediaQuery.of(context).size.height / 7,
+            left: 30,
+            right: 30,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    stepTitles[step],
+                    style: TextStyle(
+                      fontFamily: "Rethink Sans",
+                      fontSize: 36,
+                      fontVariations: [
+                        FontVariation(
+                          'wght',
+                          1000,
+                        ), // Set weight to 1000 if supported
+                      ],
+                      color: Color(0xFF1E1E1E),
                     ),
-                    Text(stepSubtitles[step], style: TextStyle(fontFamily: "Rethink Sans", fontSize: 16, fontWeight:
-                      FontWeight.w600,  // Set weight to 1000 if supported
-                     color: Colors.white ), textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    stepSubtitles[step],
+                    style: TextStyle(
+                      fontFamily: "Rethink Sans",
+                      fontSize: 16,
+                      fontWeight:
+                          FontWeight.w600, // Set weight to 1000 if supported
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 3,
+            left: 30,
+            right: 30,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: (MediaQuery.of(context).size.width) - 30,
+                height: (2 * (MediaQuery.of(context).size.height / 3)) - 37.5,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(
+                        0.5,
+                      ), // Shadow color with opacity
+                      spreadRadius: 2, // How much the shadow spreads
+                      blurRadius: 5, // Softness of the shadow
+                      offset: Offset(0, 3), // Position of the shadow (x, y)
                     ),
                   ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20), // Rounded corners
                 ),
-              )),
-          Positioned(
-              top: MediaQuery.of(context).size.height/3,
-              left: 30,
-              right: 30,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  width: (MediaQuery.of(context).size.width)-30,
-                  height: (2*(MediaQuery.of(context).size.height/3))-37.5,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5), // Shadow color with opacity
-                        spreadRadius: 2, // How much the shadow spreads
-                        blurRadius: 5, // Softness of the shadow
-                        offset: Offset(0, 3), // Position of the shadow (x, y)
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20), // Rounded corners
-                  ),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          stepBar(4, step+1),
-                          if(step==0)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: RegistrationFormFields(
-                                fullNameController: _fullNameController,
-                                dobController: _dobController,
-                                addressController: _addressController,
-                                selectedState: selectedState,
-                                selectedCity: selectedCity,
-                                onSelectDate: _selectDate,
-                                onStateChanged: (val) {
-                                  ref.read(selectedStateProvider.notifier).state = val ?? "";
-                                  // City must be reset if state changes
-                                  ref.read(selectedCityProvider.notifier).state = "";
-                                },
-                                onCityChanged: (val) {
-                                  ref.read(selectedCityProvider.notifier).state = val ?? "";
-                                },
-                              ),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        stepBar(4, step + 1),
+                        if (step == 0)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: RegistrationFormFields(
+                              fullNameController: _fullNameController,
+                              dobController: _dobController,
+                              addressController: _addressController,
+                              selectedState: selectedState,
+                              selectedCity: selectedCity,
+                              onSelectDate: _selectDate,
+                              onStateChanged: (val) {
+                                ref.read(selectedStateProvider.notifier).state =
+                                    val ?? "";
+                                // City must be reset if state changes
+                                ref.read(selectedCityProvider.notifier).state =
+                                    "";
+                              },
+                              onCityChanged: (val) {
+                                ref.read(selectedCityProvider.notifier).state =
+                                    val ?? "";
+                              },
                             ),
-                          if(step==1)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
-                              child: OccupationSelection(selectedIndex: selectedIndex, onChanged: (idx) => ref.read(occupationIndexProvider.notifier).state = idx,)
+                          ),
+                        if (step == 1)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            child: OccupationSelection(
+                              selectedIndex: selectedIndex,
+                              onChanged: (idx) =>
+                                  ref
+                                          .read(
+                                            occupationIndexProvider.notifier,
+                                          )
+                                          .state =
+                                      idx,
                             ),
-                          if(step==2)
-                            Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: GenderOptionSelector(
-                                  selectedIndex: selectedGender,
-                                  onChanged: (idx) =>
-                                  ref.read(selectedGenderProvider.notifier).state = idx,
+                          ),
+                        if (step == 2)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: GenderOptionSelector(
+                              selectedIndex: selectedGender,
+                              onChanged: (idx) =>
+                                  ref
+                                          .read(selectedGenderProvider.notifier)
+                                          .state =
+                                      idx,
+                            ),
+                          ),
+                        if (step == 3)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: ProfilePictureSetup(),
+                          ),
+                        GestureDetector(
+                          onTap: () {
+                            if (step < 3) {
+                              ref.read(stepIndexProvider.notifier).state++;
+                            } else {
+                              // Final step action
+                              GoRouter.of(context).go("/interestCapture");
+                            }
+                          },
+                          child: Container(
+                            width: (MediaQuery.of(context).size.width) - 120,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF1E1E1E),
+                              borderRadius: BorderRadius.circular(
+                                20,
+                              ), // Rounded corners
+                            ),
+                            child: Center(
+                              child: const Text(
+                                'Next',
+                                style: TextStyle(
+                                  fontFamily: "Rethink Sans",
+                                  color: Color(0xFFF6DDE1),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
                                 ),
-                            ),
-                          if(step==3)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: ProfilePictureSetup()
-                            ),
-                          GestureDetector(
-                            onTap: () {
-                              if (step < 3) {
-                                ref.read(stepIndexProvider.notifier).state++;
-                              } else {
-                                // Final step action
-                                GoRouter.of(context).go("/interestCapture");
-                              }
-                            },
-                            child: Container(
-                              width: (MediaQuery.of(context).size.width)-120,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF1E1E1E),
-                                borderRadius: BorderRadius.circular(20), // Rounded corners
-                              ),
-                              child: Center(
-                                child: const Text(
-                                  'Next',
-                                  style: TextStyle(fontFamily:"Rethink Sans",color: Color(0xFFF6DDE1), fontWeight: FontWeight.w600, fontSize: 16),
-                                ),
-
-
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  )
-                )
-              )),
-
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-
     );
   }
 
-
-  Widget stepBar(int totalSteps, int currentStep, ) {
+  Widget stepBar(int totalSteps, int currentStep) {
     return Row(
       children: List.generate(totalSteps, (index) {
         bool isActive = index < currentStep;
@@ -256,4 +292,3 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 }
-

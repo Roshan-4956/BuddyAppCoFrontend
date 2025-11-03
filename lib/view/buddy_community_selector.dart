@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 
-import '../constants/interest_tiles_data.dart';
 
 class buddyCommunitySelector extends ConsumerStatefulWidget {
   const buddyCommunitySelector({super.key});
@@ -195,28 +192,34 @@ class _interestCapture extends ConsumerState<buddyCommunitySelector> {
           ),
           Positioned(
             right: 25,
-              top: 130,
-              child: Image.asset('assets/purpStars.png', scale: 4,)),
+            top: 130,
+            child: Image.asset('assets/purpStars.png', scale: 4),
+          ),
           Positioned(
-              left: 25,
-              top: 270,
-              child: Image.asset('assets/purpStar.png', scale: 4,)),
+            left: 25,
+            top: 270,
+            child: Image.asset('assets/purpStar.png', scale: 4),
+          ),
           Positioned(
-              right: 25,
-              top: 440,
-              child: Image.asset('assets/yellowStar.png', scale: 4,)),
+            right: 25,
+            top: 440,
+            child: Image.asset('assets/yellowStar.png', scale: 4),
+          ),
           Positioned(
-              left: 25,
-              top: 600,
-              child: Image.asset('assets/blueStars.png', scale: 4,)),
+            left: 25,
+            top: 600,
+            child: Image.asset('assets/blueStars.png', scale: 4),
+          ),
           Positioned(
-              right: 55,
-              top: 170,
-              child: Image.asset('assets/ladderClimber.png', scale: 4,)),
+            right: 55,
+            top: 170,
+            child: Image.asset('assets/ladderClimber.png', scale: 4),
+          ),
           Positioned(
-              right: 43,
-              top: 527,
-              child: Image.asset('assets/commPeeps.png', scale: 4,)),
+            right: 43,
+            top: 527,
+            child: Image.asset('assets/commPeeps.png', scale: 4),
+          ),
         ],
       ),
       backgroundColor: Colors.white,

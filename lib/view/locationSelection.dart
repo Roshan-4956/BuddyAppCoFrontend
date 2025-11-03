@@ -6,10 +6,10 @@ class LocationSelection extends StatefulWidget {
   final Function(String) onLocationSaved;
 
   const LocationSelection({
-    Key? key,
+    super.key,
     this.initialLocation,
     required this.onLocationSaved,
-  }) : super(key: key);
+  });
 
   @override
   _LocationSelectionState createState() => _LocationSelectionState();

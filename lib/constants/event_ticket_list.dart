@@ -25,7 +25,6 @@ class EventTicket {
     required this.price,
     required this.type,
     required this.whatsNew,
-    required this.about
-
+    required this.about,
   });
 }

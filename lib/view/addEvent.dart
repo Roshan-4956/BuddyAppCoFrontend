@@ -35,17 +35,17 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
     _priceController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarr(Name: "Sakshi", Location: "Faridabad"),
       body: SingleChildScrollView(
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 16,),
+            SizedBox(height: 16),
             // Upload photos
             GestureDetector(
               onTap: () {
@@ -69,53 +69,76 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      Image.asset("assets/community/upload.png", scale: 4,),
+                    children: [
+                      Image.asset("assets/community/upload.png", scale: 4),
                       SizedBox(height: 8),
-                      Text("upload up to 3 photos", style: TextStyle(fontFamily: "Rethink Sans", fontSize: 12, color: Color(0xFF8793A1), fontWeight: FontWeight.w600),),
+                      Text(
+                        "upload up to 3 photos",
+                        style: TextStyle(
+                          fontFamily: "Rethink Sans",
+                          fontSize: 12,
+                          color: Color(0xFF8793A1),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ],
-                  )
-
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             uploadedImages.isEmpty
-                ? SizedBox(height: 0,)
+                ? SizedBox(height: 0)
                 : Row(
-              children: uploadedImages
-                  .map((img) => Stack(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(8),
-                      color: Colors.grey.shade300,
-                    ),
-                    child: Image.asset("assets/community/redeye.png", scale: 1,),
+                    children: uploadedImages
+                        .map(
+                          (img) => Stack(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(8),
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.grey.shade300,
+                                ),
+                                child: Image.asset(
+                                  "assets/community/redeye.png",
+                                  scale: 1,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      uploadedImages.remove(img);
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    "assets/community/cross.png",
+                                    scale: 4,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList(),
                   ),
-                  Positioned(
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          uploadedImages.remove(img);
-                        });
-                      },
-                      child:  Image.asset("assets/community/cross.png", scale: 4,),
-                    ),
-                  )
-                ],
-              ))
-                  .toList(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Event Title",
+                style: TextStyle(
+                  fontFamily: "Rethink Sans",
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1e1e1e),
+                  fontSize: 12,
+                ),
+              ),
             ),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Event Title", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
-            ),
-            SizedBox(height: 11,),
+            SizedBox(height: 11),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
@@ -154,15 +177,24 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
-                  _titleController.text=value;
+                  _titleController.text = value;
                 },
               ),
             ),
-            SizedBox(height: 16,),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Event Description", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+            SizedBox(height: 16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Event Description",
+                style: TextStyle(
+                  fontFamily: "Rethink Sans",
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1e1e1e),
+                  fontSize: 12,
+                ),
+              ),
             ),
-            SizedBox(height: 11,),
+            SizedBox(height: 11),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
@@ -175,7 +207,8 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                   fontSize: 12,
                 ), // Text color
                 decoration: InputDecoration(
-                  hintText: 'Describe your event, what to expect, what to bring, any other special instructions etc.',
+                  hintText:
+                      'Describe your event, what to expect, what to bring, any other special instructions etc.',
                   hintStyle: TextStyle(
                     color: Color(0xFF8793A1),
                     fontFamily: "Rethink Sans",
@@ -204,11 +237,11 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
 
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  _descController.text=value;
+                  _descController.text = value;
                 },
               ),
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -216,62 +249,98 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("Event Date", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Event Date",
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1e1e1e),
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 11,),
+                      SizedBox(height: 11),
                       Padding(
                         padding: EdgeInsets.only(left: 16, right: 4),
                         child: TextFormField(
                           readOnly: true,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             // labelText: "Event Date",
-                            hintStyle: TextStyle(color: Color(0xFF8793A1), fontSize: 12, fontFamily: "Rethink Sans", fontWeight: FontWeight.w600),
+                            hintStyle: TextStyle(
+                              color: Color(0xFF8793A1),
+                              fontSize: 12,
+                              fontFamily: "Rethink Sans",
+                              fontWeight: FontWeight.w600,
+                            ),
                             hintText: "dd/mm/yyyy",
                             suffixIcon: GestureDetector(
-                              child: Image.asset("assets/community/pinkCal.png", scale: 4,),
+                              child: Image.asset(
+                                "assets/community/pinkCal.png",
+                                scale: 4,
+                              ),
                               onTap: () async {
                                 DateTime? picked = await showDatePicker(
                                   context: context,
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(2100),
                                   initialDate: DateTime.now(),
-                                  builder: (context, child)  {
+                                  builder: (context, child) {
                                     return Theme(
                                       data: Theme.of(context).copyWith(
                                         colorScheme: ColorScheme.light(
-                                          primary: Color(0xFFF6DDE1),   // header background color
-                                          onPrimary: Colors.white,      // header text color
-                                          onSurface: Colors.black,      // body text color
+                                          primary: Color(
+                                            0xFFF6DDE1,
+                                          ), // header background color
+                                          onPrimary:
+                                              Colors.white, // header text color
+                                          onSurface:
+                                              Colors.black, // body text color
                                         ),
                                         textTheme: const TextTheme(
-                                          bodyLarge: TextStyle(        // normal text
+                                          bodyLarge: TextStyle(
+                                            // normal text
                                             fontFamily: "Rethink Sans",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
-                                          titleLarge: TextStyle(       // header title (month/year)
+                                          titleLarge: TextStyle(
+                                            // header title (month/year)
                                             fontFamily: "Rethink Sans",
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                           ),
-                                          labelSmall: TextStyle(       // button text
+                                          labelSmall: TextStyle(
+                                            // button text
                                             fontFamily: "Rethink Sans",
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -279,7 +348,8 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                                         ),
                                         textButtonTheme: TextButtonThemeData(
                                           style: TextButton.styleFrom(
-                                            foregroundColor: Colors.black, // button text color
+                                            foregroundColor: Colors
+                                                .black, // button text color
                                             textStyle: const TextStyle(
                                               fontFamily: "Rethink Sans",
                                               fontSize: 14,
@@ -303,9 +373,12 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                           controller: TextEditingController(
                             text: _selectedDate == null
                                 ? ""
-                                : DateFormat("dd/MM/yyyy").format(_selectedDate!),
+                                : DateFormat(
+                                    "dd/MM/yyyy",
+                                  ).format(_selectedDate!),
                           ),
-                        ),)
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -314,70 +387,106 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("Event Time", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Event Time",
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1e1e1e),
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 11,),
+                      SizedBox(height: 11),
                       Padding(
                         padding: EdgeInsets.only(right: 16, left: 4),
                         child: TextFormField(
                           readOnly: true,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             // labelText: "Event Date",
-                            hintStyle: TextStyle(color: Color(0xFF8793A1), fontSize: 12, fontFamily: "Rethink Sans", fontWeight: FontWeight.w600),
+                            hintStyle: TextStyle(
+                              color: Color(0xFF8793A1),
+                              fontSize: 12,
+                              fontFamily: "Rethink Sans",
+                              fontWeight: FontWeight.w600,
+                            ),
                             // labelText: "Event Time",
                             hintText: "hh:mm:ss",
                             suffixIcon: GestureDetector(
-                              child: Image.asset("assets/community/pinkTime.png", scale: 4,),
+                              child: Image.asset(
+                                "assets/community/pinkTime.png",
+                                scale: 4,
+                              ),
                               onTap: () async {
                                 TimeOfDay? picked = await showTimePicker(
                                   context: context,
                                   initialTime: TimeOfDay.now(),
-                                  builder: (context, child)  {
+                                  builder: (context, child) {
                                     return Theme(
                                       data: Theme.of(context).copyWith(
                                         colorScheme: ColorScheme.light(
-                                          primary: Color(0xFFF6DDE1),   // header background color
-                                          onPrimary: Colors.white,      // header text color
-                                          onSurface: Colors.black,      // body text color
+                                          primary: Color(
+                                            0xFFF6DDE1,
+                                          ), // header background color
+                                          onPrimary:
+                                              Colors.white, // header text color
+                                          onSurface:
+                                              Colors.black, // body text color
                                         ),
                                         textTheme: const TextTheme(
-                                          bodyLarge: TextStyle(        // normal text
+                                          bodyLarge: TextStyle(
+                                            // normal text
                                             fontFamily: "Rethink Sans",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                           ),
-                                          titleLarge: TextStyle(       // header title (month/year)
+                                          titleLarge: TextStyle(
+                                            // header title (month/year)
                                             fontFamily: "Rethink Sans",
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                           ),
-                                          labelSmall: TextStyle(       // button text
+                                          labelSmall: TextStyle(
+                                            // button text
                                             fontFamily: "Rethink Sans",
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
-
                                           ),
                                         ),
                                         textButtonTheme: TextButtonThemeData(
                                           style: TextButton.styleFrom(
-                                            foregroundColor: Colors.black, // button text color
+                                            foregroundColor: Colors
+                                                .black, // button text color
                                             textStyle: const TextStyle(
                                               fontFamily: "Rethink Sans",
                                               fontSize: 14,
@@ -385,23 +494,32 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                                             ),
                                           ),
                                         ),
-                                        timePickerTheme: const TimePickerThemeData(
-                                          dayPeriodTextStyle: TextStyle(       // header title (month/year)
-                                            fontFamily: "Rethink Sans",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          dayPeriodColor: Color(0xFFF6DDE1),
-                                          dialBackgroundColor: Colors.white,
-                                          dialHandColor: Color(0xFFF6DDE1),
-                                          dialTextColor: Colors.black,
-                                          hourMinuteTextColor: Color(0xff1e1e1e),
-                                          dayPeriodTextColor: Colors.black,       // AM/PM text
+                                        timePickerTheme:
+                                            const TimePickerThemeData(
+                                              dayPeriodTextStyle: TextStyle(
+                                                // header title (month/year)
+                                                fontFamily: "Rethink Sans",
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              dayPeriodColor: Color(0xFFF6DDE1),
+                                              dialBackgroundColor: Colors.white,
+                                              dialHandColor: Color(0xFFF6DDE1),
+                                              dialTextColor: Colors.black,
+                                              hourMinuteTextColor: Color(
+                                                0xff1e1e1e,
+                                              ),
+                                              dayPeriodTextColor:
+                                                  Colors.black, // AM/PM text
 
-                                          dayPeriodShape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                          ),
-                                        ),
+                                              dayPeriodShape:
+                                                  RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(8),
+                                                        ),
+                                                  ),
+                                            ),
                                       ),
                                       child: child!,
                                     );
@@ -420,22 +538,32 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                                 ? ""
                                 : _selectedTime!.format(context),
                           ),
-                        ),)
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Event Category", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Event Category",
+                style: TextStyle(
+                  fontFamily: "Rethink Sans",
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1e1e1e),
+                  fontSize: 12,
+                ),
+              ),
             ),
-            SizedBox(height: 11,),
+            SizedBox(height: 11),
             // Category
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: DropdownButtonFormField<String>(
-                value: _selectedCategory,
+                initialValue: _selectedCategory,
                 decoration: InputDecoration(
                   // labelText: "Event Category",
                   // labelStyle: const TextStyle(
@@ -475,7 +603,20 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                   ),
                 ),
                 items: categories
-                    .map((c) => DropdownMenuItem(value: c, child: Text(c, style: TextStyle(fontFamily: "Rethink Sans", fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xff8793A1)),)))
+                    .map(
+                      (c) => DropdownMenuItem(
+                        value: c,
+                        child: Text(
+                          c,
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff8793A1),
+                          ),
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (val) => setState(() => _selectedCategory = val),
                 dropdownColor: Colors.white, // popup background
@@ -488,11 +629,20 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                 ),
               ),
             ),
-            SizedBox(height: 16,),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Event Location", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+            SizedBox(height: 16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Event Location",
+                style: TextStyle(
+                  fontFamily: "Rethink Sans",
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1e1e1e),
+                  fontSize: 12,
+                ),
+              ),
             ),
-            SizedBox(height: 11,),
+            SizedBox(height: 11),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextFormField(
@@ -532,11 +682,11 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
 
                 keyboardType: TextInputType.text,
                 onChanged: (value) {
-                  _locationController.text=value;
+                  _locationController.text = value;
                 },
               ),
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -544,10 +694,19 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("No of Attendees", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "No of Attendees",
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1e1e1e),
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 11,),
+                      SizedBox(height: 11),
                       Padding(
                         padding: EdgeInsets.only(left: 16, right: 4),
                         child: TextFormField(
@@ -568,26 +727,38 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                               fontSize: 12,
                             ), // Label text color
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
 
                           keyboardType: TextInputType.text,
                           onChanged: (value) {
-                            _attendeesController.text=value;
+                            _attendeesController.text = value;
                           },
                         ),
                       ),
@@ -599,10 +770,19 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text("Price in ", style: TextStyle(fontFamily: "Rethink Sans", fontWeight: FontWeight.w600, color: Color(0xFF1e1e1e), fontSize: 12),),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Price in ",
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1e1e1e),
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 11,),
+                      SizedBox(height: 11),
                       Padding(
                         padding: EdgeInsets.only(left: 4, right: 16),
                         child: TextFormField(
@@ -623,26 +803,38 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                               fontSize: 12,
                             ), // Label text color
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFF6DDE1), width: 2),
+                              borderSide: BorderSide(
+                                color: Color(0xFFF6DDE1),
+                                width: 2,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
 
                           keyboardType: TextInputType.text,
                           onChanged: (value) {
-                            _priceController.text=value;
+                            _priceController.text = value;
                           },
                         ),
                       ),
@@ -652,10 +844,7 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
               ],
             ),
 
-
-
             const SizedBox(height: 16),
-
 
             // Event Guidelines
             Padding(
@@ -669,13 +858,19 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
-
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: List.generate(
                     8,
-                        (i) => const Padding(
+                    (i) => const Padding(
                       padding: EdgeInsets.symmetric(vertical: 4),
-                      child: Text("• Linkin Park makes their long-awaited debut in India", style: TextStyle(fontSize: 10, fontFamily: "Rethink Sans", color: Color(0xFF8793A1)),),
+                      child: Text(
+                        "• Linkin Park makes their long-awaited debut in India",
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: "Rethink Sans",
+                          color: Color(0xFF8793A1),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -683,7 +878,6 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
             ),
             const SizedBox(height: 24),
             GestureDetector(
-
               child: Center(
                 child: Container(
                   width: (MediaQuery.of(context).size.width) - 30,
@@ -710,18 +904,23 @@ class _AddEventPageState extends ConsumerState<AddEventPage> {
             const SizedBox(height: 8),
             Center(
               child: Row(
-
                 children: [
                   Expanded(child: Container()),
-                  Image.asset("assets/community/alert.png", scale: 4,),
-                  SizedBox(width: 6,),
-                  Text("You will receive the details on WhatsApp ", style: TextStyle(fontFamily: "Rethink Sans", color: Color(0xff8793A1), fontSize: 12),),
+                  Image.asset("assets/community/alert.png", scale: 4),
+                  SizedBox(width: 6),
+                  Text(
+                    "You will receive the details on WhatsApp ",
+                    style: TextStyle(
+                      fontFamily: "Rethink Sans",
+                      color: Color(0xff8793A1),
+                      fontSize: 12,
+                    ),
+                  ),
                   Expanded(child: Container()),
                 ],
-              )
-
+              ),
             ),
-            SizedBox(height: 50,)
+            SizedBox(height: 50),
           ],
         ),
       ),

@@ -27,16 +27,17 @@ class ProfileCard {
 class home extends StatefulWidget {
   final List<ProfileCard> profiles;
 
-  const home({Key? key, required this.profiles})
-      : super(key: key);
+  const home({super.key, required this.profiles});
 
   @override
   State<home> createState() => _homeState();
 }
 
 class _homeState extends State<home> {
-  final PageController _pageController =
-  PageController(viewportFraction: 0.9, keepPage: true);
+  final PageController _pageController = PageController(
+    viewportFraction: 0.9,
+    keepPage: true,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +47,19 @@ class _homeState extends State<home> {
       itemBuilder: (context, index) {
         final profile = widget.profiles[index];
         return Container(
-          height: (MediaQuery.of(context).size.height)*.576,
+          height: (MediaQuery.of(context).size.height) * .576,
           decoration: BoxDecoration(
             color: Color(0xFFFFFFFF),
 
             borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-          BoxShadow(
-          color: Colors.black.withOpacity(0.2), // shadow color
-          spreadRadius: 2, // how wide the shadow spreads
-          blurRadius: 8,   // softness of the shadow
-          offset: const Offset(2, 4), // horizontal & vertical movement
-        ),]// Rounded corners
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // shadow color
+                spreadRadius: 2, // how wide the shadow spreads
+                blurRadius: 8, // softness of the shadow
+                offset: const Offset(2, 4), // horizontal & vertical movement
+              ),
+            ], // Rounded corners
           ),
 
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -80,7 +82,9 @@ class _homeState extends State<home> {
                   child: Text(
                     "${profile.name}, Age ${profile.age}",
                     style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -101,10 +105,12 @@ class _homeState extends State<home> {
                   runSpacing: 4,
                   alignment: WrapAlignment.center,
                   children: profile.interests
-                      .map((interest) => Chip(
-                    label: Text(interest),
-                    backgroundColor: Colors.grey.shade200,
-                  ))
+                      .map(
+                        (interest) => Chip(
+                          label: Text(interest),
+                          backgroundColor: Colors.grey.shade200,
+                        ),
+                      )
                       .toList(),
                 ),
                 const SizedBox(height: 12),
@@ -115,7 +121,9 @@ class _homeState extends State<home> {
                   children: [
                     _infoTile("City of Origin", profile.cityOfOrigin),
                     _infoTile(
-                        "Years lived in this city", "${profile.yearsInCity}"),
+                      "Years lived in this city",
+                      "${profile.yearsInCity}",
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -134,11 +142,12 @@ class _homeState extends State<home> {
                   child: Text(
                     "Tap to learn more",
                     style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.blueAccent),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blueAccent,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -152,12 +161,15 @@ class _homeState extends State<home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title,
-              style:
-              const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 4),
-          Text(value,
-              style: const TextStyle(fontSize: 14, color: Colors.black87)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 14, color: Colors.black87),
+          ),
         ],
       ),
     );

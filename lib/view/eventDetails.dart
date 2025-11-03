@@ -20,7 +20,10 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarr(Name: "Sakshi", Location: "Delhi"), // your reusable appbar
+      appBar: appBarr(
+        Name: "Sakshi",
+        Location: "Delhi",
+      ), // your reusable appbar
 
       body: SingleChildScrollView(
         child: Padding(
@@ -41,7 +44,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                   fit: BoxFit.cover,
                 ),
               ),
-          
+
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -52,7 +55,9 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 13, vertical: 13),
+                            horizontal: 13,
+                            vertical: 13,
+                          ),
                           decoration: BoxDecoration(
                             color: Color(0xABF6DDE1),
                             borderRadius: BorderRadius.circular(25),
@@ -109,7 +114,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       ],
                     ),
                     const SizedBox(height: 12),
-          
+
                     // Title
                     Text(
                       event.title,
@@ -120,7 +125,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 8),
-          
+
                     // Location & Date
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -152,7 +157,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-          
+
                     // About Event
                     const Text(
                       "About Event",
@@ -173,7 +178,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-          
+
                     // What's New
                     const Text(
                       "What’s New",
@@ -188,7 +193,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                       children: event.whatsNew.map((point) {
                         return Row(
                           children: [
-                            Image.asset("assets/community/tick.png", scale: 4,),
+                            Image.asset("assets/community/tick.png", scale: 4),
                             const SizedBox(width: 6),
                             Expanded(
                               child: Text(
@@ -197,16 +202,16 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                                   fontFamily: "Rethink Sans",
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  overflow: TextOverflow.ellipsis
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         );
                       }).toList(),
                     ),
                     const SizedBox(height: 16),
-          
+
                     // Seats Remaining
                     Container(
                       height: 70,
@@ -227,9 +232,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                                 style: const TextStyle(
                                   fontFamily: "Rethink Sans",
                                   fontSize: 24,
-                                  fontVariations: [
-                                    FontVariation('wght', 1000)
-                                  ],
+                                  fontVariations: [FontVariation('wght', 1000)],
                                   color: Colors.white,
                                 ),
                               ),
@@ -246,8 +249,10 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                             ],
                           ),
                           const Spacer(),
-                          Image.asset("assets/community/blueGraphic.png",
-                              scale: 4,),
+                          Image.asset(
+                            "assets/community/blueGraphic.png",
+                            scale: 4,
+                          ),
                         ],
                       ),
                     ),
@@ -272,7 +277,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
               color: Colors.black.withOpacity(0.05),
               blurRadius: 6,
               offset: const Offset(0, -2),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -295,7 +300,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                     fontFamily: "Rethink Sans",
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
-                    color: Color(0xFF1E1E1E)
+                    color: Color(0xFF1E1E1E),
                   ),
                 ),
               ],
@@ -304,8 +309,10 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFFF6DDE1),
-                padding:
-                const EdgeInsets.symmetric(horizontal: 44, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 44,
+                  vertical: 14,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -325,7 +332,7 @@ class _EventDetailPageState extends ConsumerState<EventDetailPage> {
                   color: Color(0xFF1E1E1E),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

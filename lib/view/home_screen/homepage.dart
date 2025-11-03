@@ -1,14 +1,11 @@
 import 'package:buddy_app/Widgets/appBar.dart';
 import 'package:buddy_app/Widgets/navBar.dart';
-import 'package:buddy_app/view/home_screen/home.dart';
 import 'package:buddy_app/view/home_screen/pageList.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:go_router/go_router.dart';
 
-import 'package:pin_code_fields/pin_code_fields.dart';
+
 final List<_NavItem> items = const [
   _NavItem("assets/homepage/homeNav.png", "Home"),
   _NavItem("assets/homepage/commNav.png", "Community"),
@@ -16,13 +13,16 @@ final List<_NavItem> items = const [
   _NavItem("assets/homepage/messageNav.png", "Messages"),
   _NavItem("assets/homepage/eventNav.png", "Events"),
 ];
+
 class BottomNavIndex extends StateNotifier<int> {
   BottomNavIndex() : super(0);
 
   void setIndex(int idx) => state = idx;
 }
 
-final bottomNavProvider = StateNotifierProvider<BottomNavIndex, int>((ref) => BottomNavIndex());
+final bottomNavProvider = StateNotifierProvider<BottomNavIndex, int>(
+  (ref) => BottomNavIndex(),
+);
 
 class homepage extends ConsumerWidget {
   // final User user;
@@ -32,22 +32,21 @@ class homepage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(bottomNavProvider);
-    if (landingIndex != null && ref.read(bottomNavProvider.notifier).state == 0) {
+    if (landingIndex != null &&
+        ref.read(bottomNavProvider.notifier).state == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(bottomNavProvider.notifier).state = landingIndex!;
       });
     }
     return Scaffold(
-
       appBar: appBarr(Name: "Sakshi", Location: "Thiruvananthapuram"),
       body: pages[selectedIndex],
-      bottomNavigationBar:navBar(),
-        backgroundColor: Colors.white
+      bottomNavigationBar: navBar(),
+      backgroundColor: Colors.white,
     );
-
-
   }
 }
+
 class _NavItem {
   final String icon;
   final String label;

@@ -16,13 +16,13 @@ class NudgePage extends ConsumerStatefulWidget {
   final List<NudgeRequests> ongoingNudges;
   final List<NudgeRequests> Expired;
   final List<Nudge> Sent;
-  NudgePage({
-    Key? key,
+  const NudgePage({
+    super.key,
     required this.nudges,
     required this.ongoingNudges,
     required this.Expired,
     required this.Sent,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<NudgePage> createState() => _NudgePageState();
@@ -35,10 +35,6 @@ class _NudgePageState extends ConsumerState<NudgePage>
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,23 +94,21 @@ class _NudgePageState extends ConsumerState<NudgePage>
                       width: 88,
                       height: 37,
                       child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          color: Colors.white,
+                        ),
                         child: Center(
                           child: Text(
                             "Try Now",
                             style: TextStyle(
                               fontFamily: "Rethink Sans",
                               fontSize: 16,
-                              fontVariations: [
-                                FontVariation("wght", 1200)
-                              ]
+                              fontVariations: [FontVariation("wght", 1200)],
                             ),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
-                          color: Colors.white
-                        ),
-                          ),
+                      ),
                     ),
                   ),
                 ),

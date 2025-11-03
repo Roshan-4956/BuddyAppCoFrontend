@@ -22,18 +22,20 @@ class _ExploreNudgesPageState extends State<ExploreNudgesPage> {
     super.initState();
 
     for (var nudge in widget.nudges) {
-      _swipeItems.add(SwipeItem(
-        content: nudge,
-        likeAction: () {
-          debugPrint("👍 Liked ${nudge.title}");
-        },
-        nopeAction: () {
-          debugPrint("👎 Skipped ${nudge.title}");
-        },
-        superlikeAction: () {
-          debugPrint("⭐ Superliked ${nudge.title}");
-        },
-      ));
+      _swipeItems.add(
+        SwipeItem(
+          content: nudge,
+          likeAction: () {
+            debugPrint("👍 Liked ${nudge.title}");
+          },
+          nopeAction: () {
+            debugPrint("👎 Skipped ${nudge.title}");
+          },
+          superlikeAction: () {
+            debugPrint("⭐ Superliked ${nudge.title}");
+          },
+        ),
+      );
     }
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
@@ -53,9 +55,9 @@ class _ExploreNudgesPageState extends State<ExploreNudgesPage> {
           );
         },
         onStackFinished: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("🎉 No more nudges")),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text("🎉 No more nudges")));
         },
         itemChanged: (item, index) {
           debugPrint("Now showing: ${item.content.title}");
@@ -67,76 +69,66 @@ class _ExploreNudgesPageState extends State<ExploreNudgesPage> {
   }
 
   Widget _buildFrontCard(Nudge nudge) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Center(
         child: Expanded(
           child: Stack(
             children: [
-              Image.asset("assets/nudges/card.png", scale: 4,),
+              Image.asset("assets/nudges/card.png", scale: 4),
               Positioned.fill(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
-                    SizedBox(height: 122,),
+                    SizedBox(height: 122),
                     Text(
-                      "${nudge.title}",
+                      nudge.title,
                       style: TextStyle(
                         fontSize: 36,
                         fontFamily: "Rethink Sans",
-                        fontVariations: [
-                          FontVariation("wght", 1200),
-
-                        ],
-                        color: Color(0xffE769CE)
+                        fontVariations: [FontVariation("wght", 1200)],
+                        color: Color(0xffE769CE),
                       ),
                     ),
-                    SizedBox(height: 17,),
+                    SizedBox(height: 17),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/nudges/locPin.png", scale: 4,),
-                        SizedBox(width: 10,),
-                        Text("${nudge.location}",
+                        Image.asset("assets/nudges/locPin.png", scale: 4),
+                        SizedBox(width: 10),
+                        Text(
+                          nudge.location,
                           style: TextStyle(
                             fontFamily: "Rethink Sans",
                             fontSize: 12,
-                            fontVariations: [
-                              FontVariation("wght", 1000)
-                            ]
-
+                            fontVariations: [FontVariation("wght", 1000)],
                           ),
-                        )
+                        ),
                       ],
                     ),
-                    SizedBox(height: 160,),
+                    SizedBox(height: 160),
 
-                    Text("posted by",
+                    Text(
+                      "posted by",
                       style: TextStyle(
-                          fontFamily: "Rethink Sans",
-                          fontSize: 10,
-                          fontVariations: [
-                            FontVariation("wght", 900)
-                          ]
-
+                        fontFamily: "Rethink Sans",
+                        fontSize: 10,
+                        fontVariations: [FontVariation("wght", 900)],
                       ),
                     ),
-                    Text("${nudge.postedBy}",
+                    Text(
+                      nudge.postedBy,
                       style: TextStyle(
-                          fontFamily: "Rethink Sans",
-                          fontSize: 16,
-                          fontVariations: [
-                            FontVariation("wght", 1000)
-                          ]
-
+                        fontFamily: "Rethink Sans",
+                        fontSize: 16,
+                        fontVariations: [FontVariation("wght", 1000)],
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -145,13 +137,13 @@ class _ExploreNudgesPageState extends State<ExploreNudgesPage> {
   }
 
   Widget _buildBackCard(Nudge nudge) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Center(
         child: Expanded(
           child: Stack(
             children: [
-              Image.asset("assets/nudges/card.png", scale: 4,),
+              Image.asset("assets/nudges/card.png", scale: 4),
               Positioned.fill(
                 child: Padding(
                   padding: EdgeInsets.only(top: 35),
@@ -159,101 +151,107 @@ class _ExploreNudgesPageState extends State<ExploreNudgesPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 60),
                         child: Row(
                           children: [
-
-                            Image.asset("assets/nudges/calPin.png", scale: 4,),
-                            SizedBox(width: 10,),
-                            Text("${nudge.dateTime.day}/${nudge.dateTime.month}/${nudge.dateTime.year}",
-                              style: TextStyle(
-                                  fontFamily: "Rethink Sans",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900
-                              ),
-                            ),
-                            Expanded(child: Container(),),
-                            Image.asset("assets/nudges/peoplePin.png", scale: 4,),
-                            SizedBox(width: 10,),
-                            Text("${nudge.attendeesCount}",
-                              style: TextStyle(
-                                  fontFamily: "Rethink Sans",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      Expanded(child: Container(),),
-                      SizedBox(
-                        height: 117,
-                        child: Text("${nudge.description}",
-                          style: TextStyle(
-                              fontFamily: "Rethink Sans",
-                              fontSize: 16,
-                              fontVariations: [
-                                FontVariation("wght", 900)
-                              ]
-
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 85,),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 60),
-                        child: Row(
-
-                          children: [
-                            Image.asset("assets/nudges/timePin.png", scale: 4,),
-                            SizedBox(width: 10,),
-                            Text("${nudge.dateTime.hour}:${nudge.dateTime.minute} PM",
+                            Image.asset("assets/nudges/calPin.png", scale: 4),
+                            SizedBox(width: 10),
+                            Text(
+                              "${nudge.dateTime.day}/${nudge.dateTime.month}/${nudge.dateTime.year}",
                               style: TextStyle(
                                 fontFamily: "Rethink Sans",
                                 fontSize: 12,
-                                fontWeight: FontWeight.w900
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
-                            Expanded(child: Container(),),
-                            Image.asset("assets/nudges/starPin.png", scale: 4,),
-                            SizedBox(width: 10,),
-                            Text("${nudge.category}",
+                            Expanded(child: Container()),
+                            Image.asset(
+                              "assets/nudges/peoplePin.png",
+                              scale: 4,
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              "${nudge.attendeesCount}",
                               style: TextStyle(
-                                  fontFamily: "Rethink Sans",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900
+                                fontFamily: "Rethink Sans",
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20,),
+
+                      Expanded(child: Container()),
+                      SizedBox(
+                        height: 117,
+                        child: Text(
+                          nudge.description,
+                          style: TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontSize: 16,
+                            fontVariations: [FontVariation("wght", 900)],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 85),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 60),
+                        child: Row(
+                          children: [
+                            Image.asset("assets/nudges/timePin.png", scale: 4),
+                            SizedBox(width: 10),
+                            Text(
+                              "${nudge.dateTime.hour}:${nudge.dateTime.minute} PM",
+                              style: TextStyle(
+                                fontFamily: "Rethink Sans",
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            Expanded(child: Container()),
+                            Image.asset("assets/nudges/starPin.png", scale: 4),
+                            SizedBox(width: 10),
+                            Text(
+                              nudge.category,
+                              style: TextStyle(
+                                fontFamily: "Rethink Sans",
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
                       Container(
-                        width: (MediaQuery.of(context).size.width)-180,
+                        width: (MediaQuery.of(context).size.width) - 180,
                         height: 55,
                         decoration: BoxDecoration(
                           color: Color(0xFF1E1E1E),
-                          borderRadius: BorderRadius.circular(20), // Rounded corners
+                          borderRadius: BorderRadius.circular(
+                            20,
+                          ), // Rounded corners
                         ),
                         child: Center(
                           child: const Text(
                             'Request',
-                            style: TextStyle(fontFamily:"Rethink Sans",color: Color(0xFFF6DDE1), fontWeight: FontWeight.w600, fontSize: 16),
+                            style: TextStyle(
+                              fontFamily: "Rethink Sans",
+                              color: Color(0xFFF6DDE1),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
-
-
                         ),
                       ),
-                      SizedBox(height: 50,)
+                      SizedBox(height: 50),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

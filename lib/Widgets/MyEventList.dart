@@ -5,8 +5,7 @@ class EventCard extends StatelessWidget {
   final EventTicket details;
   final bool isPast;
 
-  const EventCard({Key? key, required this.details, this.isPast = false})
-      : super(key: key);
+  const EventCard({super.key, required this.details, this.isPast = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class EventCard extends StatelessWidget {
               blurRadius: 8,
               spreadRadius: 2,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -56,11 +55,13 @@ class EventCard extends StatelessWidget {
                         details.title,
                         style: const TextStyle(
                           fontFamily: "Rethink Sans",
-                            fontSize: 12, fontWeight: FontWeight.w600),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(width: 6),
-                      Image.asset(details.type.iconAsset, scale: 4,),
+                      Image.asset(details.type.iconAsset, scale: 4),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -68,12 +69,17 @@ class EventCard extends StatelessWidget {
                   // Venue
                   Row(
                     children: [
-                      Image.asset("assets/events/locPin.png", scale: 4,),
+                      Image.asset("assets/events/locPin.png", scale: 4),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           details.venue,
-                          style: const TextStyle(fontFamily: "Rethink Sans", fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF8793A1), ),
+                          style: const TextStyle(
+                            fontFamily: "Rethink Sans",
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF8793A1),
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -84,9 +90,17 @@ class EventCard extends StatelessWidget {
                   // Date
                   Row(
                     children: [
-                      Image.asset("assets/events/calPin.png", scale: 4,),
+                      Image.asset("assets/events/calPin.png", scale: 4),
                       const SizedBox(width: 4),
-                      Text(details.date, style: const TextStyle(fontFamily: "Rethink Sans", fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF8793A1), ),)
+                      Text(
+                        details.date,
+                        style: const TextStyle(
+                          fontFamily: "Rethink Sans",
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF8793A1),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -94,9 +108,17 @@ class EventCard extends StatelessWidget {
                   // Time
                   Row(
                     children: [
-                      Image.asset("assets/events/timePin.png", scale: 4,),
+                      Image.asset("assets/events/timePin.png", scale: 4),
                       const SizedBox(width: 4),
-                      Text(details.time, style: const TextStyle(fontFamily: "Rethink Sans", fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF8793A1), ),),
+                      Text(
+                        details.time,
+                        style: const TextStyle(
+                          fontFamily: "Rethink Sans",
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF8793A1),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -111,21 +133,27 @@ class EventCard extends StatelessWidget {
                 Text(
                   "₹ ${details.price}",
                   style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w900, fontFamily: "Rethink Sans"),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: "Rethink Sans",
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Image.asset("assets/events/seatsPin.png", scale: 4,),
+                    Image.asset("assets/events/seatsPin.png", scale: 4),
                     const SizedBox(width: 4),
                     Text(
                       "${details.bookedSeats}/${details.totalSeats}",
                       style: const TextStyle(
-                          fontSize: 8, fontWeight: FontWeight.w900, fontFamily: "Rethink Sans",
-                        color: Color(0xFF8793A1),),
+                        fontSize: 8,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: "Rethink Sans",
+                        color: Color(0xFF8793A1),
+                      ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ],
@@ -139,36 +167,52 @@ class EventCardsList extends StatelessWidget {
   final List<EventTicket> currentEvents;
   final List<EventTicket> pastEvents;
 
-  const EventCardsList(
-      {Key? key, required this.currentEvents, required this.pastEvents})
-      : super(key: key);
+  const EventCardsList({
+    super.key,
+    required this.currentEvents,
+    required this.pastEvents,
+  });
 
   @override
   Widget build(BuildContext context) {
     final widgets = <Widget>[];
 
     if (currentEvents.isNotEmpty) {
-      widgets.add(const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("Current Events",
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, fontFamily: "Rethink Sans")),
-      ));
+      widgets.add(
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            "Current Events",
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+              fontFamily: "Rethink Sans",
+            ),
+          ),
+        ),
+      );
 
-      widgets.addAll(currentEvents
-          .map((e) => EventCard(details: e))
-          .toList());
+      widgets.addAll(currentEvents.map((e) => EventCard(details: e)).toList());
     }
 
     if (pastEvents.isNotEmpty) {
-      widgets.add(const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("Past Events",
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, fontFamily: "Rethink Sans")),
-      ));
+      widgets.add(
+        const Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            "Past Events",
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+              fontFamily: "Rethink Sans",
+            ),
+          ),
+        ),
+      );
 
-      widgets.addAll(pastEvents
-          .map((e) => EventCard(details: e, isPast: true))
-          .toList());
+      widgets.addAll(
+        pastEvents.map((e) => EventCard(details: e, isPast: true)).toList(),
+      );
     }
 
     return ListView(

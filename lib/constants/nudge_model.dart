@@ -31,14 +31,12 @@ class Requestor {
   final String name;
   final int age;
   final List<EventStyle> interests;
-  Requestor(
-  {
+  Requestor({
     required this.name,
     required this.age,
     required this.interests,
-    required this.pic
-}
-      );
+    required this.pic,
+  });
 }
 
 class NudgeRequests {
@@ -52,7 +50,7 @@ class NudgeRequests {
   final int attendeesCount;
   final String status; // requested, accepted, ongoing
   final List<String> tags;
-  final List<Requestor> requests;// optional interests
+  final List<Requestor> requests; // optional interests
 
   NudgeRequests({
     required this.id,
@@ -65,6 +63,6 @@ class NudgeRequests {
     required this.attendeesCount,
     required this.status,
     this.tags = const [],
-    required this.requests
+    required this.requests,
   });
 }

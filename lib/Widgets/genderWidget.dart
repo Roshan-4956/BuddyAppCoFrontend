@@ -5,10 +5,10 @@ class GenderOptionSelector extends StatelessWidget {
   final ValueChanged<int> onChanged;
 
   const GenderOptionSelector({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   // Replace with your graphics asset names!
   static const List<_GenderOptionData> options = [
@@ -60,7 +60,6 @@ class GenderOptionSelector extends StatelessWidget {
             fontFamily: "Rethink Sans",
             fontWeight: FontWeight.w600,
             color: Colors.black,
-
           ),
         ),
         SizedBox(height: 16),
@@ -105,86 +104,85 @@ class GenderOptionSelector extends StatelessWidget {
             width: 95,
             height: 118,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: selected ? Color(0xFFFEDC5D) : Colors.transparent,
-                  width: 3,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: selected ? Color(0xFFFEDC5D) : Colors.transparent,
+                width: 3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12, blurRadius: 8, offset: Offset(0,4)
-                  )
-                ]
+              ],
             ),
             child: Stack(
-                children: [
-                  // Face or custom PNG here
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Container(
+              children: [
+                // Face or custom PNG here
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      width: 54,
+                      height: 54,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        data.asset,
                         width: 54,
                         height: 54,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          data.asset,
-                          width: 54,
-                          height: 54,
-                          fit: BoxFit.contain,
-                        ),
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
-                  // Tick or unselected icon
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Color(0xFFFEDC5D),
-                            width: 1,
+                ),
+                // Tick or unselected icon
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Color(0xFFFEDC5D), width: 1),
+                    ),
+                    child: selected
+                        ? Center(
+                            child: Icon(
+                              Icons.circle,
+                              size: 6,
+                              color: Color(0xFFFEDC5D),
+                            ),
                           )
+                        : SizedBox(),
+                  ),
+                ),
+                // Option label
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: Text(
+                      data.label,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                        fontFamily: "Rethink Sans",
                       ),
-                      child: selected
-                          ? Center(
-                        child: Icon(
-                          Icons.circle,
-                          size: 6,
-                          color: Color(0xFFFEDC5D),
-                        ),
-                      )
-                          : SizedBox(),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  // Option label
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 18),
-                      child: Text(
-                        data.label,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                          fontFamily: "Rethink Sans"
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ]
+                ),
+              ],
             ),
           ),
         ),
@@ -205,6 +203,6 @@ class _GenderOptionData {
     required this.color,
     required this.rotation,
     required this.dx,
-    required this.dy
+    required this.dy,
   });
 }

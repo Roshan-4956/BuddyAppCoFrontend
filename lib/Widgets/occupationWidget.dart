@@ -4,11 +4,11 @@ class OccupationSelection extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onChanged;
 
-  OccupationSelection({
-    Key? key,
+  const OccupationSelection({
+    super.key,
     required this.selectedIndex,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final List<_OccupationOption> options = const [
     _OccupationOption("Undergraduate Student", Icons.school),
@@ -29,14 +29,11 @@ class OccupationSelection extends StatelessWidget {
           textAlign: TextAlign.center,
 
           style: TextStyle(
-
             fontSize: 16,
             fontFamily: "Rethink Sans",
             fontWeight: FontWeight.w600,
             color: Colors.black,
-
           ),
-
         ),
         SizedBox(height: 14),
         ...List.generate(options.length, (index) {
@@ -53,8 +50,8 @@ class OccupationSelection extends StatelessWidget {
                   color: Color(0xFFE9F4FF),
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
-                      color: selected ? Color(0xFF53A9FF) : Colors.transparent,
-                      width: 2
+                    color: selected ? Color(0xFF53A9FF) : Colors.transparent,
+                    width: 2,
                   ),
                 ),
                 child: Row(
@@ -65,9 +62,7 @@ class OccupationSelection extends StatelessWidget {
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black87,
                       radius: 16,
-                      child: Icon(
-                        options[index].icon, size: 20,
-                      ),
+                      child: Icon(options[index].icon, size: 20),
                     ),
                     SizedBox(width: 18),
                     Expanded(
@@ -77,7 +72,7 @@ class OccupationSelection extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontFamily: "Rethink Sans"
+                          fontFamily: "Rethink Sans",
                         ),
                       ),
                     ),
@@ -91,13 +86,18 @@ class OccupationSelection extends StatelessWidget {
                           color: selected ? Color(0xFF53A9FF) : Colors.black26,
                           width: 1,
                         ),
-                        color: selected ? Color(0xFF53A9FF).withOpacity(0.26) : Colors.transparent,
+                        color: selected
+                            ? Color(0xFF53A9FF).withOpacity(0.26)
+                            : Colors.transparent,
                       ),
                       child: selected
                           ? Center(
-                        child: Icon(Icons.check,
-                            color: Color(0xFF53A9FF), size: 10),
-                      )
+                              child: Icon(
+                                Icons.check,
+                                color: Color(0xFF53A9FF),
+                                size: 10,
+                              ),
+                            )
                           : null,
                     ),
                   ],

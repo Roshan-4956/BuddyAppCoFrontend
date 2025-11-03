@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import '../constants/nudge_model.dart';
 
@@ -86,7 +85,7 @@ class MyNudgesPage extends StatelessWidget {
                                   SizedBox(
                                     width: 200,
                                     child: Text(
-                                      "${nudge.title}",
+                                      nudge.title,
                                       style: TextStyle(
                                         fontFamily: "Rethink Sans",
                                         fontSize: 16,
@@ -163,7 +162,7 @@ class MyNudgesPage extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             Image.asset(
-                                              "${nudge.pic}",
+                                              nudge.pic,
                                               scale: 4,
                                             ),
                                             SizedBox(width: 6),
@@ -187,7 +186,7 @@ class MyNudgesPage extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        "${nudge.name}",
+                                                        nudge.name,
                                                         style: TextStyle(
                                                           fontFamily:
                                                               "Rethink Sans",
@@ -277,14 +276,14 @@ class MyNudgesPage extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Image.asset(
-                                                                "${nudge.interests[index].iconAsset}",
+                                                                nudge.interests[index].iconAsset,
                                                                 scale: 4,
                                                               ),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
                                                               Text(
-                                                                "${nudge.interests[index].name}",
+                                                                nudge.interests[index].name,
                                                                 style: TextStyle(
                                                                   fontFamily:
                                                                       "Rethink Sans",
@@ -334,7 +333,6 @@ class MyNudgesPage extends StatelessWidget {
                 },
               ),
 
-              
               Padding(
                 padding: EdgeInsets.fromLTRB(16, 17, 16, 17),
                 child: Text(
@@ -384,7 +382,7 @@ class MyNudgesPage extends StatelessWidget {
                                   SizedBox(
                                     width: 200,
                                     child: Text(
-                                      "${nudge.title}",
+                                      nudge.title,
                                       style: TextStyle(
                                         fontFamily: "Rethink Sans",
                                         fontSize: 16,
@@ -461,7 +459,7 @@ class MyNudgesPage extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             Image.asset(
-                                              "${nudge.pic}",
+                                              nudge.pic,
                                               scale: 4,
                                             ),
                                             SizedBox(width: 6),
@@ -485,7 +483,7 @@ class MyNudgesPage extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                        "${nudge.name}",
+                                                        nudge.name,
                                                         style: TextStyle(
                                                           fontFamily:
                                                               "Rethink Sans",
@@ -575,14 +573,14 @@ class MyNudgesPage extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Image.asset(
-                                                                "${nudge.interests[index].iconAsset}",
+                                                                nudge.interests[index].iconAsset,
                                                                 scale: 4,
                                                               ),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
                                                               Text(
-                                                                "${nudge.interests[index].name}",
+                                                                nudge.interests[index].name,
                                                                 style: TextStyle(
                                                                   fontFamily:
                                                                       "Rethink Sans",

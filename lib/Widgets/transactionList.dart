@@ -5,7 +5,7 @@ import '../constants/transaction_list_class.dart';
 class TransactionList extends StatelessWidget {
   final List<TransactionItem> items;
 
-  const TransactionList({Key? key, required this.items}) : super(key: key);
+  const TransactionList({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class TransactionList extends StatelessWidget {
                 spreadRadius: 2,
                 blurRadius: 6,
                 offset: const Offset(0, 3),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -48,7 +48,11 @@ class TransactionList extends StatelessWidget {
                     Text(
                       item.name,
                       style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600, fontFamily: "Rethink Sans", height: 1.07),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "Rethink Sans",
+                        height: 1.07,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -56,12 +60,14 @@ class TransactionList extends StatelessWidget {
                         Text(
                           "₹${item.amount}",
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w900, height: 1.07,
-                            fontFamily: "Rethink Sans"
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                            height: 1.07,
+                            fontFamily: "Rethink Sans",
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Image.asset("assets/wallet/coin.png", scale: 4,)
+                        Image.asset("assets/wallet/coin.png", scale: 4),
                       ],
                     ),
                   ],

@@ -13,7 +13,7 @@ enum EventType {
   travel_exploration,
   adventure_outdoor,
   fashion_style,
-  pop_culture_entertainment
+  pop_culture_entertainment,
 }
 
 /// Model class for styling an EventType
@@ -28,7 +28,7 @@ class EventStyle {
     required this.primaryColor,
     required this.ticketAsset,
     required this.iconAsset,
-    required this.name
+    required this.name,
   });
 }
 

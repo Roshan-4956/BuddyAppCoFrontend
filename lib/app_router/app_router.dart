@@ -19,9 +19,9 @@ import 'package:go_router/go_router.dart';
 
 import '../constants/event_ticket_list.dart';
 import '../view/loginOptions.dart';
+
 final GoRouter router = GoRouter(
-  initialLocation: '/genderPreference1'
-      ,
+  initialLocation: '/genderPreference1',
   errorPageBuilder: (BuildContext context, state) => MaterialPage(
     key: state.pageKey,
     child: Scaffold(
@@ -34,34 +34,13 @@ final GoRouter router = GoRouter(
     ),
   ),
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => WelcomeScreen(),
-    ),
-    GoRoute(
-      path: '/loginOptions',
-      builder: (context, state) => loginOptions(),
-    ),
-    GoRoute(
-      path: '/loginPhone',
-      builder: (context, state) => loginPhone(),
-    ),
-    GoRoute(
-      path: '/phoneOTP',
-      builder: (context, state) => phoneOTP(),
-    ),
-    GoRoute(
-      path: '/loginEmail',
-      builder: (context, state) => loginEmail(),
-    ),
-    GoRoute(
-      path: '/emailOTP',
-      builder: (context, state) => emailOTP(),
-    ),
-    GoRoute(
-      path: '/greenSplash',
-      builder: (context, state) => greenSplash(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => WelcomeScreen()),
+    GoRoute(path: '/loginOptions', builder: (context, state) => loginOptions()),
+    GoRoute(path: '/loginPhone', builder: (context, state) => loginPhone()),
+    GoRoute(path: '/phoneOTP', builder: (context, state) => phoneOTP()),
+    GoRoute(path: '/loginEmail', builder: (context, state) => loginEmail()),
+    GoRoute(path: '/emailOTP', builder: (context, state) => emailOTP()),
+    GoRoute(path: '/greenSplash', builder: (context, state) => greenSplash()),
     GoRoute(
       path: '/onBoarding',
       builder: (context, state) => OnboardingScreen(),
@@ -78,14 +57,10 @@ final GoRouter router = GoRouter(
       path: '/homepage',
       builder: (context, state) {
         final index = state.extra as int;
-        return homepage(landingIndex: index,);
-      }
-      ,
+        return homepage(landingIndex: index);
+      },
     ),
-    GoRoute(
-      path: '/wallet',
-      builder: (context, state) => wallet(),
-    ),
+    GoRoute(path: '/wallet', builder: (context, state) => wallet()),
     GoRoute(
       path: '/eventDetails',
       builder: (context, state) {
@@ -100,25 +75,16 @@ final GoRouter router = GoRouter(
         return buyEvent(event: event);
       },
     ),
-    GoRoute(
-      path: '/addEvent',
-      builder: (context, state) => AddEventPage(),
-    ),
-    GoRoute(
-      path: '/createNudge',
-      builder: (context, state) => CreateNudge(),
-    ),
+    GoRoute(path: '/addEvent', builder: (context, state) => AddEventPage()),
+    GoRoute(path: '/createNudge', builder: (context, state) => CreateNudge()),
     GoRoute(
       path: '/genderPreference1',
       builder: (context, state) {
         final nextLocation = state.extra as String;
         return GenderPreference(nextLocation: nextLocation);
-      }
-
+      },
     ),
 
-
     // builder: (context, state) => SearchScreen(),
-
   ],
 );

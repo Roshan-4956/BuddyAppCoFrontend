@@ -16,12 +16,12 @@ class events extends ConsumerStatefulWidget {
   final List<EventTicket> myPastEvents;
 
   const events({
-    Key? key,
+    super.key,
     required this.presentEvents,
     required this.pastEvents,
     required this.myPresentEvents,
     required this.myPastEvents,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<events> createState() => _eventsState();
@@ -38,14 +38,17 @@ class _eventsState extends ConsumerState<events> {
     final selectedIndex = ref.watch(eventsTabProvider);
     return Column(
       children: [
-        SizedBox(height: 36,),
+        SizedBox(height: 36),
         EventsSelector(),
 
         Expanded(
           child: IndexedStack(
             index: selectedIndex,
             children: [
-              TicketsList(ongoing: widget.presentEvents, expired: widget.pastEvents),
+              TicketsList(
+                ongoing: widget.presentEvents,
+                expired: widget.pastEvents,
+              ),
               EventCardsList(
                 currentEvents: widget.myPresentEvents,
                 pastEvents: widget.myPastEvents,

@@ -9,7 +9,7 @@ import '../constants/event_ticket_list.dart';
 class buyEvent extends ConsumerStatefulWidget {
   final EventTicket event;
 
-  buyEvent({super.key, required this.event});
+  const buyEvent({super.key, required this.event});
 
   @override
   ConsumerState<buyEvent> createState() => _EventDetailPageState();
@@ -17,10 +17,12 @@ class buyEvent extends ConsumerStatefulWidget {
 
 class _EventDetailPageState extends ConsumerState<buyEvent> {
   late int _count;
+  @override
   void initState() {
     super.initState();
     _count = 1;
   }
+
   void _increment() {
     setState(() {
       _count++;
@@ -34,6 +36,7 @@ class _EventDetailPageState extends ConsumerState<buyEvent> {
       });
     }
   }
+
   String? _selected = "Myself";
   final TextEditingController emailController = TextEditingController();
   @override
@@ -51,8 +54,8 @@ class _EventDetailPageState extends ConsumerState<buyEvent> {
         children: [
           Positioned.fill(
             child: FittedBox(
-              child: Image.asset("assets/community/buyEventBG.png", scale: 1),
               fit: BoxFit.fitWidth,
+              child: Image.asset("assets/community/buyEventBG.png", scale: 1),
             ),
           ),
           SingleChildScrollView(
@@ -168,11 +171,11 @@ class _EventDetailPageState extends ConsumerState<buyEvent> {
                                   setState(() => _selected = value);
                                 },
                                 fillColor:
-                                    MaterialStateProperty.resolveWith<Color>((
+                                    WidgetStateProperty.resolveWith<Color>((
                                       states,
                                     ) {
                                       if (states.contains(
-                                        MaterialState.selected,
+                                        WidgetState.selected,
                                       )) {
                                         return Color(0xFF323232);
                                       }
@@ -206,11 +209,11 @@ class _EventDetailPageState extends ConsumerState<buyEvent> {
                                   setState(() => _selected = value);
                                 },
                                 fillColor:
-                                    MaterialStateProperty.resolveWith<Color>((
+                                    WidgetStateProperty.resolveWith<Color>((
                                       states,
                                     ) {
                                       if (states.contains(
-                                        MaterialState.selected,
+                                        WidgetState.selected,
                                       )) {
                                         return Color(0xFF323232);
                                       }
@@ -375,52 +378,59 @@ class _EventDetailPageState extends ConsumerState<buyEvent> {
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   GestureDetector(
-
-                                    child: Icon(Icons.remove, color: Color(0xFF8793A1), size: 15,),
                                     onTap: _decrement,
-
-
+                                    child: Icon(
+                                      Icons.remove,
+                                      color: Color(0xFF8793A1),
+                                      size: 15,
+                                    ),
                                   ),
                                   Text(
-
-                                    '${_count}',
+                                    '$_count',
                                     style: TextStyle(
                                       fontFamily: "Rethink Sans",
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: _increment,
-                                    child: Icon(Icons.add, color: Color(0xFF8793A1), size: 15,),
-
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Color(0xFF8793A1),
+                                      size: 15,
+                                    ),
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
-                        SizedBox(height: 34,),
+                        SizedBox(height: 34),
                         GestureDetector(
-
                           child: Container(
-                            width: (MediaQuery.of(context).size.width)-30,
+                            width: (MediaQuery.of(context).size.width) - 30,
                             height: 55,
                             decoration: BoxDecoration(
                               color: Color(0xFF1E1E1E),
-                              borderRadius: BorderRadius.circular(20), // Rounded corners
+                              borderRadius: BorderRadius.circular(
+                                20,
+                              ), // Rounded corners
                             ),
                             child: Center(
                               child: Text(
                                 'Pay ₹${event.price}',
-                                style: const TextStyle(fontFamily:"Rethink Sans",color: Color(0xFFF6DDE1), fontWeight: FontWeight.w600, fontSize: 16),
+                                style: const TextStyle(
+                                  fontFamily: "Rethink Sans",
+                                  color: Color(0xFFF6DDE1),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
                               ),
-
-
                             ),
                           ),
                         ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:keyboard_attachable/keyboard_attachable.dart';
 
 class CreateNudge extends StatefulWidget {
+  const CreateNudge({super.key});
+
   @override
   _CreateNudgeState createState() => _CreateNudgeState();
 }
@@ -221,7 +223,6 @@ class _CreateNudgeState extends State<CreateNudge> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Image.asset(
@@ -239,7 +240,6 @@ class _CreateNudgeState extends State<CreateNudge> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Image.asset(
@@ -257,7 +257,6 @@ class _CreateNudgeState extends State<CreateNudge> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Image.asset(
@@ -273,17 +272,17 @@ class _CreateNudgeState extends State<CreateNudge> {
                 GestureDetector(
                   onTap: _isFormComplete()
                       ? () {
-                    // Handle post nudge action
-                    print("Posting nudge with:");
-                    print("Title: ${_titleController.text}");
-                    print("Description: ${_descController.text}");
-                    print("Additional: ${_descController2.text}");
-                    print("Category: $_selectedCategory");
-                    print("People Required: $_selectedPeopleRequired");
-                    print("Location: $_selectedLocation");
-                    print("Date: $_selectedDate");
-                    print("Time: $_selectedTime");
-                  }
+                          // Handle post nudge action
+                          print("Posting nudge with:");
+                          print("Title: ${_titleController.text}");
+                          print("Description: ${_descController.text}");
+                          print("Additional: ${_descController2.text}");
+                          print("Category: $_selectedCategory");
+                          print("People Required: $_selectedPeopleRequired");
+                          print("Location: $_selectedLocation");
+                          print("Date: $_selectedDate");
+                          print("Time: $_selectedTime");
+                        }
                       : null,
                   child: Container(
                     width: 120,
@@ -400,7 +399,7 @@ class _CreateNudgeState extends State<CreateNudge> {
                         ), // Text color
                         decoration: InputDecoration(
                           hintText:
-                          'Describe your event, what to expect, what to bring, any other special instructions etc.',
+                              'Describe your event, what to expect, what to bring, any other special instructions etc.',
                           hintStyle: TextStyle(
                             color: Color(0xFF8793A1),
                             fontFamily: "Rethink Sans",
@@ -504,7 +503,7 @@ class _CreateNudgeState extends State<CreateNudge> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: DropdownButtonFormField<String>(
-                        value: _selectedCategory,
+                        initialValue: _selectedCategory,
                         decoration: InputDecoration(
                           // labelText: "Event Category",
                           // labelStyle: const TextStyle(
@@ -558,18 +557,18 @@ class _CreateNudgeState extends State<CreateNudge> {
                         items: categories
                             .map(
                               (c) => DropdownMenuItem(
-                            value: c,
-                            child: Text(
-                              c,
-                              style: TextStyle(
-                                fontFamily: "Rethink Sans",
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff8793A1),
+                                value: c,
+                                child: Text(
+                                  c,
+                                  style: TextStyle(
+                                    fontFamily: "Rethink Sans",
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff8793A1),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
+                            )
                             .toList(),
                         onChanged: (val) =>
                             setState(() => _selectedCategory = val),
@@ -589,7 +588,7 @@ class _CreateNudgeState extends State<CreateNudge> {
                       child: SizedBox(
                         width: 170,
                         child: DropdownButtonFormField<String>(
-                          value: _selectedPeopleRequired,
+                          initialValue: _selectedPeopleRequired,
                           decoration: InputDecoration(
                             hintText: 'People required',
                             labelStyle: TextStyle(
@@ -636,18 +635,18 @@ class _CreateNudgeState extends State<CreateNudge> {
                           items: peopleOptions
                               .map(
                                 (p) => DropdownMenuItem(
-                              value: p,
-                              child: Text(
-                                p,
-                                style: TextStyle(
-                                  fontFamily: "Rethink Sans",
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff8793A1),
+                                  value: p,
+                                  child: Text(
+                                    p,
+                                    style: TextStyle(
+                                      fontFamily: "Rethink Sans",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xff8793A1),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
+                              )
                               .toList(),
                           onChanged: (val) =>
                               setState(() => _selectedPeopleRequired = val),

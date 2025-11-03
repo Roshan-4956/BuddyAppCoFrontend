@@ -4,18 +4,15 @@ import 'package:go_router/go_router.dart';
 
 import '../view/home_screen/homepage.dart';
 
-
-
 class navBar extends ConsumerWidget {
-  const navBar({Key? key}) : super(key: key);
-  void updateNavAndGo(BuildContext context, WidgetRef ref, int index, ) {
+  const navBar({super.key});
+  void updateNavAndGo(BuildContext context, WidgetRef ref, int index) {
     // 1. Update provider state
     ref.read(bottomNavProvider.notifier).setIndex(index);
 
     // 2. Navigate with GoRouter
     GoRouter.of(context).go("/homepage");
   }
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +29,7 @@ class navBar extends ConsumerWidget {
               color: Colors.black12,
               offset: Offset(0, -2),
               blurRadius: 12,
-            )
+            ),
           ],
         ),
         padding: EdgeInsets.symmetric(vertical: 16),
@@ -45,7 +42,7 @@ class navBar extends ConsumerWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => updateNavAndGo(context, ref, i),
-                child: Container(
+                child: SizedBox(
                   width: 72, // fixed width so all items align perfectly
                   // no extra horizontal padding for selected now
                   child: Column(
@@ -62,15 +59,19 @@ class navBar extends ConsumerWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(items[i].icon, scale: 4, color: Color(0xFF1E1E1E)),
+                              Image.asset(
+                                items[i].icon,
+                                scale: 4,
+                                color: Color(0xFF1E1E1E),
+                              ),
                               SizedBox(height: 6),
                               Text(
                                 items[i].label,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF1E1E1E),
-                                    fontSize: 10,
-                                    fontFamily: "Rethink Sans"
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1E1E1E),
+                                  fontSize: 10,
+                                  fontFamily: "Rethink Sans",
                                 ),
                               ),
                             ],
@@ -79,15 +80,19 @@ class navBar extends ConsumerWidget {
                       else
                         Column(
                           children: [
-                            Image.asset(items[i].icon, scale: 4, color: Color(0xFF8793A1)),
+                            Image.asset(
+                              items[i].icon,
+                              scale: 4,
+                              color: Color(0xFF8793A1),
+                            ),
                             SizedBox(height: 6),
                             Text(
                               items[i].label,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF8793A1),
-                                  fontSize: 10,
-                                  fontFamily: "Rethink Sans"
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF8793A1),
+                                fontSize: 10,
+                                fontFamily: "Rethink Sans",
                               ),
                             ),
                           ],
@@ -103,4 +108,3 @@ class navBar extends ConsumerWidget {
     );
   }
 }
-

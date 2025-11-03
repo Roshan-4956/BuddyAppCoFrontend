@@ -3,27 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../constants/event_ticket_list.dart';
-import '../../constants/event_type_class.dart';
 import '../../constants/interest_tiles_data.dart';
 
 class CommunityPage extends ConsumerStatefulWidget {
   final List<EventTicket> popularEvents;
   final List<EventTicket> allEvents;
 
-  const CommunityPage({Key? key,
+  const CommunityPage({
+    super.key,
     required this.allEvents,
-    required this.popularEvents
-  }) : super(key: key);
+    required this.popularEvents,
+  });
 
   @override
   ConsumerState<CommunityPage> createState() => _communityState();
 }
-class _communityState extends ConsumerState<CommunityPage>{
 
+class _communityState extends ConsumerState<CommunityPage> {
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       floatingActionButton: GestureDetector(
         onTap: () => context.push('/addEvent'),
@@ -32,7 +30,7 @@ class _communityState extends ConsumerState<CommunityPage>{
           width: 66,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Color(0xFFF6DDE1)
+            color: Color(0xFFF6DDE1),
           ),
           child: Padding(
             padding: EdgeInsets.all(10),
@@ -40,9 +38,22 @@ class _communityState extends ConsumerState<CommunityPage>{
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset("assets/homepage/eventNav.png", scale: 4, color: Color(0xFF1E1E1E),),
-                SizedBox(height: 6,),
-                Text("Add", style: TextStyle(fontFamily: "Rethink Sans", fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF1E1E1E), height: 1.07),)
+                Image.asset(
+                  "assets/homepage/eventNav.png",
+                  scale: 4,
+                  color: Color(0xFF1E1E1E),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  "Add",
+                  style: TextStyle(
+                    fontFamily: "Rethink Sans",
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF1E1E1E),
+                    height: 1.07,
+                  ),
+                ),
               ],
             ),
           ),
@@ -62,7 +73,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                   fontFamily: "Rethink Sans",
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
-                  color: Color(0xFF1E1E1E)
+                  color: Color(0xFF1E1E1E),
                 ),
               ),
             ),
@@ -107,7 +118,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                 },
               ),
             ),
-      
+
             // Popular Events
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -117,7 +128,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                   fontFamily: "Rethink Sans",
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
-                  color: Color(0xFF1E1E1E)
+                  color: Color(0xFF1E1E1E),
                 ),
               ),
             ),
@@ -131,7 +142,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                 itemBuilder: (context, index) {
                   final event = widget.popularEvents[index];
                   return GestureDetector(
-                    onTap: ()=>context.push(
+                    onTap: () => context.push(
                       '/eventDetails',
                       extra: event, // ⬅ pass EventTicket here
                     ),
@@ -191,9 +202,9 @@ class _communityState extends ConsumerState<CommunityPage>{
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-
                                   Text(
                                     event.title,
                                     style: const TextStyle(
@@ -212,30 +223,40 @@ class _communityState extends ConsumerState<CommunityPage>{
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
-
                                 ],
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset("assets/community/yellowCalPin.png", scale: 4,),
+                                  Image.asset(
+                                    "assets/community/yellowCalPin.png",
+                                    scale: 4,
+                                  ),
                                   Text(
-                                      "${event.date} ${event.time}PM",
+                                    "${event.date} ${event.time}PM",
                                     style: const TextStyle(
                                       fontFamily: "Rethink Sans",
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xFF8793A1)
+                                      color: Color(0xFF8793A1),
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Expanded(child: Container()),
-                                  Image.asset("assets/events/seatsPin.png", scale: 4,),
-                                  Padding(padding: EdgeInsets.symmetric(horizontal: 1)),
+                                  Image.asset(
+                                    "assets/events/seatsPin.png",
+                                    scale: 4,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 1,
+                                    ),
+                                  ),
                                   Text(
                                     "${event.bookedSeats}/${event.totalSeats}",
                                     style: const TextStyle(
@@ -245,24 +266,27 @@ class _communityState extends ConsumerState<CommunityPage>{
                                       color: Color(0xFF8793A1),
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset("assets/community/yellowLocPin.png", scale: 4,),
+                                  Image.asset(
+                                    "assets/community/yellowLocPin.png",
+                                    scale: 4,
+                                  ),
                                   Text(
                                     "Mumbai",
                                     style: const TextStyle(
-                                        fontFamily: "Rethink Sans",
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF8793A1)
+                                      fontFamily: "Rethink Sans",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF8793A1),
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -277,11 +301,9 @@ class _communityState extends ConsumerState<CommunityPage>{
                                       color: Color(0xFF1E1E1E),
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -290,7 +312,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                 },
               ),
             ),
-      
+
             // All Events
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
@@ -300,15 +322,17 @@ class _communityState extends ConsumerState<CommunityPage>{
                   fontFamily: "Rethink Sans",
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
-                  color: Color(0xFF1E1E1E)
+                  color: Color(0xFF1E1E1E),
                 ),
               ),
             ),
             Column(
-      
               children: widget.allEvents.map((details) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -336,7 +360,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                         ),
                       ),
                       const SizedBox(width: 12),
-      
+
                       // Info Section
                       Expanded(
                         child: Column(
@@ -360,10 +384,13 @@ class _communityState extends ConsumerState<CommunityPage>{
                               ],
                             ),
                             const SizedBox(height: 6),
-      
+
                             Row(
                               children: [
-                                Image.asset("assets/events/locPin.png", scale: 4),
+                                Image.asset(
+                                  "assets/events/locPin.png",
+                                  scale: 4,
+                                ),
                                 const SizedBox(width: 4),
                                 Expanded(
                                   child: Text(
@@ -380,10 +407,13 @@ class _communityState extends ConsumerState<CommunityPage>{
                               ],
                             ),
                             const SizedBox(height: 4),
-      
+
                             Row(
                               children: [
-                                Image.asset("assets/events/calPin.png", scale: 4),
+                                Image.asset(
+                                  "assets/events/calPin.png",
+                                  scale: 4,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   details.date,
@@ -397,7 +427,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                               ],
                             ),
                             const SizedBox(height: 4),
-      
+
                             Row(
                               children: [
                                 Image.asset(
@@ -419,7 +449,7 @@ class _communityState extends ConsumerState<CommunityPage>{
                           ],
                         ),
                       ),
-      
+
                       // Price + Seats
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -434,9 +464,15 @@ class _communityState extends ConsumerState<CommunityPage>{
                             ),
                           ),
                           const SizedBox(height: 6),
-                          Text("Created by a buddy",
-                          style: TextStyle(fontFamily: "Rethink Sans", fontSize: 8, fontWeight: FontWeight.w700, color: Color(0xFF1E1E1E)),),
-      
+                          Text(
+                            "Created by a buddy",
+                            style: TextStyle(
+                              fontFamily: "Rethink Sans",
+                              fontSize: 8,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF1E1E1E),
+                            ),
+                          ),
                         ],
                       ),
                     ],

@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../view/home_screen/events.dart';
 
-
 class EventsSelector extends ConsumerWidget {
-  const EventsSelector({Key? key}) : super(key: key);
+  const EventsSelector({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,15 +22,11 @@ class EventsSelector extends ConsumerWidget {
               ref.read(eventsTabProvider.notifier).state = index;
             },
             child: Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
               decoration: BoxDecoration(
                 color: isSelected ? Color(0xFFF6DDE1) : Color(0x52F6DDE1),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Color(0xFFF6DDE1),
-                  width: 1.5,
-                ),
+                border: Border.all(color: Color(0xFFF6DDE1), width: 1.5),
               ),
               child: Text(
                 options[index],
