@@ -1,10 +1,9 @@
-import 'package:buddy_app/Widgets/appBar.dart';
-import 'package:buddy_app/Widgets/navBar.dart';
-import 'package:buddy_app/view/home_screen/pageList.dart';
+import 'package:buddy_app/old/Widgets/appBar.dart';
+import 'package:buddy_app/old/Widgets/navBar.dart';
+import 'package:buddy_app/old/view/home_screen/pageList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-
 
 final List<_NavItem> items = const [
   _NavItem("assets/homepage/homeNav.png", "Home"),

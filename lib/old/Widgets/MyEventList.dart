@@ -1,4 +1,4 @@
-import 'package:buddy_app/constants/event_ticket_list.dart';
+import 'package:buddy_app/old/constants/event_ticket_list.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:buddy_app/Widgets/nudgePageSelector.dart';
+import 'package:buddy_app/old/Widgets/nudgePageSelector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -34,7 +34,6 @@ class _NudgePageState extends ConsumerState<NudgePage>
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
-import 'package:buddy_app/Widgets/occupationWidget.dart';
-import 'package:buddy_app/Widgets/profilePhotoSelector.dart';
-import 'package:buddy_app/Widgets/registrationFormField.dart';
+import 'package:buddy_app/old/Widgets/occupationWidget.dart';
+import 'package:buddy_app/old/Widgets/profilePhotoSelector.dart';
+import 'package:buddy_app/old/Widgets/registrationFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';

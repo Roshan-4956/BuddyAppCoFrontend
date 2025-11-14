@@ -1,5 +1,5 @@
-import 'package:buddy_app/Widgets/appBar.dart';
-import 'package:buddy_app/view/locationSelection.dart';
+import 'package:buddy_app/old/Widgets/appBar.dart';
+import 'package:buddy_app/old/view/locationSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_attachable/keyboard_attachable.dart';
 

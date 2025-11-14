@@ -1,7 +1,7 @@
-import 'package:buddy_app/Widgets/appBar.dart';
-import 'package:buddy_app/Widgets/navBar.dart';
-import 'package:buddy_app/Widgets/transactionList.dart';
-import 'package:buddy_app/constants/transaction_list_class.dart';
+import 'package:buddy_app/old/Widgets/appBar.dart';
+import 'package:buddy_app/old/Widgets/navBar.dart';
+import 'package:buddy_app/old/Widgets/transactionList.dart';
+import 'package:buddy_app/old/constants/transaction_list_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

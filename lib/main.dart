@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'app_router/app_router.dart';
+import 'old/app_router/app_router.dart';
 
 void main() async {
   runApp(ProviderScope(child: const MyApp()));

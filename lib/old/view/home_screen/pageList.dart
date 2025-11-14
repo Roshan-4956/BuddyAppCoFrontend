@@ -1,9 +1,9 @@
-import 'package:buddy_app/constants/event_type_class.dart';
-import 'package:buddy_app/constants/nudge_model.dart';
-import 'package:buddy_app/view/home_screen/community.dart';
-import 'package:buddy_app/view/home_screen/events.dart';
-import 'package:buddy_app/view/home_screen/home.dart';
-import 'package:buddy_app/view/home_screen/nudge.dart';
+import 'package:buddy_app/old/constants/event_type_class.dart';
+import 'package:buddy_app/old/constants/nudge_model.dart';
+import 'package:buddy_app/old/view/home_screen/community.dart';
+import 'package:buddy_app/old/view/home_screen/events.dart';
+import 'package:buddy_app/old/view/home_screen/home.dart';
+import 'package:buddy_app/old/view/home_screen/nudge.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/event_ticket_list.dart';

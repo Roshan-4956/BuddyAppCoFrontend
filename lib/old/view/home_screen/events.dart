@@ -1,5 +1,5 @@
-import 'package:buddy_app/Widgets/EventTicketList.dart';
-import 'package:buddy_app/constants/event_ticket_list.dart';
+import 'package:buddy_app/old/Widgets/EventTicketList.dart';
+import 'package:buddy_app/old/constants/event_ticket_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';

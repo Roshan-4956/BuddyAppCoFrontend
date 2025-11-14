@@ -1,4 +1,4 @@
-import 'package:buddy_app/constants/event_type_class.dart';
+import 'package:buddy_app/old/constants/event_type_class.dart';
 
 class Nudge {
   final String id;
