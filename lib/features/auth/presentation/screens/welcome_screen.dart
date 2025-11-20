@@ -23,203 +23,209 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   Widget build(BuildContext context) {
     // Get screen dimensions for responsive layout
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: Stack(
+      body: Column(
         children: [
-          // Background watermark/elements if any (from design)
-          // Assuming white background is sufficient as per design 'bg-white'
+          // Top spacing for logo
+          SizedBox(height: screenHeight * 0.1),
 
-          // Buddy logo at top
-          Positioned(
-            top: screenHeight * 0.1,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'buddy-logo',
-                child: SvgPicture.asset(
-                  Assets.buddyIconWithText,
-                  height: screenHeight * 0.05, // Responsive height
-                  fit: BoxFit.contain,
-                ),
+          // Buddy logo
+          Center(
+            child: Hero(
+              tag: 'buddy-logo',
+              child: SvgPicture.asset(
+                Assets.buddyIconWithText,
+                height: screenHeight * 0.05, // Responsive height
+                fit: BoxFit.contain,
               ),
             ),
           ),
 
-          // Pink card container with Hero animation
-          Positioned(
-            bottom: 30,
-            left: 16,
-            right: 16,
-            child: Hero(
-              tag: 'pink-card-container',
-              child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  height: 325, // Fixed height from design approx
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryPink,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Column(
-                    children: [
-                      // Spacing for the illustration overlap
-                      // Title starts at ~94px from top of card
-                      const SizedBox(height: 94),
+          const Spacer(),
 
-                      // Title - "Welcome to Buddy"
-                      Text(
-                        'Welcome to Buddy',
-                        style: AppTextStyles.headlineMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
-                          fontSize: 24, // Explicitly 24px from design
+          // Illustration and Pink Card Stack
+          SizedBox(
+            height:
+                (screenHeight * 0.35) +
+                (screenHeight * 0.35) -
+                20, // Card height + Illustration height - overlap
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
+              children: [
+                // Pink Card Container
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Hero(
+                    tag: 'pink-card-container',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Container(
+                        height: screenHeight * 0.35,
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryPink,
+                          borderRadius: BorderRadius.circular(24),
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Description
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: SizedBox(
-                          width: 240,
-                          child: Text(
-                            'Find buddies, become a buddy, and belong to communities',
-                            style: AppTextStyles.bodyLarge.copyWith(
-                              color: AppColors.textSecondary,
-                              fontWeight: FontWeight.w500,
-                              height: 1.13,
-                              fontSize: 16,
+                        child: Column(
+                          children: [
+                            // Spacing for the illustration overlap
+                            SizedBox(height: screenHeight * 0.1),
+                            // Title - "Welcome to Buddy"
+                            Text(
+                              'Welcome to Buddy',
+                              style: AppTextStyles.headlineMedium.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textPrimary,
+                                fontSize: 24,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-
-                      const Spacer(),
-
-                      // Get Started button
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_acceptedTerms) {
-                              context.pushNamed(AppRouter.loginOptions.name);
-                            }
-                          },
-                          child: Container(
-                            width: 293, // Fixed width from design
-                            height: 55, // Fixed height from design
-                            decoration: BoxDecoration(
-                              color: _acceptedTerms
-                                  ? AppColors.primaryDark
-                                  : AppColors.buttonInactive,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Get started',
-                                  style: AppTextStyles.buttonLarge.copyWith(
-                                    color: AppColors
-                                        .primaryPink, // Text color from design
+                            // Description
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: SizedBox(
+                                width: 240,
+                                child: Text(
+                                  'Find buddies, become a buddy, and belong to communities',
+                                  style: AppTextStyles.bodyLarge.copyWith(
+                                    color: AppColors.textSecondary,
                                     fontWeight: FontWeight.w500,
+                                    height: 1.13,
                                     fontSize: 16,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(width: 10),
-                                const Icon(
-                                  Icons.arrow_forward,
-                                  color: AppColors.primaryPink,
-                                  size: 20,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
 
-                      // Terms and conditions checkbox
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _acceptedTerms = !_acceptedTerms;
-                            });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // Checkbox
-                              Container(
-                                width: 16,
-                                height: 16,
-                                decoration: BoxDecoration(
-                                  color: _acceptedTerms
-                                      ? AppColors.textPrimary
-                                      : Colors.transparent,
-                                  border: Border.all(
-                                    color: AppColors.textTertiary,
-                                    width: 1.5,
+                            const Spacer(),
+
+                            // Get Started button
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (_acceptedTerms) {
+                                    context.pushNamed(
+                                      AppRouter.loginOptions.name,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 55,
+                                  decoration: BoxDecoration(
+                                    color: _acceptedTerms
+                                        ? AppColors.primaryDark
+                                        : AppColors.buttonInactive,
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  borderRadius: BorderRadius.circular(4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Get started',
+                                        style: AppTextStyles.buttonLarge
+                                            .copyWith(
+                                              color: AppColors.primaryPink,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Icon(
+                                        Icons.arrow_forward,
+                                        color: AppColors.primaryPink,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: _acceptedTerms
-                                    ? const Icon(
-                                        Icons.check,
-                                        size: 12,
-                                        color: AppColors.white,
-                                      )
-                                    : null,
                               ),
-                              const SizedBox(width: 8),
-                              // Terms text
-                              Text(
-                                'You agree to the terms and conditions of our app',
-                                style: AppTextStyles.labelMedium.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Terms and conditions checkbox
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 24),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _acceptedTerms = !_acceptedTerms;
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Checkbox
+                                    Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: _acceptedTerms
+                                            ? AppColors.textPrimary
+                                            : Colors.transparent,
+                                        border: Border.all(
+                                          color: AppColors.textTertiary,
+                                          width: 1.5,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: _acceptedTerms
+                                          ? const Icon(
+                                              Icons.check,
+                                              size: 12,
+                                              color: AppColors.white,
+                                            )
+                                          : null,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    // Terms text
+                                    Text(
+                                      'You agree to the terms and conditions of our app',
+                                      style: AppTextStyles.labelMedium.copyWith(
+                                        color: AppColors.textPrimary,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
 
-          // Main illustration - Positioned to overlap the card
-          // Illustration bottom is at ~38% from bottom of screen.
-          // Card top is ~43% from bottom (if height 323 + margin).
-          // Overlap logic: Illustration extends into the card's top area.
-          Positioned(
-            bottom:
-                323 + 30 - 44.0, // Card height + margin - approximate overlap
-            left: 0, // Reset left constraint
-            right: 0, // Align to right edge within screen bounds
-            child: IgnorePointer(
-              // Allow clicks to pass through to card if needed
-              child: SvgPicture.asset(
-                Assets.welcomeIllustrationBuddy,
-                fit: BoxFit.contain,
-                alignment: Alignment.centerRight,
-                width: screenWidth * 0.9,
-              ),
+                // Main illustration - On top of the card
+                Positioned(
+                  bottom:
+                      (screenHeight * 0.35) -
+                      20, // Sit on top of card with 20px overlap
+                  right: -16,
+                  child: IgnorePointer(
+                    child: SvgPicture.asset(
+                      Assets.welcomeIllustrationBuddy,
+                      fit: BoxFit.contain,
+                      height: screenHeight * 0.35,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+          // Bottom spacing
+          const SizedBox(height: 30),
         ],
       ),
     );

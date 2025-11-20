@@ -43,13 +43,21 @@ dependencies:
   intl: ^0.20.2
   flip_card: ^0.7.0
   swipe_cards: ^2.0.0+1
-  keyboard_attachable: ^2.2.0
 
   # API & HTTP
   dio: ^5.4.0+1
 
   # JSON Serialization
   json_annotation: ^4.9.0
+  riverpod_annotation: ^3.0.3
+  flutter_secure_storage: ^9.2.2
+  http: ^1.6.0
+  flutter_svg: ^2.2.2
+  lottie: ^3.3.2
+  fluttertoast: ^9.0.0
+  google_fonts: ^6.3.2
+  signals: ^6.2.0
+  signals_flutter: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +73,9 @@ dev_dependencies:
   # JSON Serialization Code Generation
   build_runner: ^2.7.1
   json_serializable: ^6.11.1
+  riverpod_generator: ^3.0.3
+  custom_lint: ^0.8.0
+  riverpod_lint: ^3.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,104 +90,24 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/buddyLogoTitle.png
-     - assets/backArrowWhite.png
-     - assets/backArrow.png
-     - assets/greenSplash.png
-     - assets/blueStars.png
-     - assets/commPeeps.png
-     - assets/ladderClimber.png
-     - assets/purpStar.png
-     - assets/purpStars.png
-     - assets/yellowStar.png
-     - assets/login_screen/welcomescreen.png
-     - assets/login_screen/arrow.png
-     - assets/login_screen/loginOptions.png
-     - assets/login_screen/google.png
-     - assets/login_screen/apple.png
-     - assets/login_screen/error.png
-     - assets/onboarding/step_1.png
-     - assets/onboarding/step_2.png
-     - assets/onboarding/step_3.png
-     - assets/onboarding/step_4.png
-     - assets/onboarding/male.png
-     - assets/onboarding/female.png
-     - assets/onboarding/others.png
-     - assets/onboarding/prefernot.png
-     - assets/onboarding/avatar_1.png
-     - assets/onboarding/avatar_2.png
-     - assets/onboarding/avatar_3.png
-     - assets/onboarding/avatar_4.png
-     - assets/onboarding/avatar_5.png
-     - assets/onboarding/gallery.png
-     - assets/onboarding/camera.png
-     - assets/interests/sports.png
-     - assets/interests/adventure.png
-     - assets/interests/art.png
-     - assets/interests/books.png
-     - assets/interests/entertainment.png
-     - assets/interests/fashion.png
-     - assets/interests/food.png
-     - assets/interests/gaming.png
-     - assets/interests/health.png
-     - assets/interests/music.png
-     - assets/interests/tech.png
-     - assets/interests/travel.png
-     - assets/homepage/profilePic.png
-     - assets/homepage/homeNav.png
-     - assets/homepage/commNav.png
-     - assets/homepage/messageNav.png
-     - assets/homepage/eventNav.png
-     - assets/homepage/notifIcon.png
-     - assets/homepage/profileCompletionBG.png
-     - assets/homepage/walletIcon.png
-     - assets/homepage/locIcon.png
-     - assets/homepage/nudgeIcon.png
-     - assets/wallet/walletGraphic.png
-     - assets/wallet/pinkTransIcon.png
-     - assets/wallet/blueTransIcon.png
-     - assets/wallet/whiteTransIcon.png
-     - assets/wallet/coin.png
-     - assets/events/blueTicket.png
-     - assets/events/greenTicket.png
-     - assets/events/yellowTicket.png
-     - assets/events/purpleTicket.png
-     - assets/events/pinkTicket.png
-     - assets/events/greyTicket.png
-     - assets/events/eventPic.png
-     - assets/events/locPin.png
-     - assets/events/calPin.png
-     - assets/events/timePin.png
-     - assets/events/seatsPin.png
-     - assets/events/eventPic2.png
-     - assets/community/yellowCalPin.png
-     - assets/community/yellowLocPin.png
-     - assets/community/tick.png
-     - assets/community/blueGraphic.png
-     - assets/community/buyEventBG.png
-     - assets/community/upload.png
-     - assets/community/cross.png
-     - assets/community/redeye.png
-     - assets/community/alert.png
-     - assets/community/pinkCal.png
-     - assets/community/pinkTime.png
-     - assets/nudges/card.png
-     - assets/nudges/locPin.png
-     - assets/nudges/timePin.png
-     - assets/nudges/starPin.png
-     - assets/nudges/peoplePin.png
-     - assets/nudges/calPin.png
-     - assets/nudges/requestors.png
-     - assets/nudges/dummyRequestor.png
-     - assets/nudges/tick.png
-     - assets/nudges/cross.png
-     - assets/nudges/locWOBG.png
-     - assets/nudges/timeWOBG.png
-     - assets/nudges/calWOBG.png
-     - assets/nudges/blackLoc.png
-     - assets/nudges/blackCal.png
-     - assets/nudges/blackTime.png
-     - assets/genderPrefBG.png
+     # Welcome screen assets (SVG)
+     - assets/welcome/
+     # Icons (SVG)
+     - assets/icons/
+     # Onboarding assets (SVG)
+     - assets/onboarding/
+     # Common assets
+     - assets/
+     - assets/common/
+     - assets/login_screen/
+     - assets/welcome/
+     - assets/homepage/
+     - assets/events/
+     - assets/community/
+     - assets/nudges/
+     - assets/wallet/
+     - assets/interests/
+
 
 
 

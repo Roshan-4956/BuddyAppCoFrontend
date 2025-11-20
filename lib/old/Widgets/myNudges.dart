@@ -161,10 +161,7 @@ class MyNudgesPage extends StatelessWidget {
                                         ),
                                         child: Row(
                                           children: [
-                                            Image.asset(
-                                              nudge.pic,
-                                              scale: 4,
-                                            ),
+                                            Image.asset(nudge.pic, scale: 4),
                                             SizedBox(width: 6),
                                             Column(
                                               crossAxisAlignment:
@@ -276,14 +273,18 @@ class MyNudgesPage extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Image.asset(
-                                                                nudge.interests[index].iconAsset,
+                                                                nudge
+                                                                    .interests[index]
+                                                                    .iconAsset,
                                                                 scale: 4,
                                                               ),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
                                                               Text(
-                                                                nudge.interests[index].name,
+                                                                nudge
+                                                                    .interests[index]
+                                                                    .name,
                                                                 style: TextStyle(
                                                                   fontFamily:
                                                                       "Rethink Sans",
@@ -458,10 +459,7 @@ class MyNudgesPage extends StatelessWidget {
                                         ),
                                         child: Row(
                                           children: [
-                                            Image.asset(
-                                              nudge.pic,
-                                              scale: 4,
-                                            ),
+                                            Image.asset(nudge.pic, scale: 4),
                                             SizedBox(width: 6),
                                             Column(
                                               crossAxisAlignment:
@@ -573,14 +571,18 @@ class MyNudgesPage extends StatelessWidget {
                                                           child: Row(
                                                             children: [
                                                               Image.asset(
-                                                                nudge.interests[index].iconAsset,
+                                                                nudge
+                                                                    .interests[index]
+                                                                    .iconAsset,
                                                                 scale: 4,
                                                               ),
                                                               SizedBox(
                                                                 width: 5,
                                                               ),
                                                               Text(
-                                                                nudge.interests[index].name,
+                                                                nudge
+                                                                    .interests[index]
+                                                                    .name,
                                                                 style: TextStyle(
                                                                   fontFamily:
                                                                       "Rethink Sans",
