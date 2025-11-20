@@ -28,20 +28,20 @@ class LoginOptionsScreen extends ConsumerWidget {
           children: [
             // Buddy Logo
             Positioned(
-              top: 80,
+              top: screenHeight * 0.1,
               left: 0,
               right: 0,
               child: Center(
                 child: SvgPicture.asset(
                   Assets.buddyIconWithText,
-                  height: 40, // Adjust based on actual asset size
+                  height: 40, // Keep aspect ratio
                 ),
               ),
             ),
 
             // Back Arrow
             Positioned(
-              top: 60,
+              top: screenHeight * 0.07,
               left: 20,
               child: GestureDetector(
                 onTap: () => context.pop(),
@@ -187,24 +187,26 @@ class LoginOptionsScreen extends ConsumerWidget {
 
                   // Illustration 1 (Luggage - Left)
                   Positioned(
-                    top: -280,
-                    left: -40, // Adjust to peek out from left
-                    child: SvgPicture.asset(
-                      Assets.loginIllustration1,
-                      height: 370, // Approximate height from aspect ratio
-                      fit: BoxFit.contain,
+                    top: 0,
+                    left: -20, // Slight negative margin relative to card
+                    child: FractionalTranslation(
+                      translation: const Offset(0, -0.75), // Move up by 75% of its height
+                      child: SvgPicture.asset(
+                        Assets.loginIllustration1,
+                        width: screenWidth * 0.45, // Relative width
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
 
                   // Illustration 2 (Character - Right)
-                  // Character sits on top of the pink box with bottom touching the card top
                   Positioned(
-                    top:
-                        0, // Adjusted for reduced top padding (205 - 14 = 191)
-                    right: 10, // Slightly offset to the right
+                    top: 0, // Align top of image with top of card
+                    right: 10,
                     child: SvgPicture.asset(
                       Assets.loginIllustration2,
-                      // Use intrinsic size (212x205)
+                      width: screenWidth * 0.35, // Relative width
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ],
