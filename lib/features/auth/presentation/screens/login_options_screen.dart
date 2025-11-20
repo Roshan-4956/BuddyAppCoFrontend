@@ -34,7 +34,7 @@ class LoginOptionsScreen extends ConsumerWidget {
               child: Center(
                 child: SvgPicture.asset(
                   Assets.buddyIconWithText,
-                  height: 40, // Keep aspect ratio
+                  height: screenHeight * 0.05, // Responsive height
                 ),
               ),
             ),
@@ -68,8 +68,6 @@ class LoginOptionsScreen extends ConsumerWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: Container(
-                        // Fixed height removed to prevent overflow on smaller screens or larger fonts
-                        // height: 325, 
                         decoration: BoxDecoration(
                           color: AppColors.primaryPink,
                           borderRadius: BorderRadius.circular(24),
@@ -81,104 +79,106 @@ class LoginOptionsScreen extends ConsumerWidget {
                             24,
                             20,
                           ), // Top padding for overlap, reduced for content fit
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // Title
-                              Text(
-                                'Sign in',
-                                style: AppTextStyles.headlineMedium.copyWith(
-                                  color: AppColors.textPrimary,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // Title
+                                Text(
+                                  'Sign in',
+                                  style: AppTextStyles.headlineMedium.copyWith(
+                                    color: AppColors.textPrimary,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 16),
-
-                              // Continue with phone button
-                              SizedBox(
-                                width: double.infinity,
-                                child: CustomButton(
-                                  text: 'Continue with Phone',
-                                  onPressed: () => context.goNamed(
-                                    AppRouter.loginPhone.name,
+                                const SizedBox(height: 16),
+  
+                                // Continue with phone button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: CustomButton(
+                                    text: 'Continue with Phone',
+                                    onPressed: () => context.goNamed(
+                                      AppRouter.loginPhone.name,
+                                    ),
+                                    backgroundColor: AppColors.primaryDark,
+                                    textColor: AppColors.primaryPink,
+                                    height: 55,
                                   ),
-                                  backgroundColor: AppColors.primaryDark,
-                                  textColor: AppColors.primaryPink,
-                                  height: 55,
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-
-                              // Continue with email button
-                              SizedBox(
-                                width: double.infinity,
-                                child: CustomButton(
-                                  text: 'Continue with Email',
-                                  onPressed: () => context.goNamed(
-                                    AppRouter.loginEmail.name,
+                                const SizedBox(height: 10),
+  
+                                // Continue with email button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: CustomButton(
+                                    text: 'Continue with Email',
+                                    onPressed: () => context.goNamed(
+                                      AppRouter.loginEmail.name,
+                                    ),
+                                    isOutlined: false,
+                                    backgroundColor: Colors.white,
+                                    textColor: AppColors.textPrimary,
+                                    height: 55,
                                   ),
-                                  isOutlined: false,
-                                  backgroundColor: Colors.white,
-                                  textColor: AppColors.textPrimary,
-                                  height: 55,
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-
-                              // Social login buttons
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: SocialLoginButton(
-                                      assetPath: Assets.loginApple,
-                                      onPressed: () {
-                                        // TODO: Implement Apple sign in
-                                        context.go('/greenSplash');
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: SocialLoginButton(
-                                      assetPath: Assets.loginGoogle,
-                                      onPressed: () {
-                                        // TODO: Implement Google sign in
-                                        context.go('/greenSplash');
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-
-                              // Footer Text
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigate to login flow if different
-                                },
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: const TextStyle(
-                                      fontFamily: 'Rethink Sans',
-                                      fontSize: 12,
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    children: const [
-                                      TextSpan(text: 'Already a user ? '),
-                                      TextSpan(
-                                        text: 'Log In',
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
+                                const SizedBox(height: 10),
+  
+                                // Social login buttons
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: SocialLoginButton(
+                                        assetPath: Assets.loginApple,
+                                        onPressed: () {
+                                          // TODO: Implement Apple sign in
+                                          context.go('/greenSplash');
+                                        },
                                       ),
-                                    ],
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: SocialLoginButton(
+                                        assetPath: Assets.loginGoogle,
+                                        onPressed: () {
+                                          // TODO: Implement Google sign in
+                                          context.go('/greenSplash');
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+  
+                                // Footer Text
+                                GestureDetector(
+                                  onTap: () {
+                                    // Navigate to login flow if different
+                                  },
+                                  child: RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
+                                        fontFamily: 'Rethink Sans',
+                                        fontSize: 12,
+                                        color: AppColors.textPrimary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      children: const [
+                                        TextSpan(text: 'Already a user ? '),
+                                        TextSpan(
+                                          text: 'Log In',
+                                          style: TextStyle(
+                                            decoration: TextDecoration.underline,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
