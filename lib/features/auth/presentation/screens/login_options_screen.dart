@@ -31,13 +31,15 @@ class LoginOptionsScreen extends ConsumerWidget {
               top: screenHeight * 0.1,
               left: 0,
               right: 0,
-              child: Center(
-                child: SvgPicture.asset(
-                  Assets.buddyIconWithText,
-                  height: screenHeight * 0.05, // Responsive height
-                ),
-              ),
-            ),
+                          child: Center(
+                            child: Hero(
+                              tag: 'buddy-logo',
+                              child: SvgPicture.asset(
+                                Assets.buddyIconWithText,
+                                height: screenHeight * 0.05, // Responsive height
+                              ),
+                            ),
+                          ),            ),
 
             // Back Arrow
             Positioned(
@@ -94,7 +96,7 @@ class LoginOptionsScreen extends ConsumerWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-  
+
                                 // Continue with phone button
                                 SizedBox(
                                   width: double.infinity,
@@ -109,7 +111,7 @@ class LoginOptionsScreen extends ConsumerWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-  
+
                                 // Continue with email button
                                 SizedBox(
                                   width: double.infinity,
@@ -125,7 +127,7 @@ class LoginOptionsScreen extends ConsumerWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-  
+
                                 // Social login buttons
                                 Row(
                                   children: [
@@ -151,7 +153,7 @@ class LoginOptionsScreen extends ConsumerWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 12),
-  
+
                                 // Footer Text
                                 GestureDetector(
                                   onTap: () {
@@ -170,7 +172,8 @@ class LoginOptionsScreen extends ConsumerWidget {
                                         TextSpan(
                                           text: 'Log In',
                                           style: TextStyle(
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ],
@@ -190,10 +193,13 @@ class LoginOptionsScreen extends ConsumerWidget {
                     top: 0,
                     left: -20, // Slight negative margin relative to card
                     child: FractionalTranslation(
-                      translation: const Offset(0, -0.75), // Move up by 75% of its height
+                      translation: const Offset(
+                        0,
+                        -0.75,
+                      ), // Move up by 75% of its height
                       child: SvgPicture.asset(
                         Assets.loginIllustration1,
-                        width: screenWidth * 0.45, // Relative width
+                        width: screenWidth * 0.60, // Relative width
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -201,11 +207,11 @@ class LoginOptionsScreen extends ConsumerWidget {
 
                   // Illustration 2 (Character - Right)
                   Positioned(
-                    top: 0, // Align top of image with top of card
+                    top: -212, // Align top of image with top of card
                     right: 10,
                     child: SvgPicture.asset(
                       Assets.loginIllustration2,
-                      width: screenWidth * 0.35, // Relative width
+                      width: screenWidth * 0.50, // Relative width
                       fit: BoxFit.contain,
                     ),
                   ),
