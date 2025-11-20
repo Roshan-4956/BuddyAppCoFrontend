@@ -42,8 +42,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 tag: 'buddy-logo',
                 child: SvgPicture.asset(
                   Assets.buddyIconWithText,
-                  width: 143.4,
-                  height: 40.6,
+                  height: screenHeight * 0.05, // Responsive height
                   fit: BoxFit.contain,
                 ),
               ),
