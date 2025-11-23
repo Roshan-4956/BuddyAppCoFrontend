@@ -44,7 +44,7 @@ final class AuthNotifierProvider
   }
 }
 
-String _$authNotifierHash() => r'125691c3794643d61490e9c5d6591c1eb8646549';
+String _$authNotifierHash() => r'7b9955deb46c4ee7257da02d6dd483ae959a14c9';
 
 /// Auth state notifier - Manages the global authentication state
 

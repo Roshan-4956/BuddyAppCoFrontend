@@ -1,18 +1,16 @@
+import 'package:buddy_app/features/onboarding/presentation/widgets/onboarding_template.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/widgets/custom_button.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../theme/app_colors.dart';
-import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
 import '../../../../utils/constants/assets.dart';
-import '../../application/repositories/static_repo.dart';
 import '../../application/repositories/submit_step_repo.dart';
 
-/// Onboarding Step 4: Interests Selection
-/// Collects: 3-10 interest selections
+/// Onboarding Step 4: Profile Photo
+/// Collects: Profile photo (base64 encoded)
 class OnboardingStep4Screen extends ConsumerStatefulWidget {
   const OnboardingStep4Screen({super.key});
 
@@ -22,311 +20,279 @@ class OnboardingStep4Screen extends ConsumerStatefulWidget {
 }
 
 class _OnboardingStep4ScreenState extends ConsumerState<OnboardingStep4Screen> {
-  final Set<int> _selectedInterestIds = {};
+  String? _selectedImagePath;
+  int _selectedAvatarIndex = 0;
   bool _isLoading = false;
 
-  void _toggleInterest(int interestId) {
+  // List of avatar assets
+  final List<String> _avatarAssets = [
+    Assets.onboardingAvatar1,
+    Assets.onboardingAvatar2,
+    Assets.onboardingAvatar3,
+    Assets.onboardingAvatar4,
+    Assets.onboardingAvatar5,
+  ];
+
+  void _simulateCameraCapture() {
+    // In a real app, this would use image_picker to capture from camera
     setState(() {
-      if (_selectedInterestIds.contains(interestId)) {
-        _selectedInterestIds.remove(interestId);
-      } else {
-        if (_selectedInterestIds.length < 10) {
-          _selectedInterestIds.add(interestId);
-        }
-      }
+      _selectedImagePath = 'camera_photo';
     });
   }
 
-  void _handleContinue() async {
-    if (_selectedInterestIds.length < 3) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select at least 3 interests')),
-      );
+  void _simulateGalleryPick() {
+    // In a real app, this would use image_picker to pick from gallery
+    setState(() {
+      _selectedImagePath = 'gallery_photo';
+    });
+  }
+
+  String _createMockBase64Image() {
+    // Create a mock base64 string for demo purposes
+    // In production, this would be the actual image bytes
+    final mockImageData =
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    return 'data:image/png;base64,$mockImageData';
+  }
+
+  void _handleNext() async {
+    if (_selectedImagePath == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Please select or take a photo')));
       return;
     }
 
     setState(() => _isLoading = true);
 
-    final repo = ref.read(submitStepRepoProvider);
-    repo.requestParams.setStepData(4, {
-      'interest_ids': _selectedInterestIds.toList(),
-    });
+    try {
+      final base64Image = _createMockBase64Image();
 
-    await repo.execute();
+      final repo = ref.read(submitStepRepoProvider);
+      repo.requestParams.setStepData(4, {'profile_photo': base64Image});
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+      await repo.execute();
 
-    if (repo.state == APIState.success) {
-      // Check if onboarding is complete
-      final response = repo.latestValidResult;
-      if (response != null) {
-        // Navigate to home
-        context.go('/home');
-      }
-    } else if (repo.state.hasError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            repo.state.hasInternetError
-                ? 'Network error. Please check your connection.'
-                : 'Failed to submit. Please try again.',
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+
+      if (repo.state == APIState.success) {
+        // Navigate to next step
+        context.goNamed(AppRouter.step5.name);
+      } else if (repo.state.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              repo.state.hasInternetError
+                  ? 'Network error. Please check your connection.'
+                  : 'Failed to submit. Please try again.',
+            ),
           ),
-        ),
-      );
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error processing image: $e')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final interestsRepo = ref.watch(interestsRepoProvider);
-
-    return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
-      body: Stack(
+    return OnboardingTemplate(
+      currentStep: 4,
+      totalSteps: 4,
+      title: 'Almost There',
+      subtitle: "We're an inclusive community and\\neveryone is welcome!",
+      onNext: _handleNext,
+      isNextLoading: _isLoading,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Background light blue filled circle
-          Positioned(
-            top: -200,
-            right: -150,
-            child: SvgPicture.asset(
-              Assets.onboardingStep2BackgroundCircleBlue,
-              width: 700,
-              height: 700,
-              fit: BoxFit.contain,
+          const SizedBox(height: 10),
+          Text(
+            'Add your profile picture so\\npeople can find you',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'Rethink Sans',
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
             ),
           ),
-          // Main content
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 50),
-                  // Back button
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: SvgPicture.asset(
-                        Assets.onboardingBackArrow,
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ),
-                  // Buddy logo
-                  SvgPicture.asset(
-                    Assets.buddyIconWithText,
-                    width: 40,
-                    height: 40,
-                  ),
-                  SizedBox(height: 24),
-                  // Title
-                  Text(
-                    'Select your interests',
-                    style: AppTextStyles.headlineMedium.copyWith(
-                      color: AppColors.primaryDark,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  // Subtitle
-                  Text(
-                    'Pick up to 3 things you love most',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textTertiary,
-                    ),
-                  ),
-                  SizedBox(height: 24),
-                  // Progress indicators
-                  Row(
-                    children: [
-                      _buildProgressBar(true),
-                      SizedBox(width: 12),
-                      _buildProgressBar(true),
-                      SizedBox(width: 12),
-                      _buildProgressBar(true),
-                      SizedBox(width: 12),
-                      _buildProgressBar(true),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  // Interests list
-                  interestsRepo.latestValidResult != null
-                      ? _buildInterestsList(
-                          interestsRepo.latestValidResult!.interests,
-                        )
-                      : Padding(
-                          padding: EdgeInsets.symmetric(vertical: 40),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                  SizedBox(height: 24),
-                  // Selection counter
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: _selectedInterestIds.length >= 3
-                          ? Color(0xFFE8F5E9)
-                          : Color(0xFFFFEBEE),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: _selectedInterestIds.length >= 3
-                            ? Color(0xFF4CAF50)
-                            : AppColors.error,
-                        width: 1,
-                      ),
-                    ),
-                    child: Text(
-                      _selectedInterestIds.length >= 3
-                          ? '${_selectedInterestIds.length} interests selected'
-                          : 'Select at least ${3 - _selectedInterestIds.length} more interest${3 - _selectedInterestIds.length != 1 ? 's' : ''}',
-                      style: AppTextStyles.labelSmall.copyWith(
-                        color: _selectedInterestIds.length >= 3
-                            ? Color(0xFF2E7D32)
-                            : AppColors.error,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 24),
-                  // Continue button
-                  CustomButton(
-                    text: 'Continue',
-                    onPressed: _handleContinue,
-                    isLoading: _isLoading,
-                    backgroundColor: AppColors.primaryDark,
-                    textColor: AppColors.primaryPink,
-                    width: double.infinity,
-                  ),
-                  SizedBox(height: 12),
-                  // Error message if not enough interests
-                  if (_selectedInterestIds.length < 3)
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        'You must select at least 3 interests',
-                        style: AppTextStyles.error,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  SizedBox(height: 20),
-                ],
-              ),
+          const SizedBox(height: 20),
+          // Avatar circle display
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              shape: BoxShape.circle,
             ),
+            child: Center(
+              child: _selectedImagePath != null
+                  ? Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFEF6D1),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.primaryYellow,
+                          width: 2,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.person,
+                        size: 80,
+                        color: AppColors.primaryYellow,
+                      ),
+                    )
+                  : Image.asset(
+                      _avatarAssets[_selectedAvatarIndex],
+                      fit: BoxFit.fitWidth,
+                      errorBuilder: (_, __, ___) => Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFEF6D1),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.primaryYellow,
+                            width: 2,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          size: 80,
+                          color: AppColors.primaryYellow,
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Avatar selector
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(5, (i) {
+              return Padding(
+                padding: EdgeInsets.only(right: i == 4 ? 0 : 8),
+                child: GestureDetector(
+                  onTap: () => setState(() {
+                    _selectedAvatarIndex = i;
+                    _selectedImagePath = null;
+                  }),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: _selectedAvatarIndex == i
+                            ? Color(0xFFFFB9FF)
+                            : Colors.transparent,
+                        width: 2,
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        _avatarAssets[i],
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) =>
+                            Icon(Icons.person, size: 20, color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+          const SizedBox(height: 20),
+          // Buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // Gallery button
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _simulateGalleryPick,
+                  icon: Image.asset(
+                    Assets.onboardingGallery,
+                    scale: 4,
+                    errorBuilder: (_, __, ___) =>
+                        Icon(Icons.photo_library, size: 20),
+                  ),
+                  label: Text(
+                    'Select from device',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 10,
+                      fontFamily: 'Rethink Sans',
+                      color: Color(0xFF1E1E1E),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    ),
+                    backgroundColor: WidgetStateProperty.all(Color(0x4DFFB9FF)),
+                    side: WidgetStateProperty.all(
+                      BorderSide(color: Color(0xFFFFB9FF), width: 1.5),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              // Camera button
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _simulateCameraCapture,
+                  icon: Image.asset(
+                    Assets.onboardingCamera,
+                    scale: 4,
+                    errorBuilder: (_, __, ___) =>
+                        Icon(Icons.camera_alt, size: 20),
+                  ),
+                  label: Text(
+                    'Take photo',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 10,
+                      fontFamily: 'Rethink Sans',
+                      color: Color(0xFF1E1E1E),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    ),
+                    backgroundColor: WidgetStateProperty.all(Color(0x4DFFB9FF)),
+                    side: WidgetStateProperty.all(
+                      BorderSide(color: Color(0xFFFFB9FF), width: 1.5),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
-  }
-
-  Widget _buildProgressBar(bool isActive) {
-    return Expanded(
-      child: Container(
-        height: 4,
-        decoration: BoxDecoration(
-          color: isActive ? Color(0xFF505050) : Color(0x73505050),
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInterestsList(List interests) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 12,
-      children: interests.map((interest) {
-        final isSelected = _selectedInterestIds.contains(interest.interestId);
-        final isDisabled = _selectedInterestIds.length >= 10 && !isSelected;
-
-        return GestureDetector(
-          onTap: isDisabled ? null : () => _toggleInterest(interest.interestId),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? AppColors.primaryBlue.withValues(alpha: 0.2)
-                  : AppColors.primaryPink.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isSelected
-                    ? AppColors.primaryBlue
-                    : AppColors.borderLight,
-                width: isSelected ? 2 : 1,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (interest.iconUrl != null)
-                  Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.backgroundLight,
-                      ),
-                      child: Center(
-                        child: Text(
-                          _getEmojiForInterest(interest.name),
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ),
-                Text(
-                  interest.name,
-                  style: AppTextStyles.labelMedium.copyWith(
-                    color: isDisabled
-                        ? AppColors.textTertiary
-                        : AppColors.primaryDark,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                if (isSelected)
-                  Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Icon(
-                      Icons.check_circle,
-                      size: 16,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  String _getEmojiForInterest(String interestName) {
-    final emojiMap = {
-      'Technology': '💻',
-      'Sports': '⚽',
-      'Travel': '✈️',
-      'Music': '🎵',
-      'Art': '🎨',
-      'Reading': '📚',
-      'Gaming': '🎮',
-      'Cooking': '🍳',
-      'Photography': '📸',
-      'Fashion': '👗',
-      'Books & Literature': '📖',
-      'Food & Culinary Arts': '🍽️',
-      'Health & Wellness': '💪',
-      'Adventure & Outdoor': '🏔️',
-      'Pop Culture & Entertainment': '🎭',
-    };
-
-    for (final key in emojiMap.keys) {
-      if (interestName.toLowerCase().contains(key.toLowerCase())) {
-        return emojiMap[key]!;
-      }
-    }
-
-    return '✨';
   }
 }

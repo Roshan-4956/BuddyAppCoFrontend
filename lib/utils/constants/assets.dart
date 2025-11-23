@@ -66,6 +66,14 @@ class Assets {
   // ONBOARDING
   // ==========================================================================
 
+  /// Filler screen - Background Blobs
+  static const String fillerBlob1 = '${_assets}onboarding_filler/filler_blob_1.svg';
+  static const String fillerBlob2 = '${_assets}onboarding_filler/filler_blob_2.svg';
+  static const String fillerBlob3 = '${_assets}onboarding_filler/filler_blob_3.svg';
+
+  /// Filler screen - Star (Reusable)
+  static const String fillerStar = '${_assets}onboarding_filler/filler_star.svg';
+
   /// Filler screen - Circle outlines for background
   static const String onboardingCircleOutline1 =
       '${_assets}onboarding/circle_outline_1.svg';

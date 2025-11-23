@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../common/widgets/buddy_app_bar.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_text_field.dart';
 import '../../../../common/widgets/error_message.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
-import '../../../../utils/constants/assets.dart';
 import '../../../../routing/app_router.dart';
 import '../../application/providers/auth_providers.dart';
 import '../state/auth_form_signals.dart';
+import '../../../../utils/logger.dart';
 
 /// Account creation / Register screen with email and password
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -53,8 +53,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (!mounted) return;
 
       if (response != null) {
+        debugLog(
+          DebugTags.auth,
+          'Registration Success. Response: onboardingRequired=${response.onboardingRequired}',
+        );
+        // Router will automatically redirect based on auth state
         if (response.onboardingRequired) {
-          context.goNamed(AppRouter.onboardingStep1.name);
+          context.goNamed(AppRouter.onboardingFiller.name);
         } else {
           context.goNamed(AppRouter.home.name);
         }
@@ -78,34 +83,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      appBar: AppBar(
-        centerTitle: true,
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SvgPicture.asset(
-              Assets.iconBackArrow,
-              width: 18,
-              height: 18,
-              colorFilter: ColorFilter.mode(
-                AppColors.textNeutral60,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ),
-        title: SvgPicture.asset(
-          Assets.buddyIconWithText,
-          height: 40,
-          colorFilter: ColorFilter.mode(
-            theme.brightness == Brightness.light
-                ? AppColors.textPrimary
-                : AppColors.textOnDark,
-            BlendMode.srcIn,
-          ),
-        ),
-      ),
+      appBar: const BuddyAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

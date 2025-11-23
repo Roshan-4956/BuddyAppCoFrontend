@@ -58,6 +58,7 @@ dependencies:
   google_fonts: ^6.3.2
   signals: ^6.2.0
   signals_flutter: ^6.2.0
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,7 @@ flutter:
      - assets/icons/
      # Onboarding assets (SVG)
      - assets/onboarding/
+     - assets/onboarding_filler/
      # Common assets
      - assets/
      - assets/common/

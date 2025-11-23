@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_text_field.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
-import '../../../../utils/constants/assets.dart';
 import '../../application/repositories/static_repo.dart';
 import '../../application/repositories/submit_step_repo.dart';
+import '../widgets/onboarding_template.dart';
 
 /// Onboarding Step 1: Basic Information
 /// Collects: Full Name, DOB, State, City, Address
@@ -31,6 +30,14 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
   int? _selectedStateId;
   int? _selectedCityId;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(statesRepoProvider).execute();
+    });
+  }
 
   @override
   void dispose() {
@@ -121,7 +128,7 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
 
     if (repo.state == APIState.success) {
       // Navigate to next step
-      context.go('/onboarding/step2');
+      context.goNamed(AppRouter.step2.name);
     } else if (repo.state.hasError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -140,190 +147,116 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
     final statesRepo = ref.watch(statesRepoProvider);
     final citiesRepo = ref.watch(citiesRepoProvider(stateId: _selectedStateId));
 
-    return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
-      body: Stack(
+    return OnboardingTemplate(
+      currentStep: 1,
+      totalSteps: 4,
+      title: "Let's get to know you :)",
+      subtitle: "Just a few basics and we'll set things\nup for you",
+      onNext: _handleNext,
+      isNextLoading: _isLoading,
+      showBackButton:
+          false, // First step usually doesn't have back in this flow context
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Background purple filled circle
-          Positioned(
-            top: -200,
-            right: -150,
-            child: SvgPicture.asset(
-              Assets.onboardingStep1BackgroundCirclePurple,
-              width: 700,
-              height: 700,
-              fit: BoxFit.contain,
-            ),
+          // Full Name
+          CustomTextField(
+            controller: _nameController,
+            label: 'Full Name',
+            hintText: 'First and last name',
           ),
-          // Main content
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  // Back button
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: SvgPicture.asset(
-                        Assets.onboardingBackArrow,
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ),
-                  // Title
-                  Text(
-                    "Let's get to know you",
-                    style: AppTextStyles.displayMedium.copyWith(
-                      color: AppColors.primaryDark,
-                      fontSize: 28,
-                      height: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // Subtitle
-                  Text(
-                    "Fill in the basics and we'll get you set up",
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textTertiary,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  // Progress indicators
-                  Row(
-                    children: [
-                      _buildProgressBar(true),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(false),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(false),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(false),
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  // Form container
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0x0F000000),
-                          blurRadius: 12,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Full Name
-                        CustomTextField(
-                          controller: _nameController,
-                          label: 'Full Name',
-                          hintText: 'First and last name',
-                        ),
-                        const SizedBox(height: 16),
-                        // DOB with Calendar
-                        Row(
-                          children: [
-                            Expanded(
-                              child: CustomTextField(
-                                controller: _dobController,
-                                label: 'Date of Birth',
-                                hintText: 'dd/mm/yyyy',
-                                readOnly: true,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            GestureDetector(
-                              onTap: () => _selectDate(context),
-                              child: Container(
-                                width: 56,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryBlue,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.white,
-                                    size: 24,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        // State dropdown
-                        _buildStateDropdown(statesRepo),
-                        const SizedBox(height: 20),
-                        // City dropdown (only show if state selected)
-                        if (_selectedStateId != null)
-                          _buildCityDropdown(citiesRepo)
-                        else
-                          _buildDisabledCityDropdown(),
-                        const SizedBox(height: 20),
-                        // Address
-                        CustomTextField(
-                          controller: _addressController,
-                          label: 'Address',
-                          hintText: 'Enter your full address',
-                          maxLines: 2,
-                        ),
-                        const SizedBox(height: 28),
-                        // Next button
-                        SizedBox(
-                          width: double.infinity,
-                          child: CustomButton(
-                            text: 'Next',
-                            onPressed: _handleNext,
-                            isLoading: _isLoading,
-                            backgroundColor: AppColors.primaryDark,
-                            textColor: AppColors.primaryPink,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
+          const SizedBox(height: 16),
+          // DOB with Calendar
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  controller: _dobController,
+                  label: 'Date of Birth',
+                  hintText: 'dd/mm/yyyy',
+                  readOnly: true,
+                ),
               ),
-            ),
+              const SizedBox(width: 12),
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryBlue,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      Icons.calendar_today,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          // State dropdown
+          _buildStateDropdown(statesRepo),
+          const SizedBox(height: 20),
+          // City dropdown (only show if state selected)
+          if (_selectedStateId != null)
+            _buildCityDropdown(citiesRepo)
+          else
+            _buildDisabledCityDropdown(),
+          const SizedBox(height: 20),
+          // Address
+          CustomTextField(
+            controller: _addressController,
+            label: 'Address',
+            hintText: 'Enter your full address',
+            maxLines: 2,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildProgressBar(bool isActive) {
-    return Expanded(
-      child: Container(
-        height: 4,
-        decoration: BoxDecoration(
-          color: isActive ? Color(0xFF505050) : Color(0x73505050),
-          borderRadius: BorderRadius.circular(4),
-        ),
-      ),
-    );
-  }
-
   Widget _buildStateDropdown(dynamic statesRepo) {
+    if (statesRepo.state.hasError) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Failed to load states',
+              style: AppTextStyles.labelMedium.copyWith(color: AppColors.error),
+            ),
+            TextButton(
+              onPressed: () => statesRepo.execute(),
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size(50, 30),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                alignment: Alignment.centerLeft,
+              ),
+              child: Text(
+                'Retry',
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: AppColors.primaryBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final statesData = statesRepo.latestValidResult;
 
     if (statesData == null) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
-        child: CircularProgressIndicator(),
+        child: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -349,6 +282,13 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
           ),
           child: DropdownButton<int>(
             value: _selectedStateId,
+            icon: const Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.primaryDark,
+              ),
+            ),
             hint: Text(
               'Select from the dropdown',
               style: AppTextStyles.inputText,
@@ -356,7 +296,7 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
             isExpanded: true,
             underline: SizedBox(),
             items: states
-                .map(
+                .map<DropdownMenuItem<int>>(
                   (state) => DropdownMenuItem<int>(
                     value: state.stateId,
                     child: Padding(
@@ -371,6 +311,9 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
                 _selectedStateId = value;
                 _selectedCityId = null; // Reset city when state changes
               });
+              if (value != null) {
+                ref.read(citiesRepoProvider(stateId: value)).execute();
+              }
             },
           ),
         ),
@@ -379,12 +322,46 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
   }
 
   Widget _buildCityDropdown(dynamic citiesRepo) {
+    if (citiesRepo.state.hasError) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Failed to load cities',
+              style: AppTextStyles.labelMedium.copyWith(color: AppColors.error),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_selectedStateId != null) {
+                  citiesRepo.execute();
+                }
+              },
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size(50, 30),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                alignment: Alignment.centerLeft,
+              ),
+              child: Text(
+                'Retry',
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: AppColors.primaryBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final citiesData = citiesRepo.latestValidResult;
 
     if (citiesData == null) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 16),
-        child: CircularProgressIndicator(),
+        child: Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -410,6 +387,13 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
           ),
           child: DropdownButton<int>(
             value: _selectedCityId,
+            icon: const Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.primaryDark,
+              ),
+            ),
             hint: Text(
               'Select from the dropdown',
               style: AppTextStyles.inputText,
@@ -417,7 +401,7 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
             isExpanded: true,
             underline: SizedBox(),
             items: cities
-                .map(
+                .map<DropdownMenuItem<int>>(
                   (city) => DropdownMenuItem<int>(
                     value: city.cityId,
                     child: Padding(

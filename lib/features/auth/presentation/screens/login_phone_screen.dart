@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../common/widgets/buddy_app_bar.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/error_message.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
-import '../../../../routing/app_router.dart';
 import '../state/auth_form_signals.dart';
 
-/// Phone login screen with international phone number field
 class LoginPhoneScreen extends ConsumerStatefulWidget {
   const LoginPhoneScreen({super.key});
 
@@ -34,26 +32,7 @@ class _LoginPhoneScreenState extends ConsumerState<LoginPhoneScreen> {
     final showPhoneError = isPhoneDirty.watch(context) && phoneError != null;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Image.asset(
-          'assets/buddyLogoTitle.png',
-          scale: 4,
-          errorBuilder: (context, error, stackTrace) {
-            return Text('Buddy', style: AppTextStyles.headlineMedium);
-          },
-        ),
-        leading: GestureDetector(
-          onTap: () => context.goNamed(AppRouter.loginOptions.name),
-          child: Image.asset(
-            'assets/backArrow.png',
-            scale: 3,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(Icons.arrow_back);
-            },
-          ),
-        ),
-      ),
+      appBar: const BuddyAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -69,10 +48,8 @@ class _LoginPhoneScreenState extends ConsumerState<LoginPhoneScreen> {
                 ),
               ),
               SizedBox(height: 5),
-
               Text('Enter your phone number', style: AppTextStyles.bodyLarge),
               SizedBox(height: 50),
-
               IntlPhoneField(
                 cursorColor: theme.colorScheme.primary,
                 style: AppTextStyles.inputText.copyWith(
@@ -117,7 +94,6 @@ class _LoginPhoneScreenState extends ConsumerState<LoginPhoneScreen> {
                   isPhoneDirty.value = true;
                 },
               ),
-
               if (showPhoneError) ...[
                 const SizedBox(height: 6),
                 Align(
@@ -132,17 +108,16 @@ class _LoginPhoneScreenState extends ConsumerState<LoginPhoneScreen> {
                   ),
                 ),
               ],
-
               SizedBox(height: 30),
-
               CustomButton(
                 text: 'Send OTP',
                 onPressed: () {
                   if (validatePhoneForm()) {
-                    // Navigate to OTP screen (assuming route exists as before)
-                    context.go('/phoneOTP');
-                    // Note: This route /phoneOTP might not exist in my AppRouter definition from previous turns.
-                    // I should probably check AppRouter, but respecting the existing code's destination.
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('OTP functionality not yet implemented.'),
+                      ),
+                    );
                   }
                 },
                 width: mediaQuery.size.width - 30,

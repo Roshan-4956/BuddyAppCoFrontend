@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../common/widgets/buddy_app_bar_logo.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/social_login_button.dart';
 import '../../../../theme/app_colors.dart';
@@ -21,47 +22,29 @@ class LoginOptionsScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: Column(
-        children: [
-          // Header Section (Logo + Back Arrow)
-          SizedBox(
-            height: screenHeight * 0.15,
-            width: double.infinity,
-            child: Stack(
-              children: [
-                // Back Arrow
-                Positioned(
-                  top: screenHeight * 0.07,
-                  left: 20,
-                  child: GestureDetector(
-                    onTap: () => context.pop(),
-                    child: SvgPicture.asset(
-                      Assets.iconBackArrow,
-                      width: screenWidth * 0.06, // Responsive width
-                      height: screenWidth * 0.06, // Responsive height
-                    ),
-                  ),
-                ),
-
-                // Buddy Logo
-                Positioned(
-                  top: screenHeight * 0.1,
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: Hero(
-                      tag: 'buddy-logo',
-                      child: SvgPicture.asset(
-                        Assets.buddyIconWithText,
-                        height: screenHeight * 0.05, // Responsive height
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () => context.pop(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SvgPicture.asset(
+              Assets.iconBackArrow,
+              width: screenWidth * 0.06, // Responsive width
+              height: screenWidth * 0.06, // Responsive height
+              colorFilter: ColorFilter.mode(
+                AppColors.black,
+                BlendMode.srcIn,
+              ),
             ),
           ),
-
+        ),
+        title: const BuddyAppBarLogo(),
+      ),
+      body: Column(
+        children: [
           const Spacer(),
 
           // Bottom Section (Card + Illustrations)
@@ -109,8 +92,8 @@ class LoginOptionsScreen extends ConsumerWidget {
                                 width: double.infinity,
                                 child: CustomButton(
                                   text: 'Continue with Phone',
-                                  onPressed: () => context.goNamed(
-                                    AppRouter.loginPhone.name,
+                                  onPressed: () => context.pushNamed(
+                                    AppRouter.authPhone.name,
                                   ),
                                   backgroundColor: AppColors.primaryDark,
                                   textColor: AppColors.primaryPink,
@@ -124,8 +107,9 @@ class LoginOptionsScreen extends ConsumerWidget {
                                 width: double.infinity,
                                 child: CustomButton(
                                   text: 'Continue with Email',
-                                  onPressed: () => context.goNamed(
-                                    AppRouter.loginEmail.name,
+                                  onPressed: () => context.pushNamed(
+                                    AppRouter.authEmail.name,
+                                    queryParameters: {'type': 'login'},
                                   ),
                                   isOutlined: false,
                                   backgroundColor: Colors.white,
@@ -164,7 +148,10 @@ class LoginOptionsScreen extends ConsumerWidget {
                               // Footer Text
                               GestureDetector(
                                 onTap: () {
-                                  // Navigate to login flow if different
+                                  context.pushNamed(
+                                    AppRouter.authEmail.name,
+                                    queryParameters: {'type': 'signup'},
+                                  );
                                 },
                                 child: RichText(
                                   text: TextSpan(
@@ -175,9 +162,9 @@ class LoginOptionsScreen extends ConsumerWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                     children: const [
-                                      TextSpan(text: 'Already a user ? '),
+                                      TextSpan(text: 'Don\'t have an account? '),
                                       TextSpan(
-                                        text: 'Log In',
+                                        text: 'Sign Up',
                                         style: TextStyle(
                                           decoration: TextDecoration.underline,
                                         ),

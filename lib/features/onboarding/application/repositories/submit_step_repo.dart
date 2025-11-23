@@ -11,13 +11,8 @@ part 'submit_step_repo.g.dart';
 
 /// Parameters for POST /onboarding/step
 class SubmitStepParams extends SimpleParameters {
-  int? step;
-  Map<String, dynamic>? stepData;
-
   void setStepData(int stepNumber, Map<String, dynamic> data) {
-    step = stepNumber;
-    stepData = data;
-    body = {'step': stepNumber, 'data': data};
+    body = {'step_number': stepNumber, 'data': data};
   }
 }
 

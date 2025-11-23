@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../common/widgets/buddy_app_bar_logo.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/constants/assets.dart';
@@ -26,23 +27,14 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const BuddyAppBarLogo(),
+      ),
       body: Column(
         children: [
-          // Top spacing for logo
-          SizedBox(height: screenHeight * 0.1),
-
-          // Buddy logo
-          Center(
-            child: Hero(
-              tag: 'buddy-logo',
-              child: SvgPicture.asset(
-                Assets.buddyIconWithText,
-                height: screenHeight * 0.05, // Responsive height
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-
           const Spacer(),
 
           // Illustration and Pink Card Stack
@@ -112,9 +104,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   if (_acceptedTerms) {
-                                    context.pushNamed(
-                                      AppRouter.loginOptions.name,
-                                    );
+                                    context.pushNamed(AppRouter.authOptions.name);
                                   }
                                 },
                                 child: Container(
@@ -211,7 +201,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 Positioned(
                   bottom:
                       (screenHeight * 0.35) -
-                      20, // Sit on top of card with 20px overlap
+                      40, // Sit on top of card with 20px overlap
                   right: -16,
                   child: IgnorePointer(
                     child: SvgPicture.asset(

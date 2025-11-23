@@ -245,6 +245,23 @@ class AuthNotifier extends _$AuthNotifier {
     debugLog(DebugTags.auth, 'Resetting auth state.');
     state = AuthState.initial();
   }
+
+  /// Mark onboarding as complete
+  void markOnboardingComplete() {
+    debugLog(DebugTags.auth, 'Marking onboarding as complete.');
+    if (state.status == AuthStatus.authenticated && state.userId != null) {
+      state = AuthState.authenticated(
+        state.userId!,
+        onboardingRequired: false,
+      );
+      debugLog(DebugTags.auth, 'Onboarding marked as complete.');
+    } else {
+      errorLog(
+        DebugTags.auth,
+        'Cannot mark onboarding complete: User not authenticated.',
+      );
+    }
+  }
 }
 
 // ==============================================================================

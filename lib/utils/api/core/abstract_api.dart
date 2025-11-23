@@ -109,7 +109,7 @@ abstract class AbstractAPI<
   /// Parses the raw response into the result model type
   RESULT_MODEL parse(RESPONSE_TYPE response) {
     if (response is http.Response) {
-      // debugLog(debugTag, response.body);
+      debugLog(debugTag, 'Response Body: ${response.body}'); // Log response body
       return factory(response.body);
     } else {
       throw UnimplementedError(

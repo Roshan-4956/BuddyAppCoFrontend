@@ -1,23 +1,23 @@
 /// Model for individual interest item from GET /onboarding/interests
 class InterestModel {
-  final String interestId;
+  final int interestId;
   final String name;
   final String? iconUrl;
-  final String category;
+  final int iconId;
 
   InterestModel({
     required this.interestId,
     required this.name,
     this.iconUrl,
-    required this.category,
+    required this.iconId,
   });
 
   factory InterestModel.fromJson(Map<String, dynamic> json) {
     return InterestModel(
-      interestId: json['interest_id'] as String,
+      interestId: json['interest_id'] as int,
       name: json['name'] as String,
       iconUrl: json['icon_url'] as String?,
-      category: json['category'] as String,
+      iconId: json['icon_id'] as int? ?? 0,
     );
   }
 
@@ -26,7 +26,7 @@ class InterestModel {
       'interest_id': interestId,
       'name': name,
       'icon_url': iconUrl,
-      'category': category,
+      'icon_id': iconId,
     };
   }
 }

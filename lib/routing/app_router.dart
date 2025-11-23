@@ -1,6 +1,4 @@
-import 'package:buddy_app/features/auth/application/providers/auth_providers.dart';
 import 'package:flutter/material.dart';
-import 'package:buddy_app/features/example/presentation/api_call_1_screen.dart';
 import 'package:buddy_app/features/auth/presentation/screens/welcome_screen.dart';
 import 'package:buddy_app/features/auth/presentation/screens/login_options_screen.dart';
 import 'package:buddy_app/features/auth/presentation/screens/login_email_screen.dart';
@@ -12,254 +10,221 @@ import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_st
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step2_screen.dart';
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step3_screen.dart';
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step4_screen.dart';
+import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step5_screen.dart';
+import 'package:buddy_app/features/onboarding/presentation/screens/gender_preference_screen.dart';
 import 'package:buddy_app/utils/widgets/not_found_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'app_router_service.dart';
-import 'config/config_repo.dart';
+import 'package:buddy_app/utils/logging/go_router_observer.dart';
+import 'package:buddy_app/features/example/presentation/api_call_1_screen.dart';
+import 'router_notifier.dart';
 
 part 'app_router.g.dart';
 
 enum AppRouter {
+  welcome,
+  auth,
+  authOptions,
+  authEmail,
+  authPhone,
+  home,
+  onboardingFiller,
+  step1,
+  step2,
+  step3,
+  step4,
+  step5,
+  genderPreference,
+  noNetPage,
   someScreen,
   someScreen1,
-  noNetPage,
-  apiCall1Screen,
-  welcome,
-  loginOptions,
-  loginEmail,
-  loginPhone,
-  register,
-  home,
-  onboarding,
-  onboardingFiller,
-  onboardingStep1,
-  onboardingStep2,
-  onboardingStep3,
-  onboardingStep4,
 }
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
-  // Watch auth state for changes
-  final authState = ref.watch(authProvider);
+  final routerNotifier = ref.watch(routerNotifierProvider);
 
   return GoRouter(
-    initialLocation: '/${AppRouter.welcome.name}',
-    // Add refresh listner for auth state changes
-    refreshListenable: ValueNotifier(authState),
-    redirect: (context, state) {
-      // Using state.uri.path instead of state.location (go_router 10.0.0+)
-      final currentLocation = state.uri.path;
-      final isAuthRoute =
-          currentLocation.contains('login') ||
-          currentLocation.contains('register') ||
-          currentLocation.contains('welcome');
-
-      final isAuthenticated = authState.status == AuthStatus.authenticated;
-
-      // Redirect to welcome if not authenticated and trying to access protected route
-      if (!isAuthenticated && !isAuthRoute) {
-        return '/${AppRouter.welcome.name}';
-      }
-
-      // Redirect to home if authenticated and trying to access auth routes
-      if (isAuthenticated && isAuthRoute) {
-        return '/${AppRouter.home.name}';
-      }
-
-      // Custom config based redirect logic
-      if (ref.read(configRepoProvider).currentResult != null) {
-        String redirectLocation = ref
-            .read(appRouterServiceProvider)
-            .locationCheck(
-              locationsToCheck: [
-                LocationLockedModel(
-                  pathName: AppRouter.someScreen.name,
-                  isLocked:
-                      ref.read(configRepoProvider).currentResult!.data ?? false,
-                ),
-                LocationLockedModel(
-                  pathName: AppRouter.someScreen.name,
-                  isLocked:
-                      ref.read(configRepoProvider).currentResult!.data ?? false,
-                ),
-                LocationLockedModel(
-                  pathName: AppRouter.someScreen.name,
-                  isLocked:
-                      ref.read(configRepoProvider).currentResult!.data ?? false,
-                ),
-                LocationLockedModel(
-                  pathName: AppRouter.someScreen.name,
-                  isLocked:
-                      ref.read(configRepoProvider).currentResult!.data ?? false,
-                ),
-                LocationLockedModel(
-                  pathName: AppRouter.someScreen.name,
-                  isLocked:
-                      ref.read(configRepoProvider).currentResult!.data ?? false,
-                ),
-              ],
-              location: currentLocation,
-            );
-
-        if (redirectLocation == '/' || redirectLocation == '') {
-          // Don't return default if we are already somewhere valid
-          return null;
-          // return '/${AppRouter.someScreen.name}';
-        }
-        return redirectLocation;
-      }
-      return null;
-    },
-    debugLogDiagnostics: false,
+    initialLocation: '/welcome',
+    observers: [GoRouterObserver()],
+    debugLogDiagnostics: true,
+    refreshListenable: routerNotifier,
+    redirect: routerNotifier.redirect,
     routes: [
-      // Auth routes
+      // --- Welcome ---
       GoRoute(
-        path: '/${AppRouter.welcome.name}',
+        path: '/welcome',
         name: AppRouter.welcome.name,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            child: const WelcomeScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1.0, 0.0),
-                      end: Offset.zero,
-                    ).animate(animation),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const WelcomeScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      // --- Auth ---
+      GoRoute(
+        path: '/auth',
+        name: AppRouter.auth.name,
+        redirect: (context, state) {
+          if (state.uri.path == '/auth') {
+            return '/auth/options';
+          }
+          return null;
+        },
+        routes: [
+          GoRoute(
+            path: 'options',
+            name: AppRouter.authOptions.name,
+            pageBuilder: (context, state) => CustomTransitionPage(
+              child: const LoginOptionsScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    );
+                  },
+            ),
+            routes: [
+              GoRoute(
+                path: 'email',
+                name: AppRouter.authEmail.name,
+                pageBuilder: (context, state) {
+                  final type = state.uri.queryParameters['type'];
+                  final child = type == 'signup'
+                      ? const RegisterScreen()
+                      : const LoginEmailScreen();
+                  return CustomTransitionPage(
                     child: child,
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1.0, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        },
                   );
                 },
-          );
-        },
+              ),
+              GoRoute(
+                path: 'phone',
+                name: AppRouter.authPhone.name,
+                pageBuilder: (context, state) => CustomTransitionPage(
+                  child: const LoginPhoneScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(1.0, 0.0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        );
+                      },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      GoRoute(
-        path: '/${AppRouter.loginOptions.name}',
-        name: AppRouter.loginOptions.name,
-        pageBuilder: (context, state) {
-          return CustomTransitionPage(
-            child: const LoginOptionsScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(1.0, 0.0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  );
-                },
-          );
-        },
-      ),
-      GoRoute(
-        path: '/${AppRouter.loginEmail.name}',
-        name: AppRouter.loginEmail.name,
-        builder: (context, state) {
-          return const LoginEmailScreen();
-        },
-      ),
-      GoRoute(
-        path: '/${AppRouter.loginPhone.name}',
-        name: AppRouter.loginPhone.name,
-        builder: (context, state) {
-          return const LoginPhoneScreen();
-        },
-      ),
-      GoRoute(
-        path: '/${AppRouter.register.name}',
-        name: AppRouter.register.name,
-        builder: (context, state) {
-          return const RegisterScreen();
-        },
-      ),
-      GoRoute(
-        path: '/${AppRouter.home.name}',
-        name: AppRouter.home.name,
-        builder: (context, state) {
-          return const HomeScreen();
-        },
-      ),
-      // Home redirect for /home path
-      GoRoute(
-        path: '/home',
-        builder: (context, state) {
-          return const HomeScreen();
-        },
-      ),
-      // Onboarding routes
+
+      // --- Onboarding ---
       GoRoute(
         path: '/onboarding',
-        name: AppRouter.onboarding.name,
-        builder: (context, state) {
-          return const OnboardingFillerScreen();
-        },
-        routes: [
-          GoRoute(
-            path: 'filler',
-            name: AppRouter.onboardingFiller.name,
-            builder: (context, state) {
-              return const OnboardingFillerScreen();
-            },
-          ),
-          GoRoute(
-            path: 'step1',
-            name: AppRouter.onboardingStep1.name,
-            builder: (context, state) {
-              return const OnboardingStep1Screen();
-            },
-          ),
-          GoRoute(
-            path: 'step2',
-            name: AppRouter.onboardingStep2.name,
-            builder: (context, state) {
-              return const OnboardingStep2Screen();
-            },
-          ),
-          GoRoute(
-            path: 'step3',
-            name: AppRouter.onboardingStep3.name,
-            builder: (context, state) {
-              return const OnboardingStep3Screen();
-            },
-          ),
-          GoRoute(
-            path: 'step4',
-            name: AppRouter.onboardingStep4.name,
-            builder: (context, state) {
-              return const OnboardingStep4Screen();
-            },
-          ),
-        ],
+        name: AppRouter.onboardingFiller.name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const OnboardingFillerScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      // Redirect /onBoarding (legacy) to step 1
+      GoRoute(
+        path: '/onBoarding',
+        redirect: (context, state) => '/onboarding/step1',
+      ),
+
+      // Explicit Steps
+      GoRoute(
+        path: '/onboarding/step1',
+        name: AppRouter.step1.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: OnboardingStep1Screen()),
       ),
       GoRoute(
-        path: '/${AppRouter.noNetPage.name}',
-        name: AppRouter.noNetPage.name,
-        builder: (context, state) {
-          return const NotFoundScreen();
-        },
+        path: '/onboarding/step2',
+        name: AppRouter.step2.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: OnboardingStep2Screen()),
       ),
       GoRoute(
-        path: '/${AppRouter.someScreen.name}',
+        path: '/onboarding/step3',
+        name: AppRouter.step3.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: OnboardingStep3Screen()),
+      ),
+      GoRoute(
+        path: '/onboarding/step4',
+        name: AppRouter.step4.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: OnboardingStep4Screen()),
+      ),
+      GoRoute(
+        path: '/onboarding/step5',
+        name: AppRouter.step5.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: OnboardingStep5Screen()),
+      ),
+
+      // Gender Preference (Step 5 / Extra)
+      GoRoute(
+        path: '/genderPreference',
+        name: AppRouter.genderPreference.name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const GenderPreferenceScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      // --- Home ---
+      GoRoute(
+        path: '/home',
+        name: AppRouter.home.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: HomeScreen()),
+      ),
+
+      // --- Other / Examples ---
+      GoRoute(
+        path: '/someScreen',
         name: AppRouter.someScreen.name,
-        builder: (context, state) {
-          return const ApiCall1Screen();
-        },
+        builder: (context, state) => const ApiCall1Screen(),
         routes: [
           GoRoute(
-            path: AppRouter.someScreen1.name,
+            path: 'someScreen1',
             name: AppRouter.someScreen1.name,
-            builder: (context, state) {
-              return const ApiCall1Screen();
-            },
+            builder: (context, state) => const ApiCall1Screen(),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/noNetPage',
+        name: AppRouter.noNetPage.name,
+        builder: (context, state) => const NotFoundScreen(),
       ),
     ],
-    errorBuilder: (context, state) {
-      return const NotFoundScreen();
-    },
+    errorBuilder: (context, state) => const NotFoundScreen(),
   );
 }

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../common/widgets/buddy_app_bar.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_text_field.dart';
 import '../../../../common/widgets/error_message.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../routing/app_router.dart';
-import '../../../../utils/constants/assets.dart';
 import '../../application/providers/auth_providers.dart';
 import '../state/auth_form_signals.dart';
 
@@ -53,8 +52,9 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
       if (!mounted) return;
 
       if (response != null) {
+        // Router will automatically redirect based on auth state
         if (response.onboardingRequired) {
-          context.goNamed(AppRouter.onboardingStep1.name);
+          context.goNamed(AppRouter.onboardingFiller.name);
         } else {
           context.goNamed(AppRouter.home.name);
         }
@@ -81,24 +81,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Hero(
-          tag: 'buddy-logo',
-          child: SvgPicture.asset(
-            Assets.buddyIconWithText,
-            height: screenHeight * 0.05, // Responsive height
-          ),
-        ),
-        leading: GestureDetector(
-          onTap: () => context.goNamed(AppRouter.loginOptions.name),
-          child: SvgPicture.asset(
-            Assets.iconBackArrow,
-            width: screenWidth * 0.06, // Responsive width
-            height: screenWidth * 0.06, // Responsive height
-          ),
-        ),
-      ),
+      appBar: const BuddyAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
@@ -190,7 +173,10 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
               SizedBox(height: screenHeight * 0.03),
 
               GestureDetector(
-                onTap: () => context.goNamed(AppRouter.register.name),
+                onTap: () => context.goNamed(
+                  AppRouter.authEmail.name,
+                  queryParameters: {'type': 'signup'},
+                ),
                 child: RichText(
                   text: TextSpan(
                     text: 'Don\'t have an account? ',

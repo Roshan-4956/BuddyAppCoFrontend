@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/widgets/custom_button.dart';
-import '../../../../theme/app_colors.dart';
+import '../../../../routing/app_router.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
-import '../../../../utils/constants/assets.dart';
 import '../../application/repositories/static_repo.dart';
 import '../../application/repositories/submit_step_repo.dart';
+import '../widgets/onboarding_template.dart';
 
 /// Onboarding Step 2: Professional Information
-/// Collects: Occupation and Gender
+/// Collects: Occupation
 class OnboardingStep2Screen extends ConsumerStatefulWidget {
   const OnboardingStep2Screen({super.key});
 
@@ -23,8 +21,15 @@ class OnboardingStep2Screen extends ConsumerStatefulWidget {
 
 class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
   int? _selectedOccupationId;
-  int? _selectedGenderId;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(occupationsRepoProvider).execute();
+    });
+  }
 
   void _handleNext() async {
     if (_selectedOccupationId == null) {
@@ -34,20 +39,10 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
       return;
     }
 
-    if (_selectedGenderId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Please select a gender')));
-      return;
-    }
-
     setState(() => _isLoading = true);
 
     final repo = ref.read(submitStepRepoProvider);
-    repo.requestParams.setStepData(2, {
-      'occupation_id': _selectedOccupationId,
-      'gender_id': _selectedGenderId,
-    });
+    repo.requestParams.setStepData(2, {'occupation_id': _selectedOccupationId});
 
     await repo.execute();
 
@@ -56,7 +51,7 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
 
     if (repo.state == APIState.success) {
       // Navigate to next step
-      context.go('/onboarding/step3');
+      context.goNamed(AppRouter.step3.name);
     } else if (repo.state.hasError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -73,171 +68,62 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
   @override
   Widget build(BuildContext context) {
     final occupationsRepo = ref.watch(occupationsRepoProvider);
-    final gendersRepo = ref.watch(gendersRepoProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
-      body: Stack(
+    return OnboardingTemplate(
+      currentStep: 2,
+      totalSteps: 4,
+      title: 'Getting closer!',
+      subtitle:
+          'These details will help us curate the\nbest experience for you',
+      onNext: _handleNext,
+      isNextLoading: _isLoading,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Background light blue filled circle
-          Positioned(
-            top: -200,
-            right: -150,
-            child: SvgPicture.asset(
-              Assets.onboardingStep2BackgroundCircleBlue,
-              width: 700,
-              height: 700,
-              fit: BoxFit.contain,
+          const SizedBox(height: 8),
+          // Section title
+          Text(
+            'what best describes your\noccupation?',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'Rethink Sans',
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
             ),
           ),
-          // Main content
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  // Back button
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: SvgPicture.asset(
-                        Assets.onboardingBackArrow,
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ),
-                  // Title
-                  Text(
-                    'Tell us more',
-                    style: AppTextStyles.displayMedium.copyWith(
-                      color: AppColors.primaryDark,
-                      fontSize: 28,
-                      height: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  // Subtitle
-                  Text(
-                    'Help us personalize your experience',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textTertiary,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  // Progress indicators
-                  Row(
-                    children: [
-                      _buildProgressBar(true),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(true),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(false),
-                      const SizedBox(width: 8),
-                      _buildProgressBar(false),
-                    ],
-                  ),
-                  const SizedBox(height: 32),
-                  // Form container
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0x0F000000),
-                          blurRadius: 12,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Section title
-                        Text(
-                          'What\'s your occupation?',
-                          style: AppTextStyles.labelLarge.copyWith(
-                            color: AppColors.primaryDark,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Occupations
-                        occupationsRepo.latestValidResult != null
-                            ? _buildOccupationsList(
-                                occupationsRepo.latestValidResult!.occupations,
-                              )
-                            : const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                child: CircularProgressIndicator(),
-                              ),
-                        const SizedBox(height: 28),
-                        // Divider
-                        Container(
-                          height: 1,
-                          color: AppColors.textTertiary.withValues(alpha: 0.1),
-                        ),
-                        const SizedBox(height: 28),
-                        // Gender section title
-                        Text(
-                          'What\'s your gender?',
-                          style: AppTextStyles.labelLarge.copyWith(
-                            color: AppColors.primaryDark,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Genders
-                        gendersRepo.latestValidResult != null
-                            ? _buildGendersList(
-                                gendersRepo.latestValidResult!.genders,
-                              )
-                            : const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20),
-                                child: CircularProgressIndicator(),
-                              ),
-                        const SizedBox(height: 28),
-                        // Next button
-                        SizedBox(
-                          width: double.infinity,
-                          child: CustomButton(
-                            text: 'Next',
-                            onPressed: _handleNext,
-                            isLoading: _isLoading,
-                            backgroundColor: AppColors.primaryDark,
-                            textColor: AppColors.primaryPink,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
-            ),
-          ),
+          const SizedBox(height: 16),
+          // Occupations
+          _buildOccupationsSection(occupationsRepo),
         ],
       ),
     );
   }
 
-  Widget _buildProgressBar(bool isActive) {
-    return Expanded(
-      child: Container(
-        height: 4,
-        decoration: BoxDecoration(
-          color: isActive ? Color(0xFF505050) : Color(0x73505050),
-          borderRadius: BorderRadius.circular(4),
+  Widget _buildOccupationsSection(dynamic occupationsRepo) {
+    if (occupationsRepo.state.hasError) {
+      return Center(
+        child: Column(
+          children: [
+            Text('Failed to load occupations', style: AppTextStyles.error),
+            TextButton(
+              onPressed: () => occupationsRepo.execute(),
+              child: Text('Retry'),
+            ),
+          ],
         ),
-      ),
+      );
+    }
+
+    if (occupationsRepo.latestValidResult == null) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return _buildOccupationsList(
+      occupationsRepo.latestValidResult!.occupations,
     );
   }
 
@@ -246,142 +132,86 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: occupations.length,
-      separatorBuilder: (context, index) => SizedBox(height: 12),
+      separatorBuilder: (context, index) => SizedBox(height: 10),
       itemBuilder: (context, index) {
         final occupation = occupations[index];
         final isSelected = _selectedOccupationId == occupation.occupationId;
 
-        return GestureDetector(
+        // Determine icon based on occupation name
+        IconData icon = Icons.work;
+        final name = occupation.name.toLowerCase();
+        if (name.contains('undergraduate') || name.contains('postgraduate')) {
+          icon = Icons.school;
+        } else if (name.contains('fresher')) {
+          icon = Icons.computer;
+        } else if (name.contains('entry')) {
+          icon = Icons.engineering;
+        } else if (name.contains('other')) {
+          icon = Icons.cancel_presentation;
+        }
+
+        return InkWell(
+          borderRadius: BorderRadius.circular(24),
           onTap: () {
             setState(() {
               _selectedOccupationId = occupation.occupationId;
             });
           },
           child: Container(
+            height: 40,
             decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color(0xFF64BDFF).withValues(alpha: 0.4)
-                  : const Color(0xFF64BDFF).withValues(alpha: 0.2),
+              color: Color(0xFFE9F4FF),
               borderRadius: BorderRadius.circular(24),
-              border: isSelected
-                  ? Border.all(color: AppColors.primaryBlue, width: 2)
-                  : null,
+              border: Border.all(
+                color: isSelected ? Color(0xFF53A9FF) : Colors.transparent,
+                width: 2,
+              ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Radio button
-                Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isSelected
-                          ? AppColors.primaryBlue
-                          : AppColors.textTertiary,
-                      width: 2,
-                    ),
-                    color: isSelected ? AppColors.primaryBlue : Colors.white,
-                  ),
-                  child: isSelected
-                      ? Center(
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      : null,
+                SizedBox(width: 10),
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  radius: 16,
+                  child: Icon(icon, size: 20),
                 ),
-                SizedBox(width: 12),
-                // Label
+                SizedBox(width: 18),
                 Expanded(
                   child: Text(
                     occupation.name,
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primaryDark,
+                    style: TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontFamily: 'Rethink Sans',
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildGendersList(List genders) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: genders.length,
-      separatorBuilder: (context, index) => SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final gender = genders[index];
-        final isSelected = _selectedGenderId == gender.genderId;
-
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedGenderId = gender.genderId;
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color(0xFFF6DDE1).withValues(alpha: 0.5)
-                  : const Color(0xFFF6DDE1).withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(24),
-              border: isSelected
-                  ? Border.all(color: AppColors.primaryPink, width: 2)
-                  : null,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                // Radio button
                 Container(
-                  width: 20,
-                  height: 20,
+                  margin: EdgeInsets.only(right: 14),
+                  width: 16,
+                  height: 16,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: isSelected
-                          ? AppColors.primaryPink
-                          : AppColors.textTertiary,
-                      width: 2,
+                      color: isSelected ? Color(0xFF53A9FF) : Colors.black26,
+                      width: 1,
                     ),
-                    color: isSelected ? AppColors.primaryPink : Colors.white,
+                    color: isSelected
+                        ? Color(0xFF53A9FF).withValues(alpha: 0.26)
+                        : Colors.transparent,
                   ),
                   child: isSelected
                       ? Center(
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
+                          child: Icon(
+                            Icons.check,
+                            color: Color(0xFF53A9FF),
+                            size: 10,
                           ),
                         )
                       : null,
-                ),
-                SizedBox(width: 12),
-                // Label
-                Expanded(
-                  child: Text(
-                    gender.name,
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primaryDark,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                 ),
               ],
             ),
