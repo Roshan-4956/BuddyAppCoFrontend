@@ -8,6 +8,8 @@ import 'routing/app_router.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     ProviderScope(
       overrides: [
@@ -23,11 +25,29 @@ void main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Check authentication status on app startup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugLog(
+        DebugTags.auth,
+        'App startup: Checking authentication status...',
+      );
+      ref.read(authProvider.notifier).checkAuthStatus();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(goRouterProvider);
 
     return MaterialApp.router(

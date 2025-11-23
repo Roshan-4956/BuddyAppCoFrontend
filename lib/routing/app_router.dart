@@ -12,6 +12,7 @@ import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_st
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step4_screen.dart';
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step5_screen.dart';
 import 'package:buddy_app/features/onboarding/presentation/screens/gender_preference_screen.dart';
+import 'package:buddy_app/features/splash/presentation/screens/splash_screen.dart';
 import 'package:buddy_app/utils/widgets/not_found_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,6 +23,7 @@ import 'router_notifier.dart';
 part 'app_router.g.dart';
 
 enum AppRouter {
+  splash,
   welcome,
   auth,
   authOptions,
@@ -45,12 +47,20 @@ GoRouter goRouter(Ref ref) {
   final routerNotifier = ref.watch(routerNotifierProvider);
 
   return GoRouter(
-    initialLocation: '/welcome',
+    initialLocation: '/splash',
     observers: [GoRouterObserver()],
     debugLogDiagnostics: true,
     refreshListenable: routerNotifier,
     redirect: routerNotifier.redirect,
     routes: [
+      // --- Splash ---
+      GoRoute(
+        path: '/splash',
+        name: AppRouter.splash.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: SplashScreen()),
+      ),
+
       // --- Welcome ---
       GoRoute(
         path: '/welcome',

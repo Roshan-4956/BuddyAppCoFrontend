@@ -13,12 +13,9 @@ class RouterNotifier extends ChangeNotifier {
 
   RouterNotifier(this._ref) {
     // Listen to auth provider changes and notify listeners (the router)
-    _ref.listen<AuthState>(
-      authProvider,
-      (previous, next) {
-        notifyListeners();
-      },
-    );
+    _ref.listen<AuthState>(authProvider, (previous, next) {
+      notifyListeners();
+    });
   }
 
   /// Central redirect logic
@@ -27,13 +24,38 @@ class RouterNotifier extends ChangeNotifier {
     final path = state.uri.path;
 
     final isAuthenticated = authState.status == AuthStatus.authenticated;
+    final isLoading =
+        authState.status == AuthStatus.initial ||
+        authState.status == AuthStatus.loading;
     final needsOnboarding = authState.onboardingRequired ?? false;
 
+    final isSplashPath = path == '/splash';
     final isWelcomePath = path == '/welcome';
     final isAuthPath = path.startsWith('/auth');
     final isOnboardingPath = path.startsWith('/onboarding');
 
-    // --- 1. Unauthenticated Flow ---
+    // --- 0. Loading / Initial State ---
+    // Show splash screen while checking auth status
+    if (isLoading) {
+      // If not already on splash, redirect to splash
+      if (!isSplashPath) return '/splash';
+      // If on splash, stay there
+      return null;
+    }
+
+    // --- 1. Auth Check Complete - Redirect from Splash ---
+    if (isSplashPath) {
+      // Auth check is done, redirect based on status
+      if (isAuthenticated) {
+        // Authenticated - check onboarding status
+        return needsOnboarding ? '/onboarding' : '/home';
+      } else {
+        // Not authenticated - go to welcome
+        return '/welcome';
+      }
+    }
+
+    // --- 2. Unauthenticated Flow ---
     if (!isAuthenticated) {
       // Allowed paths for unauthenticated users
       if (isWelcomePath || isAuthPath) return null;
@@ -42,18 +64,18 @@ class RouterNotifier extends ChangeNotifier {
       return '/welcome';
     }
 
-    // --- 2. Authenticated Flow ---
+    // --- 3. Authenticated Flow ---
     if (isAuthenticated) {
-      // 2a. Needs Onboarding
+      // 3a. Needs Onboarding
       if (needsOnboarding) {
         // If already inside the onboarding flow, allow it.
         if (isOnboardingPath) return null;
 
-        // Otherwise, force start at filler
-        return '/onboarding/filler';
+        // Otherwise, force start at onboarding filler
+        return '/onboarding';
       }
 
-      // 2b. Onboarding Complete
+      // 3b. Onboarding Complete
       // Lock out of auth/welcome/onboarding pages
       if (isWelcomePath || isAuthPath || isOnboardingPath) {
         return '/home';
