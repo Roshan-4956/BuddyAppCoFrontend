@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
+import '../../../auth/application/providers/auth_providers.dart';
 
 /// Home Screen - Main dashboard after authentication and onboarding
 class HomeScreen extends ConsumerWidget {
@@ -165,7 +166,11 @@ class HomeScreen extends ConsumerWidget {
                       icon: Icons.chat_bubble,
                       label: 'Messages',
                       onTap: () {
-                        // TODO: Navigate to messages
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Firebase app not initialized'),
+                          ),
+                        );
                       },
                     ),
                     _buildActionCard(
@@ -179,51 +184,29 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 32),
-
-                // Status Card
-                Container(
-                  decoration: BoxDecoration(
-                    color: theme.brightness == Brightness.light
-                        ? Colors.white
-                        : AppColors.surfaceDark,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.textTertiary.withValues(alpha: 0.1),
+                // Logout Button
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      ref.read(authProvider.notifier).signOut();
+                    },
+                    icon: const Icon(Icons.logout, color: Colors.red),
+                    label: Text(
+                      'Logout',
+                      style: AppTextStyles.buttonLarge.copyWith(
+                        color: Colors.red,
+                      ),
                     ),
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your Status',
-                        style: AppTextStyles.bodyLarge.copyWith(
-                          color: AppColors.primaryDark,
-                          fontWeight: FontWeight.w600,
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(
+                          color: Colors.red.withValues(alpha: 0.2),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          // Active status indicator
-                          Container(
-                            width: 12,
-                            height: 12,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Online and ready to connect',
-                            style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
