@@ -74,23 +74,18 @@ class _OnboardingStep3ScreenState extends ConsumerState<OnboardingStep3Screen> {
       currentStep: 3,
       totalSteps: 4,
       title: "What's your gender?",
-      subtitle: "We're an inclusive community and\\neveryone is welcome!",
+      subtitle: "We're an inclusive community and\neveryone is welcome!",
       onNext: _handleNext,
       isNextLoading: _isLoading,
       child: Column(
         children: [
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
-            'To give you a better experience\\nlet us know your gender',
+            'To give you a better experience\nlet us know your gender',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Rethink Sans',
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.questionText,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           _buildGenderSection(gendersRepo),
         ],
       ),

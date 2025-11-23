@@ -8,6 +8,7 @@ import '../../../../utils/api/core/api_state.dart';
 import '../../application/repositories/static_repo.dart';
 import '../../application/repositories/submit_step_repo.dart';
 import '../widgets/onboarding_template.dart';
+import '../widgets/selection_option.dart';
 
 /// Onboarding Step 2: Professional Information
 /// Collects: Occupation
@@ -80,20 +81,15 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 8),
-          // Section title
+          const SizedBox(height: 4),
+          // Question text
           Text(
             'what best describes your\noccupation?',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Rethink Sans',
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.questionText,
           ),
-          const SizedBox(height: 16),
-          // Occupations
+          const SizedBox(height: 20),
+          // Occupations list
           _buildOccupationsSection(occupationsRepo),
         ],
       ),
@@ -130,9 +126,9 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
   Widget _buildOccupationsList(List occupations) {
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: occupations.length,
-      separatorBuilder: (context, index) => SizedBox(height: 10),
+      separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final occupation = occupations[index];
         final isSelected = _selectedOccupationId == occupation.occupationId;
@@ -150,72 +146,15 @@ class _OnboardingStep2ScreenState extends ConsumerState<OnboardingStep2Screen> {
           icon = Icons.cancel_presentation;
         }
 
-        return InkWell(
-          borderRadius: BorderRadius.circular(24),
+        return SelectionOption(
+          text: occupation.name,
+          icon: icon,
+          isSelected: isSelected,
           onTap: () {
             setState(() {
               _selectedOccupationId = occupation.occupationId;
             });
           },
-          child: Container(
-            height: 40,
-            decoration: BoxDecoration(
-              color: Color(0xFFE9F4FF),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: isSelected ? Color(0xFF53A9FF) : Colors.transparent,
-                width: 2,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: 10),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
-                  radius: 16,
-                  child: Icon(icon, size: 20),
-                ),
-                SizedBox(width: 18),
-                Expanded(
-                  child: Text(
-                    occupation.name,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontFamily: 'Rethink Sans',
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 14),
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: isSelected ? Color(0xFF53A9FF) : Colors.black26,
-                      width: 1,
-                    ),
-                    color: isSelected
-                        ? Color(0xFF53A9FF).withValues(alpha: 0.26)
-                        : Colors.transparent,
-                  ),
-                  child: isSelected
-                      ? Center(
-                          child: Icon(
-                            Icons.check,
-                            color: Color(0xFF53A9FF),
-                            size: 10,
-                          ),
-                        )
-                      : null,
-                ),
-              ],
-            ),
-          ),
         );
       },
     );

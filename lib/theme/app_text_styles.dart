@@ -132,4 +132,19 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.error,
   );
+
+  // Onboarding specific styles
+  static const TextStyle questionText = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textPrimary,
+  );
+
+  static const TextStyle optionText = TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textPrimary,
+  );
 }

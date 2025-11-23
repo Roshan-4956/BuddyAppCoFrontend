@@ -165,7 +165,7 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
             label: 'Full Name',
             hintText: 'First and last name',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           // DOB with Calendar
           Row(
             children: [
@@ -215,6 +215,7 @@ class _OnboardingStep1ScreenState extends ConsumerState<OnboardingStep1Screen> {
             hintText: 'Enter your full address',
             maxLines: 2,
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );

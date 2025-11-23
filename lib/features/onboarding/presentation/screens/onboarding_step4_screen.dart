@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../routing/app_router.dart';
 import '../../../../theme/app_colors.dart';
+import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
 import '../../../../utils/constants/assets.dart';
 import '../../application/repositories/submit_step_repo.dart';
@@ -106,24 +107,19 @@ class _OnboardingStep4ScreenState extends ConsumerState<OnboardingStep4Screen> {
       currentStep: 4,
       totalSteps: 4,
       title: 'Almost There',
-      subtitle: "We're an inclusive community and\\neveryone is welcome!",
+      subtitle: "We're an inclusive community and\neveryone is welcome!",
       onNext: _handleNext,
       isNextLoading: _isLoading,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 4),
           Text(
-            'Add your profile picture so\\npeople can find you',
+            'Add your profile picture so\npeople can find you',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Rethink Sans',
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: AppTextStyles.questionText,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           // Avatar circle display
           Container(
             width: 150,

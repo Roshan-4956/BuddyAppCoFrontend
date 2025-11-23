@@ -122,30 +122,31 @@ class OnboardingTemplate extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+                    color: Colors.black.withValues(alpha: 0.08),
+                    spreadRadius: 0,
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 25,
-                ),
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Progress Bar
                     _buildStepBar(totalSteps, currentStep),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // Content (Form)
-                    Expanded(child: SingleChildScrollView(child: child)),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: child,
+                      ),
+                    ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // Next Button
                     GestureDetector(
@@ -195,13 +196,13 @@ class OnboardingTemplate extends StatelessWidget {
         bool isActive = index < currentStep;
         return Expanded(
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            height: 4,
+            margin: const EdgeInsets.symmetric(horizontal: 3),
+            height: 5,
             decoration: BoxDecoration(
               color: isActive
-                  ? const Color(0xFF505050)
-                  : const Color(0x73505050),
-              borderRadius: BorderRadius.circular(4),
+                  ? const Color(0xFF1E1E1E)
+                  : const Color(0x401E1E1E),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
         );

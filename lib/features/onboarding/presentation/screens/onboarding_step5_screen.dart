@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../routing/app_router.dart';
-import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
 import '../../../../utils/constants/assets.dart';
@@ -87,7 +86,7 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Image.asset("assets/buddyLogoTitle.png", scale: 4),
+        title: Image.asset('assets/buddyLogoTitle.png', scale: 4),
         backgroundColor: Colors.white,
       ),
       body: Stack(
@@ -99,9 +98,9 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
               Padding(padding: EdgeInsets.symmetric(vertical: 10)),
               Center(
                 child: Text(
-                  "Select your interests",
+                  'Select your interests',
                   style: TextStyle(
-                    fontFamily: "Rethink Sans",
+                    fontFamily: 'Rethink Sans',
                     fontSize: 36,
                     fontVariations: [FontVariation('wght', 1000)],
                     color: Color(0xFF555555),
@@ -111,10 +110,10 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
               Padding(padding: EdgeInsets.symmetric(vertical: 2.5)),
               Center(
                 child: Text(
-                  "Pick up to 3 things you love most",
+                  'Pick up to 3 things you love most',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: "Rethink Sans",
+                    fontFamily: 'Rethink Sans',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF8793A1),
@@ -153,7 +152,7 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
                       : const Text(
                           'Continue',
                           style: TextStyle(
-                            fontFamily: "Rethink Sans",
+                            fontFamily: 'Rethink Sans',
                             color: Color(0xFFF6DDE1),
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
@@ -314,7 +313,7 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
                           Text(
                             interest.name,
                             style: TextStyle(
-                              fontFamily: "Rethink Sans",
+                              fontFamily: 'Rethink Sans',
                               fontWeight: FontWeight.w900,
                               fontSize: 12,
                               color: Colors.black,
@@ -340,19 +339,24 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
     if (name.contains('travel')) return Assets.interestTravel;
     if (name.contains('music')) return Assets.interestMusic;
     if (name.contains('art')) return Assets.interestArt;
-    if (name.contains('read') || name.contains('book'))
+    if (name.contains('read') || name.contains('book')) {
       return Assets.interestBooks;
-    if (name.contains('game') || name.contains('gaming'))
+    }
+    if (name.contains('game') || name.contains('gaming')) {
       return Assets.interestGaming;
-    if (name.contains('cook') || name.contains('food'))
+    }
+    if (name.contains('cook') || name.contains('food')) {
       return Assets.interestFood;
+    }
     if (name.contains('photo')) return Assets.interestArt;
     if (name.contains('fashion')) return Assets.interestFashion;
-    if (name.contains('health') || name.contains('well'))
+    if (name.contains('health') || name.contains('well')) {
       return Assets.interestHealth;
+    }
     if (name.contains('advent')) return Assets.interestAdventure;
-    if (name.contains('entertainment') || name.contains('pop'))
+    if (name.contains('entertainment') || name.contains('pop')) {
       return Assets.interestEntertainment;
+    }
 
     return Assets.interestEntertainment;
   }

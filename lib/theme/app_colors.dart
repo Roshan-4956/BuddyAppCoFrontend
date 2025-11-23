@@ -57,6 +57,11 @@ class AppColors {
     0x2B000000,
   ); // rgba(0, 0, 0, 0.17)
 
+  // Selection Colors (for onboarding and similar UIs)
+  static const Color selectionBackground = Color(0xFFE9F4FF);
+  static const Color selectionBorder = Color(0xFF53A9FF);
+  static const Color selectionActive = Color(0x4253A9FF); // 26% opacity
+
   // Other Colors
   static const Color white = Colors.white;
   static const Color black = Colors.black;
