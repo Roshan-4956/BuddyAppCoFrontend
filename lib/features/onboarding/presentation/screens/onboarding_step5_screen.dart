@@ -6,6 +6,7 @@ import '../../../../routing/app_router.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../../utils/api/core/api_state.dart';
 import '../../../../utils/constants/assets.dart';
+import '../../../auth/application/providers/auth_providers.dart';
 import '../../application/repositories/static_repo.dart';
 import '../../application/repositories/submit_step_repo.dart';
 
@@ -64,6 +65,9 @@ class _OnboardingStep5ScreenState extends ConsumerState<OnboardingStep5Screen> {
     setState(() => _isLoading = false);
 
     if (repo.state == APIState.success) {
+      // Mark onboarding as complete in auth state
+      ref.read(authProvider.notifier).markOnboardingComplete();
+
       // Navigate to home after completing interests
       context.goNamed(AppRouter.home.name);
     } else if (repo.state.hasError) {
