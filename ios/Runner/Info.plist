@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Buddy App</string>
+	<string>Buddy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,5 +38,14 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<!-- Privacy - Location When In Use Usage Description -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Buddy needs your location to help you find nearby friends and events</string>
+	<!-- Privacy - Camera Usage Description -->
+	<key>NSCameraUsageDescription</key>
+	<string>Buddy needs access to your camera to take profile photos</string>
+	<!-- Privacy - Photo Library Usage Description -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Buddy needs access to your photo library to select profile photos</string>
 </dict>
 </plist>
