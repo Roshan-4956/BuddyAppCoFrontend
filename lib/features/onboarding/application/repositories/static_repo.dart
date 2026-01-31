@@ -2,6 +2,7 @@ import 'package:buddy_app/utils/api/core/http_method.dart';
 import 'package:buddy_app/utils/api/implementation/riverpod_api/riverpod_api.dart';
 import 'package:buddy_app/utils/api/implementation/simple_api/simple_params.dart';
 import 'package:buddy_app/utils/factory_utils.dart';
+import 'package:buddy_app/utils/api/api_paths.dart';
 import 'package:buddy_app/utils/urls.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,7 +22,7 @@ part 'static_repo.g.dart';
 @Riverpod(keepAlive: true)
 RiverpodAPI<StatesResponseModel, SimpleParameters> statesRepo(Ref ref) {
   return RiverpodAPI<StatesResponseModel, SimpleParameters>(
-    completeUrl: URLs.complete('static/states'),
+    completeUrl: URLs.complete(ApiPaths.staticStates),
     factory: FactoryUtils.modelFromString(
       StatesResponseModel.fromJson,
       subtag: 'data',
@@ -54,7 +55,7 @@ RiverpodAPI<CitiesResponseModel, CitiesParameters> citiesRepo(
   int? stateId,
 }) {
   return RiverpodAPI<CitiesResponseModel, CitiesParameters>(
-    completeUrl: URLs.complete('static/cities'),
+    completeUrl: URLs.complete(ApiPaths.staticCities),
     factory: FactoryUtils.modelFromString(
       CitiesResponseModel.fromJson,
       subtag: 'data',
@@ -74,7 +75,7 @@ RiverpodAPI<CitiesResponseModel, CitiesParameters> citiesRepo(
 @Riverpod(keepAlive: true)
 RiverpodAPI<GendersResponseModel, SimpleParameters> gendersRepo(Ref ref) {
   return RiverpodAPI<GendersResponseModel, SimpleParameters>(
-    completeUrl: URLs.complete('static/genders'),
+    completeUrl: URLs.complete(ApiPaths.staticGenders),
     factory: FactoryUtils.modelFromString(
       GendersResponseModel.fromJson,
       subtag: 'data',
@@ -96,7 +97,7 @@ RiverpodAPI<OccupationsResponseModel, SimpleParameters> occupationsRepo(
   Ref ref,
 ) {
   return RiverpodAPI<OccupationsResponseModel, SimpleParameters>(
-    completeUrl: URLs.complete('static/occupations'),
+    completeUrl: URLs.complete(ApiPaths.staticOccupations),
     factory: FactoryUtils.modelFromString(
       OccupationsResponseModel.fromJson,
       subtag: 'data',
@@ -116,7 +117,7 @@ RiverpodAPI<OccupationsResponseModel, SimpleParameters> occupationsRepo(
 @Riverpod(keepAlive: true)
 RiverpodAPI<InterestsResponseModel, SimpleParameters> interestsRepo(Ref ref) {
   return RiverpodAPI<InterestsResponseModel, SimpleParameters>(
-    completeUrl: URLs.complete('static/interests'),
+    completeUrl: URLs.complete(ApiPaths.staticInterests),
     factory: FactoryUtils.modelFromString(
       InterestsResponseModel.fromJson,
       subtag: 'data',

@@ -21,10 +21,12 @@ class GenderPreferenceScreen extends ConsumerStatefulWidget {
   const GenderPreferenceScreen({super.key});
 
   @override
-  ConsumerState<GenderPreferenceScreen> createState() => _GenderPreferenceScreenState();
+  ConsumerState<GenderPreferenceScreen> createState() =>
+      _GenderPreferenceScreenState();
 }
 
-class _GenderPreferenceScreenState extends ConsumerState<GenderPreferenceScreen> {
+class _GenderPreferenceScreenState
+    extends ConsumerState<GenderPreferenceScreen> {
   @override
   Widget build(BuildContext context) {
     final selGender = ref.watch(selectedGenderPreferenceProvider);
@@ -174,7 +176,8 @@ class GenderOptionSelector extends StatelessWidget {
                         width: 54,
                         height: 54,
                         fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.person, size: 40),
+                        errorBuilder: (_, __, ___) =>
+                            const Icon(Icons.person, size: 40),
                       ),
                     ),
                   ),
@@ -189,7 +192,10 @@ class GenderOptionSelector extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xFF98D81E), width: 1),
+                      border: Border.all(
+                        color: const Color(0xFF98D81E),
+                        width: 1,
+                      ),
                     ),
                     child: selected
                         ? const Center(

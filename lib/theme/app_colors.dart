@@ -50,6 +50,8 @@ class AppColors {
   static const Color accentPink = Color(0xFFFFB9FF);
   static const Color accentPinkDark = Color(0xFFE769CE);
   static const Color lightLavender = Color(0xFFFFDAFF);
+  static const Color secondaryViolet = Color(0xFF8D8DFF);
+  static const Color secondaryGreen = Color(0xFF98D81E);
 
   // Shadows (for reference, use with opacity in BoxShadow)
   static const Color cardShadowColor = Color(0x24000000); // rgba(0, 0, 0, 0.14)

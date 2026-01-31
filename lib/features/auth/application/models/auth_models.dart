@@ -39,6 +39,8 @@ class AuthResponseModel {
   final String refreshToken;
   final bool onboardingRequired;
   final OnboardingProgressModel? onboardingProgress;
+  final String? firebaseToken;
+  final String? firebaseUid;
 
   AuthResponseModel({
     required this.userId,
@@ -46,6 +48,8 @@ class AuthResponseModel {
     required this.refreshToken,
     required this.onboardingRequired,
     this.onboardingProgress,
+    this.firebaseToken,
+    this.firebaseUid,
   });
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
@@ -59,6 +63,8 @@ class AuthResponseModel {
               json['onboarding_progress'] as Map<String, dynamic>,
             )
           : null,
+      firebaseToken: json['firebase_token'] as String?,
+      firebaseUid: json['firebase_uid'] as String?,
     );
   }
 
@@ -69,6 +75,8 @@ class AuthResponseModel {
       'refresh_token': refreshToken,
       'onboarding_required': onboardingRequired,
       'onboarding_progress': onboardingProgress?.toJson(),
+      'firebase_token': firebaseToken,
+      'firebase_uid': firebaseUid,
     };
   }
 }
@@ -157,5 +165,24 @@ class UserModel {
       'auth_providers': authProviders,
       'created_at': createdAt.toIso8601String(),
     };
+  }
+}
+
+/// Firebase custom token response model
+class FirebaseTokenModel {
+  final String? firebaseToken;
+  final String firebaseUid;
+
+  FirebaseTokenModel({required this.firebaseToken, required this.firebaseUid});
+
+  factory FirebaseTokenModel.fromJson(Map<String, dynamic> json) {
+    return FirebaseTokenModel(
+      firebaseToken: json['firebase_token'] as String?,
+      firebaseUid: json['firebase_uid'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'firebase_token': firebaseToken, 'firebase_uid': firebaseUid};
   }
 }

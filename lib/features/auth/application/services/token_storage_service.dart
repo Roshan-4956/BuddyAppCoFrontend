@@ -17,13 +17,22 @@ class TokenStorageService {
     required String accessToken,
     required String refreshToken,
     required String userId,
+    String? firebaseUid,
+    String? firebaseToken,
   }) async {
     debugLog(DebugTags.authTokenFetch, 'Storing tokens for user: $userId');
-    await Future.wait([
+    final writes = <Future<void>>[
       _storage.write(SecureStorageKeys.accessToken, accessToken),
       _storage.write(SecureStorageKeys.refreshToken, refreshToken),
       _storage.write(SecureStorageKeys.userId, userId),
-    ]);
+      _storage.write(SecureStorageKeys.firebaseUid, firebaseUid ?? userId),
+    ];
+    if (firebaseToken != null && firebaseToken.isNotEmpty) {
+      writes.add(
+        _storage.write(SecureStorageKeys.firebaseToken, firebaseToken),
+      );
+    }
+    await Future.wait(writes);
   }
 
   /// Retrieves the access token
@@ -53,6 +62,24 @@ class TokenStorageService {
     }
   }
 
+  /// Retrieves the Firebase UID (falls back to user_id if unset)
+  Future<String?> getFirebaseUid() async {
+    try {
+      return await _storage.read(SecureStorageKeys.firebaseUid);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Retrieves the Firebase custom token (if available)
+  Future<String?> getFirebaseToken() async {
+    try {
+      return await _storage.read(SecureStorageKeys.firebaseToken);
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// Checks if user is authenticated (has valid access token)
   Future<bool> isAuthenticated() async {
     final token = await getAccessToken();
@@ -68,6 +95,8 @@ class TokenStorageService {
       _storage.delete(SecureStorageKeys.accessToken),
       _storage.delete(SecureStorageKeys.refreshToken),
       _storage.delete(SecureStorageKeys.userId),
+      _storage.delete(SecureStorageKeys.firebaseUid),
+      _storage.delete(SecureStorageKeys.firebaseToken),
     ]);
   }
 

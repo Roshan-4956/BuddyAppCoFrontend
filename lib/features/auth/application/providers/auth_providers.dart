@@ -153,6 +153,8 @@ class AuthNotifier extends _$AuthNotifier {
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.userId,
+                firebaseUid: response.firebaseUid,
+                firebaseToken: response.firebaseToken,
               );
           state = AuthState.authenticated(
             response.userId,
@@ -202,6 +204,8 @@ class AuthNotifier extends _$AuthNotifier {
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.userId,
+                firebaseUid: response.firebaseUid,
+                firebaseToken: response.firebaseToken,
               );
           state = AuthState.authenticated(
             response.userId,
@@ -250,10 +254,7 @@ class AuthNotifier extends _$AuthNotifier {
   void markOnboardingComplete() {
     debugLog(DebugTags.auth, 'Marking onboarding as complete.');
     if (state.status == AuthStatus.authenticated && state.userId != null) {
-      state = AuthState.authenticated(
-        state.userId!,
-        onboardingRequired: false,
-      );
+      state = AuthState.authenticated(state.userId!, onboardingRequired: false);
       debugLog(DebugTags.auth, 'Onboarding marked as complete.');
     } else {
       errorLog(

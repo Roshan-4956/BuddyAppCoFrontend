@@ -62,7 +62,7 @@ final class StatesRepoProvider
   }
 }
 
-String _$statesRepoHash() => r'ac98319ed9b337144dfea1435c5ec2baa9899ea5';
+String _$statesRepoHash() => r'07ff20c4693a3480ed7e428973d65e14304cca03';
 
 /// Repository for fetching cities from GET /static/cities
 /// Optionally filter by state_id using the stateId parameter
@@ -139,7 +139,7 @@ final class CitiesRepoProvider
   }
 }
 
-String _$citiesRepoHash() => r'ed807b9ccfa246289b916c45a4395259b888bb14';
+String _$citiesRepoHash() => r'bc1a7f44406429ebf2df7e146e55aaed1cb0281d';
 
 /// Repository for fetching cities from GET /static/cities
 /// Optionally filter by state_id using the stateId parameter
@@ -223,7 +223,7 @@ final class GendersRepoProvider
   }
 }
 
-String _$gendersRepoHash() => r'7475dd154565089cfe4fff462ecb268ab3563f68';
+String _$gendersRepoHash() => r'9a244b8f57ec938559ebf7d53715596fbf668e1d';
 
 /// Repository for fetching available occupations from GET /static/occupations
 
@@ -279,7 +279,7 @@ final class OccupationsRepoProvider
   }
 }
 
-String _$occupationsRepoHash() => r'bc653330896135d767eabfdf66647756f3b84877';
+String _$occupationsRepoHash() => r'fd94f989d223e0a73b5f4ab81e2587153ac96195';
 
 /// Repository for fetching available interests from GET /static/interests
 
@@ -335,4 +335,4 @@ final class InterestsRepoProvider
   }
 }
 
-String _$interestsRepoHash() => r'51c99877ec230920357c118bf5330ea7b39a145d';
+String _$interestsRepoHash() => r'015d15dbdc2b719c0316234abb52061b802fd0c5';

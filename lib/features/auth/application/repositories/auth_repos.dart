@@ -4,6 +4,7 @@ import '../../../../utils/api/core/http_method.dart';
 import '../../../../utils/api/implementation/riverpod_api/riverpod_api.dart';
 import '../../../../utils/api/implementation/simple_api/simple_params.dart';
 import '../../../../utils/factory_utils.dart';
+import '../../../../utils/api/api_paths.dart';
 import '../../../../utils/urls.dart';
 import '../models/auth_models.dart';
 import 'auth_params.dart';
@@ -14,7 +15,7 @@ part 'auth_repos.g.dart';
 @Riverpod(keepAlive: true)
 RiverpodAPI<UserModel, SimpleParameters> currentUserRepo(Ref ref) {
   return RiverpodAPI<UserModel, SimpleParameters>(
-    completeUrl: URLs.complete('auth/me'),
+    completeUrl: URLs.complete(ApiPaths.authMe),
     factory: FactoryUtils.modelFromString(UserModel.fromJson, subtag: 'data'),
     params: SimpleParameters(),
     method: HTTPMethod.get,
@@ -29,7 +30,7 @@ RiverpodAPI<PasswordResetModel, ForgotPasswordParams> forgotPasswordRepo(
   Ref ref,
 ) {
   return RiverpodAPI<PasswordResetModel, ForgotPasswordParams>(
-    completeUrl: URLs.complete('auth/forgot-password'),
+    completeUrl: URLs.complete(ApiPaths.authForgotPassword),
     factory: FactoryUtils.modelFromString(
       PasswordResetModel.fromJson,
       subtag: 'data',
@@ -45,7 +46,7 @@ RiverpodAPI<PasswordResetModel, ForgotPasswordParams> forgotPasswordRepo(
 @Riverpod(keepAlive: true)
 RiverpodAPI<AuthResponseModel, LoginParams> loginRepo(Ref ref) {
   return RiverpodAPI<AuthResponseModel, LoginParams>(
-    completeUrl: URLs.complete('auth/login'),
+    completeUrl: URLs.complete(ApiPaths.authLogin),
     factory: FactoryUtils.modelFromString(
       AuthResponseModel.fromJson,
       subtag: 'data',
@@ -61,7 +62,7 @@ RiverpodAPI<AuthResponseModel, LoginParams> loginRepo(Ref ref) {
 @Riverpod(keepAlive: true)
 RiverpodAPI<AuthResponseModel, RegisterParams> registerRepo(Ref ref) {
   return RiverpodAPI<AuthResponseModel, RegisterParams>(
-    completeUrl: URLs.complete('auth/register/email'),
+    completeUrl: URLs.complete(ApiPaths.authRegisterEmail),
     factory: FactoryUtils.modelFromString(
       AuthResponseModel.fromJson,
       subtag: 'data',
@@ -79,7 +80,7 @@ RiverpodAPI<PasswordResetModel, ResetPasswordParams> resetPasswordRepo(
   Ref ref,
 ) {
   return RiverpodAPI<PasswordResetModel, ResetPasswordParams>(
-    completeUrl: URLs.complete('auth/reset-password'),
+    completeUrl: URLs.complete(ApiPaths.authResetPassword),
     factory: FactoryUtils.modelFromString(
       PasswordResetModel.fromJson,
       subtag: 'data',
@@ -95,7 +96,7 @@ RiverpodAPI<PasswordResetModel, ResetPasswordParams> resetPasswordRepo(
 @Riverpod(keepAlive: true)
 RiverpodAPI<OtpVerificationModel, VerifyOtpParams> verifyOtpRepo(Ref ref) {
   return RiverpodAPI<OtpVerificationModel, VerifyOtpParams>(
-    completeUrl: URLs.complete('auth/verify-otp'),
+    completeUrl: URLs.complete(ApiPaths.authVerifyOtp),
     factory: FactoryUtils.modelFromString(
       OtpVerificationModel.fromJson,
       subtag: 'data',
@@ -104,5 +105,21 @@ RiverpodAPI<OtpVerificationModel, VerifyOtpParams> verifyOtpRepo(Ref ref) {
     method: HTTPMethod.post,
     ref: ref,
     requiresAuth: false,
+  );
+}
+
+/// Repository provider for Firebase token generation
+@Riverpod(keepAlive: true)
+RiverpodAPI<FirebaseTokenModel, SimpleParameters> firebaseTokenRepo(Ref ref) {
+  return RiverpodAPI<FirebaseTokenModel, SimpleParameters>(
+    completeUrl: URLs.complete(ApiPaths.authFirebaseToken),
+    factory: FactoryUtils.modelFromString(
+      FirebaseTokenModel.fromJson,
+      subtag: 'data',
+    ),
+    params: SimpleParameters(),
+    method: HTTPMethod.get,
+    ref: ref,
+    requiresAuth: true,
   );
 }

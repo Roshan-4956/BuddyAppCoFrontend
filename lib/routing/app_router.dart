@@ -13,6 +13,9 @@ import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_st
 import 'package:buddy_app/features/onboarding/presentation/screens/onboarding_step5_screen.dart';
 import 'package:buddy_app/features/onboarding/presentation/screens/gender_preference_screen.dart';
 import 'package:buddy_app/features/splash/presentation/screens/splash_screen.dart';
+import 'package:buddy_app/features/chat/presentation/screens/chat_list_screen.dart';
+import 'package:buddy_app/features/chat/presentation/screens/chat_thread_screen.dart';
+import 'package:buddy_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:buddy_app/utils/widgets/not_found_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,6 +33,8 @@ enum AppRouter {
   authEmail,
   authPhone,
   home,
+  chatList,
+  chatThread,
   onboardingFiller,
   step1,
   step2,
@@ -37,6 +42,7 @@ enum AppRouter {
   step4,
   step5,
   genderPreference,
+  profile,
   noNetPage,
   someScreen,
   someScreen1,
@@ -196,6 +202,14 @@ GoRouter goRouter(Ref ref) {
             const NoTransitionPage(child: OnboardingStep5Screen()),
       ),
 
+      // --- Profile ---
+      GoRoute(
+        path: '/profile',
+        name: AppRouter.profile.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ProfileScreen()),
+      ),
+
       // Gender Preference (Step 5 / Extra)
       GoRoute(
         path: '/genderPreference',
@@ -214,6 +228,22 @@ GoRouter goRouter(Ref ref) {
         name: AppRouter.home.name,
         pageBuilder: (context, state) =>
             const NoTransitionPage(child: HomeScreen()),
+      ),
+
+      // --- Chats ---
+      GoRoute(
+        path: '/chats',
+        name: AppRouter.chatList.name,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage(child: ChatListScreen()),
+      ),
+      GoRoute(
+        path: '/chats/:chatId',
+        name: AppRouter.chatThread.name,
+        pageBuilder: (context, state) {
+          final chatId = state.pathParameters['chatId'] ?? '';
+          return NoTransitionPage(child: ChatThreadScreen(chatId: chatId));
+        },
       ),
 
       // --- Other / Examples ---

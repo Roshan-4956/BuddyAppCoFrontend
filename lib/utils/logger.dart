@@ -24,6 +24,7 @@ class DebugTags {
   static const String authMiddleware = 'AuthMiddleware';
   static const String googleSignIn = 'Auth-GoogleSignIn';
   static const String authTokenFetch = 'Auth-AuthTokens';
+  static const String firebase = 'Firebase';
 
   static const String secureStorage = 'SecureStorage';
 

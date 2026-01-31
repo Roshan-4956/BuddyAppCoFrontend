@@ -34,10 +34,7 @@ class LoginOptionsScreen extends ConsumerWidget {
               Assets.iconBackArrow,
               width: screenWidth * 0.06, // Responsive width
               height: screenWidth * 0.06, // Responsive height
-              colorFilter: ColorFilter.mode(
-                AppColors.black,
-                BlendMode.srcIn,
-              ),
+              colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
             ),
           ),
         ),
@@ -162,7 +159,9 @@ class LoginOptionsScreen extends ConsumerWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                     children: const [
-                                      TextSpan(text: 'Don\'t have an account? '),
+                                      TextSpan(
+                                        text: 'Don\'t have an account? ',
+                                      ),
                                       TextSpan(
                                         text: 'Sign Up',
                                         style: TextStyle(

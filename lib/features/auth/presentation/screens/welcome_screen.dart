@@ -104,7 +104,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   if (_acceptedTerms) {
-                                    context.pushNamed(AppRouter.authOptions.name);
+                                    context.pushNamed(
+                                      AppRouter.authOptions.name,
+                                    );
                                   }
                                 },
                                 child: Container(

@@ -3,7 +3,7 @@ class OnboardingStepResponseModel {
   final bool success;
   final OnboardingNextStepModel? nextStep;
   final double progressPercentage;
-  
+
   // Fields present when onboarding is complete
   final String? profileStatus;
   final int? profileCompletionPercentage;
@@ -22,11 +22,15 @@ class OnboardingStepResponseModel {
     return OnboardingStepResponseModel(
       success: json['success'] as bool? ?? false,
       nextStep: json['next_step'] != null
-          ? OnboardingNextStepModel.fromJson(json['next_step'] as Map<String, dynamic>)
+          ? OnboardingNextStepModel.fromJson(
+              json['next_step'] as Map<String, dynamic>,
+            )
           : null,
-      progressPercentage: (json['progress_percentage'] as num?)?.toDouble() ?? 0.0,
+      progressPercentage:
+          (json['progress_percentage'] as num?)?.toDouble() ?? 0.0,
       profileStatus: json['profile_status'] as String?,
-      profileCompletionPercentage: json['profile_completion_percentage'] as int?,
+      profileCompletionPercentage:
+          json['profile_completion_percentage'] as int?,
       redirectTo: json['redirect_to'] as String?,
     );
   }
@@ -63,7 +67,9 @@ class OnboardingNextStepModel {
       stepNumber: json['step_number'] as int,
       stepId: json['step_id'] as String,
       name: json['name'] as String,
-      requiredFields: (json['required_fields'] as List).map((e) => e as String).toList(),
+      requiredFields: (json['required_fields'] as List)
+          .map((e) => e as String)
+          .toList(),
       skippable: json['skippable'] as bool,
     );
   }

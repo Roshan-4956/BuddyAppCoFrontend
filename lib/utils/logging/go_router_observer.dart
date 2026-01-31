@@ -5,7 +5,8 @@ class GoRouterObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     developer.log(
-        'GoRouterObserver: didPush: ${route.settings.name} (args: ${route.settings.arguments})');
+      'GoRouterObserver: didPush: ${route.settings.name} (args: ${route.settings.arguments})',
+    );
   }
 
   @override
@@ -21,6 +22,7 @@ class GoRouterObserver extends NavigatorObserver {
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     developer.log(
-        'GoRouterObserver: didReplace: ${newRoute?.settings.name} (prev: ${oldRoute?.settings.name})');
+      'GoRouterObserver: didReplace: ${newRoute?.settings.name} (prev: ${oldRoute?.settings.name})',
+    );
   }
 }

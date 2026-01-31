@@ -59,7 +59,7 @@ final class CurrentUserRepoProvider
   }
 }
 
-String _$currentUserRepoHash() => r'418d05d428a59c4be1b495a4e370d5e1d56bb451';
+String _$currentUserRepoHash() => r'e43aaabc1cc5f49357c716f7994598116c02b481';
 
 /// Repository provider for forgot password API calls
 
@@ -116,7 +116,7 @@ final class ForgotPasswordRepoProvider
 }
 
 String _$forgotPasswordRepoHash() =>
-    r'3e151ddddb038d2feadb03fd4c689602d9ad06fe';
+    r'8b7927412ba90ea1116b5a8523ee331457790c5e';
 
 /// Repository provider for login API calls
 
@@ -173,7 +173,7 @@ final class LoginRepoProvider
   }
 }
 
-String _$loginRepoHash() => r'0e54aceb264d26f49556f3427517815a7b6fb011';
+String _$loginRepoHash() => r'f4e55e113d49216fc724a61fe173e93123e0c3c8';
 
 /// Repository provider for register API calls
 
@@ -229,7 +229,7 @@ final class RegisterRepoProvider
   }
 }
 
-String _$registerRepoHash() => r'7a62f5d670548f58438237e76e115e3c4f736a66';
+String _$registerRepoHash() => r'625c22ebcaab177c6e2406cf9d44b0ea928146c8';
 
 /// Repository provider for reset password API calls
 
@@ -285,7 +285,7 @@ final class ResetPasswordRepoProvider
   }
 }
 
-String _$resetPasswordRepoHash() => r'dfe2c802a77154f74fab577c14da65354a4d528e';
+String _$resetPasswordRepoHash() => r'5d218c7abbdde6f694a100f46fdd83c72e06fd10';
 
 /// Repository provider for OTP verification API calls
 
@@ -341,4 +341,60 @@ final class VerifyOtpRepoProvider
   }
 }
 
-String _$verifyOtpRepoHash() => r'6c1b584d7637f5f7a4273e398b76298a1116eae7';
+String _$verifyOtpRepoHash() => r'f918383fcc9d8c2a574424fbb63377d3fe366c86';
+
+/// Repository provider for Firebase token generation
+
+@ProviderFor(firebaseTokenRepo)
+const firebaseTokenRepoProvider = FirebaseTokenRepoProvider._();
+
+/// Repository provider for Firebase token generation
+
+final class FirebaseTokenRepoProvider
+    extends
+        $FunctionalProvider<
+          RiverpodAPI<FirebaseTokenModel, SimpleParameters>,
+          RiverpodAPI<FirebaseTokenModel, SimpleParameters>,
+          RiverpodAPI<FirebaseTokenModel, SimpleParameters>
+        >
+    with $Provider<RiverpodAPI<FirebaseTokenModel, SimpleParameters>> {
+  /// Repository provider for Firebase token generation
+  const FirebaseTokenRepoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'firebaseTokenRepoProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$firebaseTokenRepoHash();
+
+  @$internal
+  @override
+  $ProviderElement<RiverpodAPI<FirebaseTokenModel, SimpleParameters>>
+  $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+
+  @override
+  RiverpodAPI<FirebaseTokenModel, SimpleParameters> create(Ref ref) {
+    return firebaseTokenRepo(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(
+    RiverpodAPI<FirebaseTokenModel, SimpleParameters> value,
+  ) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<RiverpodAPI<FirebaseTokenModel, SimpleParameters>>(
+            value,
+          ),
+    );
+  }
+}
+
+String _$firebaseTokenRepoHash() => r'6465e1ca0db2929481a93aee357b9e11280e9f62';

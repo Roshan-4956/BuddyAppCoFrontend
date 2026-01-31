@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../theme/app_colors.dart';
 import '../../../../theme/app_text_styles.dart';
 import '../../../auth/application/providers/auth_providers.dart';
@@ -166,11 +167,7 @@ class HomeScreen extends ConsumerWidget {
                       icon: Icons.chat_bubble,
                       label: 'Messages',
                       onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Firebase app not initialized'),
-                          ),
-                        );
+                        context.go('/chats');
                       },
                     ),
                     _buildActionCard(
@@ -178,7 +175,7 @@ class HomeScreen extends ConsumerWidget {
                       icon: Icons.person,
                       label: 'Profile',
                       onTap: () {
-                        // TODO: Navigate to profile
+                        context.go('/profile');
                       },
                     ),
                   ],

@@ -62,7 +62,7 @@ class SimpleParameters extends AbstractSimpleParameters {
         res += '$key=$value&';
       });
 
-      return res;
+      return res.substring(0, res.length - 1);
     } else {
       return raw;
     }

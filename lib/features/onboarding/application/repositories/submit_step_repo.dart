@@ -2,6 +2,7 @@ import 'package:buddy_app/utils/api/core/http_method.dart';
 import 'package:buddy_app/utils/api/implementation/riverpod_api/riverpod_api.dart';
 import 'package:buddy_app/utils/api/implementation/simple_api/simple_params.dart';
 import 'package:buddy_app/utils/factory_utils.dart';
+import 'package:buddy_app/utils/api/api_paths.dart';
 import 'package:buddy_app/utils/urls.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +23,7 @@ RiverpodAPI<OnboardingStepResponseModel, SubmitStepParams> submitStepRepo(
   Ref ref,
 ) {
   return RiverpodAPI<OnboardingStepResponseModel, SubmitStepParams>(
-    completeUrl: URLs.complete('onboarding/step'),
+    completeUrl: URLs.complete(ApiPaths.onboardingStep),
     factory: FactoryUtils.modelFromString(
       OnboardingStepResponseModel.fromJson,
       subtag: 'data',
